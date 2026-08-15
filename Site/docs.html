@@ -99,6 +99,10 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
         <div class="nav-product">Meta-BI</div>
         <a class="nav-surface" href="#subject-public-meta-bi-overview" data-panel-link="subject-public-meta-bi-overview">Overview</a>
         <a class="nav-surface" href="#subject-public-meta-bi-adventureworks" data-panel-link="subject-public-meta-bi-adventureworks">Demo</a>
+        <a class="nav-surface" href="#group-public-meta-bi-adapters" data-panel-link="group-public-meta-bi-adapters">Adapters</a>
+        <ul class="nav-list">
+          <li><a class="nav-link" href="#subject-public-meta-bi-meta-schema-adapter" data-panel-link="subject-public-meta-bi-meta-schema-adapter">MetaSchemaAdapter</a></li>
+        </ul>
         <a class="nav-surface" href="#group-public-meta-bi-cli" data-panel-link="group-public-meta-bi-cli">CLI</a>
         <ul class="nav-list">
           <li><a class="nav-link" href="#cli-meta-analytics" data-panel-link="cli-meta-analytics">meta-analytics</a></li>
@@ -172,6 +176,11 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
               <div class="label">Meta-BI</div>
               <h2>Demo</h2>
               <p>An agent-built, end-to-end AdventureWorks implementation of the modeled BI stack.</p>
+            </a>
+            <a class="entry-card" href="#group-public-meta-bi-adapters" data-panel-link="group-public-meta-bi-adapters">
+              <div class="label">Meta-BI</div>
+              <h2>Adapters</h2>
+              <p>0 references</p>
             </a>
             <a class="entry-card" href="#group-public-meta-bi-cli" data-panel-link="group-public-meta-bi-cli">
               <div class="label">Meta-BI</div>
@@ -16171,7 +16180,7 @@ meta-mesh run --operation regenerate-public-docs
             <div class="markdown-content">
 <p>The model set follows the working parts of a BI system, from source structure through data stores and transforms to runtime and analytics.</p>
 <h4 id="schemas-and-data-types">Schemas and data types</h4>
-<p>Work can begin by extracting SQL Server into <code>MetaSchema</code>. The resulting workspace contains schemas, objects, fields, keys, and relationships that other models can reference. <code>MetaDataType</code> gives those fields shared type identities, and <code>MetaDataTypeConversion</code> carries the conversion rules used when source and target systems use different type systems.</p>
+<p>Work can begin by extracting SQL Server into <code>MetaSchema</code>. The resulting workspace contains schemas, objects, fields, keys, and relationships that other models can reference. Other systems can provide the same contract through <code>MetaSchemaAdapter</code>. <code>MetaDataType</code> gives those fields shared type identities, and <code>MetaDataTypeConversion</code> carries the conversion rules used when source and target systems use different type systems.</p>
 <h4 id="data-vault">Data Vault</h4>
 <p>From a source contract, the Raw Data Vault model captures hubs, links, satellites, business keys, and descriptive fields in <code>MetaRawDataVault</code>. Business integration is authored in <code>MetaBusinessDataVault</code>, including Business hubs, links, satellites, bridges, point-in-time structures, and their supporting relationships.</p>
 <p><code>MetaDataVaultImplementation</code> supplies schemas and names, SQL types, hashing policy, audit columns, defaults, and indexes. Conversion combines a vault workspace with that implementation workspace and produces the corresponding <code>MetaSql</code> database structure.</p>
@@ -16360,6 +16369,44 @@ meta-mesh run --operation process-tabular
 <p>Cleanup drops <code>AdventureWorksRawVault</code>, <code>AdventureWorksBusinessVault</code>, <code>AdventureWorksAnalytics</code>, and <code>AdventureWorksMetaPipeline</code>, then removes transient pipeline execution evidence under <code>Runs\ops\RunArtifacts</code>. It keeps the checked-in modeled workspaces. It does not remove the source database or an external Tabular database.</p>
             </div>
           </header>
+        </section>
+        <section class="panel" id="subject-public-meta-bi-meta-schema-adapter" data-panel="subject-public-meta-bi-meta-schema-adapter">
+          <header class="panel-header">
+            <h2>MetaSchemaAdapter</h2>
+            <div class="panel-lead markdown-content">
+<p><code>MetaSchemaAdapter</code> is the provider boundary for systems outside the built-in SQL Server path. It lets a provider describe an external system as MetaSchema and supply the runtime capabilities it supports for bound transforms and pipeline writes.</p>
+<p>The contract is split by capability. A read-only provider can offer discovery and row-producing transforms, while another provider may also support mutations or target inserts.</p>
+            </div>
+          </header>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Discovery and binding</h3>
+            <div class="markdown-content">
+<p><code>IMetaSchemaDiscoveryAdapter</code> receives a provider-resolved connection reference and a system name, then returns a <code>MetaSchemaModel</code>. The provider describes the schemas, objects, fields, keys, and relationships available from that system using the normal MetaSchema contract. <code>MetaSchemaAdapterWorkspaceService</code> writes that model as an ordinary XML, C#, or SQL workspace through the normal workspace mapper.</p>
+<p>Binding follows the existing meta-bi path. <code>TransformBindingWorkspaceService</code> binds a MetaTransformScript workspace against the discovered source and target MetaSchema workspaces and creates a validated MetaTransformBinding workspace. No adapter-specific binding path is introduced.</p>
+            </div>
+          </section>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Bound transforms</h3>
+            <div class="markdown-content">
+<p><code>IMetaSchemaTransformAdapter</code> creates an <code>IPipelineRowStreamSource</code> for a row-producing transform. <code>IMetaSchemaMutationAdapter</code> executes a bound mutating transform and returns the affected row count when the provider can report it.</p>
+<p>The provider receives the MetaTransformScript semantic model together with the validated binding workspace and the identities of the selected transform and binding. The binding supplies resolved table sources, column references, rowsets, target evidence, and output shape. The provider works from those modeled entities rather than recovering meaning from emitted SQL text. Each provider implements the semantic forms its external system can execute.</p>
+            </div>
+          </section>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Pipeline execution</h3>
+            <div class="markdown-content">
+<p><code>MetaSchemaAdapterExecutionService</code> loads the selected MetaSchema, MetaTransformScript, and MetaTransformBinding workspaces and uses MetaPipeline's existing execution resolver. For a row-producing transform it obtains an <code>IPipelineRowStreamSource</code> from <code>IMetaSchemaTransformAdapter</code> and an <code>IPipelineTargetWriteOperation</code> from <code>IMetaSchemaTargetWriteAdapter</code>. MetaPipeline checks the row shape, moves rows in batches, reports progress, and records the execution result. The execution service disposes the provider-owned target operation after the run.</p>
+<p>For a mutating transform, the same service supplies the modeled contracts and selected identities to <code>IMetaSchemaMutationAdapter</code> and returns the provider's affected-row evidence.</p>
+<p>Connection references are names resolved by the provider. Provider configuration, credentials, authentication, and physical I/O stay with the provider implementation.</p>
+            </div>
+          </section>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Implementing a provider</h3>
+            <div class="markdown-content">
+<p>A provider references <code>MetaSchema.Adapter</code>, implements <code>IMetaSchemaAdapter</code>, and adds only the capability interfaces it supports. Implementations translate the supported semantic forms using the transform model and binding evidence and report unsupported forms clearly. The application supplies configured adapter instances; provider package loading is left to the application host.</p>
+<p>The meta-bi repository includes a test provider for tab-separated files in <a href="https://github.com/jimmy-zhao-tainio/meta-bi/tree/main/MetaSchemaAdapter/Tests/ExternalProvider"><code>MetaSchemaAdapter/Tests/ExternalProvider</code></a>. Its integration test creates a MetaSchema workspace, imports a MetaTransformScript workspace, creates a validated MetaTransformBinding workspace through the existing binding service, evaluates the supported projection and predicate entities, and writes the result through MetaPipeline. The provider lives outside the MetaSchemaAdapter namespace and requires no changes to MetaSchema, MetaTransformBinding, or MetaPipeline.</p>
+            </div>
+          </section>
         </section>
         <section class="panel" id="group-public-meta-bi-cli" data-panel="group-public-meta-bi-cli">
           <header class="panel-header">
