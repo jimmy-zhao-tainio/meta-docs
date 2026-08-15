@@ -9,7 +9,7 @@
       <Status>Current</Status>
       <Summary>A model-first metadata foundation with isomorphic XML, SQL, and C# surfaces.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="public:meta-bi" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:reference" PreviousSubjectId="public:metaweave">
+    <DocumentationSubject Id="public:meta-bi" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:reference" PreviousSubjectId="public:meta">
       <DisplayName>Meta-BI</DisplayName>
       <DisplayPath>Reference.Meta-BI</DisplayPath>
       <NativeId>public:meta-bi</NativeId>
@@ -72,38 +72,6 @@
       <SourceTypeName>AuthoredPage</SourceTypeName>
       <Status>Current</Status>
       <Summary>A model-first metadata foundation with isomorphic XML, SQL, and C# surfaces.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="public:metaweave" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:reference" PreviousSubjectId="public:meta">
-      <DisplayName>MetaWeave</DisplayName>
-      <DisplayPath>Reference.MetaWeave</DisplayPath>
-      <NativeId>public:metaweave</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Modeled, executable correspondence between Meta workspace contracts.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="public:metaweave:cli" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:metaweave" PreviousSubjectId="public:metaweave:overview">
-      <DisplayName>CLI</DisplayName>
-      <DisplayPath>Reference.MetaWeave.CLI</DisplayPath>
-      <NativeId>public:metaweave:cli</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Command reference for creating, inspecting, editing, and executing MetaWeave workspaces.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="public:metaweave:models" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:metaweave" PreviousSubjectId="public:metaweave:cli">
-      <DisplayName>Models</DisplayName>
-      <DisplayPath>Reference.MetaWeave.Models</DisplayPath>
-      <NativeId>public:metaweave:models</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Model reference for the MetaWeave correspondence workspace.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="public:metaweave:overview" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:metaweave">
-      <DisplayName>MetaWeave</DisplayName>
-      <DisplayPath>Reference.MetaWeave.Overview</DisplayPath>
-      <NativeId>public:metaweave:overview</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Modeled, executable correspondence between Meta workspace contracts.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:reference" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referenceroot">
       <DisplayName>meta + meta-bi reference</DisplayName>
@@ -15649,7 +15617,7 @@
       <Status>New</Status>
       <Summary>MetaTransformScript workspace to export. Defaults to the current directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:cliapplication" ParentSubjectId="public:metaweave:cli">
+    <DocumentationSubject Id="source:cli:meta-weave:app" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:cliapplication" ParentSubjectId="public:meta:cli">
       <DisplayName>meta-weave</DisplayName>
       <DisplayPath>meta-weave</DisplayPath>
       <NativeId>app-meta-weave</NativeId>
@@ -46377,7 +46345,7 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:model:metaweave" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:model" ParentSubjectId="public:metaweave:models">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:model:metaweave" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:model" ParentSubjectId="public:meta:models">
       <DisplayName>MetaWeave</DisplayName>
       <DisplayPath>MetaWeave.MetaWeave</DisplayPath>
       <NativeId>MetaWeave</NativeId>

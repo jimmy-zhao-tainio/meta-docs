@@ -87,21 +87,13 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#cli-meta-cli" data-panel-link="cli-meta-cli">meta-cli</a></li>
           <li><a class="nav-link" href="#cli-meta-docs" data-panel-link="cli-meta-docs">meta-docs</a></li>
           <li><a class="nav-link" href="#cli-meta-mesh" data-panel-link="cli-meta-mesh">meta-mesh</a></li>
+          <li><a class="nav-link" href="#cli-meta-weave" data-panel-link="cli-meta-weave">meta-weave</a></li>
         </ul>
         <a class="nav-surface" href="#group-public-meta-models" data-panel-link="group-public-meta-models">Models</a>
         <ul class="nav-list">
           <li><a class="nav-link" href="#model-metacli" data-panel-link="model-metacli">MetaCli</a></li>
           <li><a class="nav-link" href="#model-metadocs" data-panel-link="model-metadocs">MetaDocs</a></li>
           <li><a class="nav-link" href="#model-metamesh" data-panel-link="model-metamesh">MetaMesh</a></li>
-        </ul>
-        <div class="nav-product">MetaWeave</div>
-        <a class="nav-surface" href="#subject-public-metaweave-overview" data-panel-link="subject-public-metaweave-overview">Overview</a>
-        <a class="nav-surface" href="#group-public-metaweave-cli" data-panel-link="group-public-metaweave-cli">CLI</a>
-        <ul class="nav-list">
-          <li><a class="nav-link" href="#cli-meta-weave" data-panel-link="cli-meta-weave">meta-weave</a></li>
-        </ul>
-        <a class="nav-surface" href="#group-public-metaweave-models" data-panel-link="group-public-metaweave-models">Models</a>
-        <ul class="nav-list">
           <li><a class="nav-link" href="#model-metaweave" data-panel-link="model-metaweave">MetaWeave</a></li>
         </ul>
         <div class="nav-product">Meta-BI</div>
@@ -164,27 +156,12 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <a class="entry-card" href="#group-public-meta-cli" data-panel-link="group-public-meta-cli">
               <div class="label">Meta</div>
               <h2>CLI</h2>
-              <p>4 references</p>
+              <p>5 references</p>
             </a>
             <a class="entry-card" href="#group-public-meta-models" data-panel-link="group-public-meta-models">
               <div class="label">Meta</div>
               <h2>Models</h2>
-              <p>3 references</p>
-            </a>
-            <a class="entry-card" href="#subject-public-metaweave-overview" data-panel-link="subject-public-metaweave-overview">
-              <div class="label">MetaWeave</div>
-              <h2>Overview</h2>
-              <p>Modeled, executable correspondence between Meta workspace contracts.</p>
-            </a>
-            <a class="entry-card" href="#group-public-metaweave-cli" data-panel-link="group-public-metaweave-cli">
-              <div class="label">MetaWeave</div>
-              <h2>CLI</h2>
-              <p>1 reference</p>
-            </a>
-            <a class="entry-card" href="#group-public-metaweave-models" data-panel-link="group-public-metaweave-models">
-              <div class="label">MetaWeave</div>
-              <h2>Models</h2>
-              <p>1 reference</p>
+              <p>4 references</p>
             </a>
             <a class="entry-card" href="#subject-public-meta-bi-overview" data-panel-link="subject-public-meta-bi-overview">
               <div class="label">Meta-BI</div>
@@ -359,6 +336,10 @@ foreach (var system in catalog.SystemList)
                   <tr>
                     <td class="cmd"><a href="#cli-meta-mesh" data-panel-link="cli-meta-mesh">meta-mesh</a></td>
                     <td>Define repository workflows as declared workspaces and executable operation steps, then validate and run them from a model.</td>
+                  </tr>
+                  <tr>
+                    <td class="cmd"><a href="#cli-meta-weave" data-panel-link="cli-meta-weave">meta-weave</a></td>
+                    <td>Author, inspect, emit, and execute complete MetaWeave correspondences between Meta workspaces.</td>
                   </tr>
                 </tbody>
               </table>
@@ -5256,6 +5237,581 @@ meta-mesh run --operation regenerate-public-docs
             </aside>
           </div>
         </section>
+        <section class="panel" id="cli-meta-weave" data-panel="cli-meta-weave">
+          <header class="panel-header">
+            <div class="breadcrumb">Meta / CLI</div>
+            <h2>meta-weave</h2>
+            <p class="panel-lead">Author, inspect, emit, and execute complete MetaWeave correspondences between Meta workspaces.</p>
+          </header>
+          <div class="application-layout">
+            <div class="application-main">
+              <section class="subsection description-block">
+                <h3 class="document-heading">MetaWeave</h3>
+                <div class="markdown-content">
+<p>MetaWeave is model-to-model conversion for Meta workspaces. A MetaWeave workspace is a first-class correspondence between two workspace contracts. It contains the independent directions that are supported, the requirements for entering each direction, and the transformations that populate target entities.</p>
+<p>The correspondence is the authored conversion truth. It is ordinary Meta workspace data, so it remains inspectable, versionable, and representation-neutral rather than being hidden inside handwritten converter code.</p>
+<h2 id="weavescript-is-modeled-transformation">WeaveScript is modeled transformation</h2>
+<p>WeaveScript is a modeled language for transforming models, distilled from MetaTransformScript and deliberately bounded to workspace conversion. Its recognizable T-SQL-shaped text is an authoring and inspection surface, not a collection of stored scripts. The MetaWeave workspace contains the typed semantic query graph that the text represents.</p>
+<p>MetaWeave executes that graph directly with its in-memory relational engine. It does not send conversion queries to SQL Server. SQL remains available as one workspace representation alongside XML and C#.</p>
+<p>A direction requirement is a violation query: zero rows satisfy it, while every returned row becomes a concrete diagnostic with projected evidence. All requirements run against the immutable source before target construction starts.</p>
+<p>Each transformation projects records for one target entity. MetaWeave derives their execution order from the target model dependency graph, starts with an empty target instance, and submits every insertion through normal Meta Core operations. Every successful operation becomes the next valid target state. The state after the last scheduled transformation is the completed workspace.</p>
+<h2 id="execute-a-correspondence">Execute a correspondence</h2>
+<pre><code class="language-text">meta-weave execute \
+  --workspace &lt;weave-workspace&gt; \
+  --source-workspace &lt;populated-source&gt; \
+  --target-workspace &lt;target-contract&gt; \
+  --xml &lt;new-target-workspace&gt;
+</code></pre>
+<p><code>forward</code> is the default direction. The target workspace supplies its model contract, not seed instances. Exactly one of <code>--xml</code>, <code>--csharp</code>, or <code>--sql</code> selects the new workspace representation. A failed requirement or transformation creates no output.</p>
+<p><code>meta-weave show</code> summarizes a correspondence. <code>emit-requirement</code> and <code>emit-transformation</code> render modeled query graphs as readable WeaveScript. Update commands accept replacement text through standard input and store the parsed semantic model back in the same correspondence workspace.</p>
+                </div>
+              </section>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-direction">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave add-direction</span>
+                <span class="command-summary-text">Add one independent direction to a MetaWeave workspace.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave add-direction --name &lt;value&gt; --source-model &lt;value&gt; --target-model &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Direction name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--source-model &lt;value&gt;</td>
+                      <td>Source model name; must be one side of the weave.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--target-model &lt;value&gt;</td>
+                      <td>Target model name; must be the other side of the weave.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-requirement">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave add-requirement</span>
+                <span class="command-summary-text">Add a source-domain requirement to one direction.</span>
+              </span>
+              <span class="command-counts">5 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave add-requirement --code &lt;value&gt; --direction &lt;value&gt; --message &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--code &lt;value&gt;</td>
+                      <td>Stable diagnostic code for violating rows.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the requirement.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--message &lt;value&gt;</td>
+                      <td>Diagnostic message for violating rows.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Requirement name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-transformation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave add-transformation</span>
+                <span class="command-summary-text">Read WeaveScript from standard input and add one transformation to a direction.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave add-transformation --direction &lt;value&gt; --name &lt;value&gt; --target-entity &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the transformation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Transformation name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--target-entity &lt;value&gt;</td>
+                      <td>Target entity populated by the transformation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-create">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave create</span>
+                <span class="command-summary-text">Create a complete MetaWeave workspace for two model contracts.</span>
+              </span>
+              <span class="command-counts">7 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] --left-model &lt;value&gt; --name &lt;value&gt; --right-model &lt;value&gt; [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the SQL Server connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--csharp &lt;path&gt;</td>
+                      <td>Create a C# MetaWeave workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--left-model &lt;value&gt;</td>
+                      <td>Left model contract name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Weave name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--right-model &lt;value&gt;</td>
+                      <td>Right model contract name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--sql &lt;path&gt;</td>
+                      <td>Create a SQL MetaWeave workspace described by this directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--xml &lt;path&gt;</td>
+                      <td>Create an XML MetaWeave workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-emit-requirement">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave emit-requirement</span>
+                <span class="command-summary-text">Emit one direction requirement query as recognizable T-SQL.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave emit-requirement --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the requirement.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Requirement name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-emit-transformation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave emit-transformation</span>
+                <span class="command-summary-text">Emit one embedded transformation as recognizable T-SQL.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave emit-transformation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the transformation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Transformation name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-execute">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave execute</span>
+                <span class="command-summary-text">Execute one modeled direction into a new target workspace.</span>
+              </span>
+              <span class="command-counts">8 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave execute [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--direction &lt;value&gt;] --source-workspace &lt;workspace&gt; [--sql &lt;path&gt;] --target-workspace &lt;workspace&gt; [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the SQL Server connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--csharp &lt;path&gt;</td>
+                      <td>Create the result as a C# workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction to execute. Defaults to forward.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--source-workspace &lt;workspace&gt;</td>
+                      <td>Populated source workspace read by the direction.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--sql &lt;path&gt;</td>
+                      <td>Create the result as a SQL workspace described by this directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--target-workspace &lt;workspace&gt;</td>
+                      <td>Workspace supplying the target model contract.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--xml &lt;path&gt;</td>
+                      <td>Create the result as an XML workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-help">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave help</span>
+                <span class="command-summary-text">Show help.</span>
+              </span>
+              <span class="command-counts">0 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave help</code></pre>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-show">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave show</span>
+                <span class="command-summary-text">Show the weave, its directions, and transformations.</span>
+              </span>
+              <span class="command-counts">1 option</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave show [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-update-requirement">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave update-requirement</span>
+                <span class="command-summary-text">Read replacement WeaveScript from standard input and update one requirement.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave update-requirement --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the requirement.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Requirement name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-update-transformation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave update-transformation</span>
+                <span class="command-summary-text">Read replacement WeaveScript from standard input and update one transformation.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave update-transformation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the transformation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Transformation name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+            </div>
+            <aside class="application-command-rail" aria-label="Command navigation">
+              <div class="application-command-rail-header">
+                <h3>Commands</h3>
+                <p>11 commands</p>
+              </div>
+              <nav class="application-command-list">
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-direction" aria-label="Open meta-weave add-direction"><code>add-direction</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-requirement" aria-label="Open meta-weave add-requirement"><code>add-requirement</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-transformation" aria-label="Open meta-weave add-transformation"><code>add-transformation</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-create" aria-label="Open meta-weave create"><code>create</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-requirement" aria-label="Open meta-weave emit-requirement"><code>emit-requirement</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-transformation" aria-label="Open meta-weave emit-transformation"><code>emit-transformation</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-execute" aria-label="Open meta-weave execute"><code>execute</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-help" aria-label="Open meta-weave help"><code>help</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-show" aria-label="Open meta-weave show"><code>show</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-requirement" aria-label="Open meta-weave update-requirement"><code>update-requirement</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-transformation" aria-label="Open meta-weave update-transformation"><code>update-transformation</code></a>
+              </nav>
+            </aside>
+          </div>
+        </section>
         <section class="panel" id="group-public-meta-models" data-panel="group-public-meta-models">
           <header class="panel-header">
             <div class="breadcrumb">Meta / Models</div>
@@ -5288,6 +5844,12 @@ meta-mesh run --operation regenerate-public-docs
                     <td>7</td>
                     <td>17</td>
                     <td>7</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#model-metaweave" data-panel-link="model-metaweave">MetaWeave</a></td>
+                    <td>126</td>
+                    <td>32</td>
+                    <td>170</td>
                   </tr>
                 </tbody>
               </table>
@@ -9191,643 +9753,9 @@ meta-mesh run --operation regenerate-public-docs
             <p class="note">Source: MetaMesh. Status: Changed.</p>
           </details>
         </section>
-        <section class="panel" id="subject-public-metaweave-overview" data-panel="subject-public-metaweave-overview">
-          <header class="panel-header">
-            <h2>MetaWeave</h2>
-            <div class="panel-lead markdown-content">
-<p>MetaWeave is model-to-model conversion for Meta workspaces. A MetaWeave workspace is a first-class correspondence between two workspace contracts. It contains the independent directions that are supported, the requirements for entering each direction, and the transformations that populate target entities.</p>
-<p>The correspondence is the authored conversion truth. It is ordinary Meta workspace data, so it remains inspectable, versionable, and representation-neutral rather than being hidden inside handwritten converter code.</p>
-<h2 id="weavescript-is-modeled-transformation">WeaveScript is modeled transformation</h2>
-<p>WeaveScript is a modeled language for transforming models, distilled from MetaTransformScript and deliberately bounded to workspace conversion. Its recognizable T-SQL-shaped text is an authoring and inspection surface, not a collection of stored scripts. The MetaWeave workspace contains the typed semantic query graph that the text represents.</p>
-<p>MetaWeave executes that graph directly with its in-memory relational engine. It does not send conversion queries to SQL Server. SQL remains available as one workspace representation alongside XML and C#.</p>
-<p>A direction requirement is a violation query: zero rows satisfy it, while every returned row becomes a concrete diagnostic with projected evidence. All requirements run against the immutable source before target construction starts.</p>
-<p>Each transformation projects records for one target entity. MetaWeave derives their execution order from the target model dependency graph, starts with an empty target instance, and submits every insertion through normal Meta Core operations. Every successful operation becomes the next valid target state. The state after the last scheduled transformation is the completed workspace.</p>
-<h2 id="execute-a-correspondence">Execute a correspondence</h2>
-<pre><code class="language-text">meta-weave execute \
-  --workspace &lt;weave-workspace&gt; \
-  --source-workspace &lt;populated-source&gt; \
-  --target-workspace &lt;target-contract&gt; \
-  --xml &lt;new-target-workspace&gt;
-</code></pre>
-<p><code>forward</code> is the default direction. The target workspace supplies its model contract, not seed instances. Exactly one of <code>--xml</code>, <code>--csharp</code>, or <code>--sql</code> selects the new workspace representation. A failed requirement or transformation creates no output.</p>
-<p><code>meta-weave show</code> summarizes a correspondence. <code>emit-requirement</code> and <code>emit-transformation</code> render modeled query graphs as readable WeaveScript. Update commands accept replacement text through standard input and store the parsed semantic model back in the same correspondence workspace.</p>
-            </div>
-          </header>
-        </section>
-        <section class="panel" id="group-public-metaweave-cli" data-panel="group-public-metaweave-cli">
-          <header class="panel-header">
-            <div class="breadcrumb">MetaWeave / CLI</div>
-            <h2>MetaWeave CLI</h2>
-            <p class="panel-lead">Command reference for creating, inspecting, editing, and executing MetaWeave workspaces.</p>
-          </header>
-          <div class="card">
-            <div class="card-header">
-              <h3>Command-line tools</h3>
-              <p>Select an item from the navigation to open its reference page.</p>
-            </div>
-            <div class="card-body">
-              <table class="summary-table">
-                <thead><tr><th>CLI</th><th>Summary</th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td class="cmd"><a href="#cli-meta-weave" data-panel-link="cli-meta-weave">meta-weave</a></td>
-                    <td>Author, inspect, emit, and execute complete MetaWeave correspondences between Meta workspaces.</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
-        <section class="panel" id="cli-meta-weave" data-panel="cli-meta-weave">
-          <header class="panel-header">
-            <div class="breadcrumb">MetaWeave / CLI</div>
-            <h2>meta-weave</h2>
-            <p class="panel-lead">Author, inspect, emit, and execute complete MetaWeave correspondences between Meta workspaces.</p>
-          </header>
-          <div class="application-layout">
-            <div class="application-main">
-              <section class="subsection description-block">
-                <h3 class="document-heading">Guide</h3>
-                <div class="markdown-content">
-<p>Create one correspondence workspace with <code>create</code>, then use <code>add-direction</code> for either or both independent orientations between its model contracts. Pipe each requirement and transformation to its authoring command through standard input; the workspace stores the resulting semantic query graphs. Use <code>show</code> to inspect the complete correspondence and the <code>emit-*</code> commands to render individual queries as readable WeaveScript.</p>
-<p><code>execute</code> selects a direction, defaulting to <code>forward</code>, reads a populated source and a target model contract, and creates a new XML, C#, or SQL workspace. Requirements run before construction. Transformations run in target-model dependency order, and every successful Meta Core operation becomes the next valid target state. The state after the last scheduled transformation is the completed workspace.</p>
-                </div>
-              </section>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-direction">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave add-direction</span>
-                <span class="command-summary-text">Add one independent direction to a MetaWeave workspace.</span>
-              </span>
-              <span class="command-counts">4 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave add-direction --name &lt;value&gt; --source-model &lt;value&gt; --target-model &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Direction name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--source-model &lt;value&gt;</td>
-                      <td>Source model name; must be one side of the weave.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--target-model &lt;value&gt;</td>
-                      <td>Target model name; must be the other side of the weave.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-requirement">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave add-requirement</span>
-                <span class="command-summary-text">Add a source-domain requirement to one direction.</span>
-              </span>
-              <span class="command-counts">5 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave add-requirement --code &lt;value&gt; --direction &lt;value&gt; --message &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--code &lt;value&gt;</td>
-                      <td>Stable diagnostic code for violating rows.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the requirement.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--message &lt;value&gt;</td>
-                      <td>Diagnostic message for violating rows.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Requirement name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-transformation">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave add-transformation</span>
-                <span class="command-summary-text">Read WeaveScript from standard input and add one transformation to a direction.</span>
-              </span>
-              <span class="command-counts">4 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave add-transformation --direction &lt;value&gt; --name &lt;value&gt; --target-entity &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the transformation.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Transformation name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--target-entity &lt;value&gt;</td>
-                      <td>Target entity populated by the transformation.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-create">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave create</span>
-                <span class="command-summary-text">Create a complete MetaWeave workspace for two model contracts.</span>
-              </span>
-              <span class="command-counts">7 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] --left-model &lt;value&gt; --name &lt;value&gt; --right-model &lt;value&gt; [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--connection-env &lt;value&gt;</td>
-                      <td>Environment variable containing the SQL Server connection string.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--csharp &lt;path&gt;</td>
-                      <td>Create a C# MetaWeave workspace.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--left-model &lt;value&gt;</td>
-                      <td>Left model contract name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Weave name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--right-model &lt;value&gt;</td>
-                      <td>Right model contract name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--sql &lt;path&gt;</td>
-                      <td>Create a SQL MetaWeave workspace described by this directory.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--xml &lt;path&gt;</td>
-                      <td>Create an XML MetaWeave workspace.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-emit-requirement">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave emit-requirement</span>
-                <span class="command-summary-text">Emit one direction requirement query as recognizable T-SQL.</span>
-              </span>
-              <span class="command-counts">3 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave emit-requirement --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the requirement.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Requirement name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-emit-transformation">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave emit-transformation</span>
-                <span class="command-summary-text">Emit one embedded transformation as recognizable T-SQL.</span>
-              </span>
-              <span class="command-counts">3 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave emit-transformation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the transformation.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Transformation name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-execute">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave execute</span>
-                <span class="command-summary-text">Execute one modeled direction into a new target workspace.</span>
-              </span>
-              <span class="command-counts">8 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave execute [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--direction &lt;value&gt;] --source-workspace &lt;workspace&gt; [--sql &lt;path&gt;] --target-workspace &lt;workspace&gt; [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--connection-env &lt;value&gt;</td>
-                      <td>Environment variable containing the SQL Server connection string.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--csharp &lt;path&gt;</td>
-                      <td>Create the result as a C# workspace.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction to execute. Defaults to forward.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--source-workspace &lt;workspace&gt;</td>
-                      <td>Populated source workspace read by the direction.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--sql &lt;path&gt;</td>
-                      <td>Create the result as a SQL workspace described by this directory.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--target-workspace &lt;workspace&gt;</td>
-                      <td>Workspace supplying the target model contract.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--xml &lt;path&gt;</td>
-                      <td>Create the result as an XML workspace.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-help">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave help</span>
-                <span class="command-summary-text">Show help.</span>
-              </span>
-              <span class="command-counts">0 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave help</code></pre>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-show">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave show</span>
-                <span class="command-summary-text">Show the weave, its directions, and transformations.</span>
-              </span>
-              <span class="command-counts">1 option</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave show [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-update-requirement">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave update-requirement</span>
-                <span class="command-summary-text">Read replacement WeaveScript from standard input and update one requirement.</span>
-              </span>
-              <span class="command-counts">3 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave update-requirement --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the requirement.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Requirement name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-update-transformation">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-weave update-transformation</span>
-                <span class="command-summary-text">Read replacement WeaveScript from standard input and update one transformation.</span>
-              </span>
-              <span class="command-counts">3 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave update-transformation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--direction &lt;value&gt;</td>
-                      <td>Direction that owns the transformation.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--name &lt;value&gt;</td>
-                      <td>Transformation name within the direction.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;workspace&gt;</td>
-                      <td>MetaWeave workspace. Defaults to the current directory.</td>
-                      <td>&lt;workspace&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-            </div>
-            <aside class="application-command-rail" aria-label="Command navigation">
-              <div class="application-command-rail-header">
-                <h3>Commands</h3>
-                <p>11 commands</p>
-              </div>
-              <nav class="application-command-list">
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-direction" aria-label="Open meta-weave add-direction"><code>add-direction</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-requirement" aria-label="Open meta-weave add-requirement"><code>add-requirement</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-transformation" aria-label="Open meta-weave add-transformation"><code>add-transformation</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-create" aria-label="Open meta-weave create"><code>create</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-requirement" aria-label="Open meta-weave emit-requirement"><code>emit-requirement</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-transformation" aria-label="Open meta-weave emit-transformation"><code>emit-transformation</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-execute" aria-label="Open meta-weave execute"><code>execute</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-help" aria-label="Open meta-weave help"><code>help</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-show" aria-label="Open meta-weave show"><code>show</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-requirement" aria-label="Open meta-weave update-requirement"><code>update-requirement</code></a>
-                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-transformation" aria-label="Open meta-weave update-transformation"><code>update-transformation</code></a>
-              </nav>
-            </aside>
-          </div>
-        </section>
-        <section class="panel" id="group-public-metaweave-models" data-panel="group-public-metaweave-models">
-          <header class="panel-header">
-            <div class="breadcrumb">MetaWeave / Models</div>
-            <h2>MetaWeave Models</h2>
-            <p class="panel-lead">Model reference for the MetaWeave correspondence workspace.</p>
-          </header>
-          <div class="card">
-            <div class="card-header">
-              <h3>Models</h3>
-              <p>Select an item from the navigation to open its reference page.</p>
-            </div>
-            <div class="card-body">
-              <table>
-                <thead><tr><th>Model</th><th>Entities</th><th>Properties</th><th>Relationships</th></tr></thead>
-                <tbody>
-                  <tr>
-                    <td><a href="#model-metaweave" data-panel-link="model-metaweave">MetaWeave</a></td>
-                    <td>126</td>
-                    <td>32</td>
-                    <td>170</td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-          </div>
-        </section>
         <section class="panel" id="model-metaweave" data-panel="model-metaweave">
           <header class="panel-header">
-            <div class="breadcrumb">MetaWeave / Models</div>
+            <div class="breadcrumb">Meta / Models</div>
             <h2>MetaWeave</h2>
             <p class="panel-lead">Models mappings between workspace shapes, including source and target models, correspondence rules, field mappings, and generated transformation intent.</p>
           </header>
