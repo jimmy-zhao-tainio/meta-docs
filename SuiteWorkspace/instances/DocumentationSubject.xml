@@ -15657,21 +15657,21 @@
       <Status>New</Status>
       <Summary>Direction name.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-direction:option:source-model" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-direction" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction:option:name">
-      <DisplayName>--source-model</DisplayName>
-      <DisplayPath>meta-weave add-direction --source-model</DisplayPath>
-      <NativeId>opt-add-direction-source-model</NativeId>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-direction:option:source" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-direction" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction:option:name">
+      <DisplayName>--source</DisplayName>
+      <DisplayPath>meta-weave add-direction --source</DisplayPath>
+      <NativeId>opt-add-direction-source</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Source model name; must be one side of the weave.</Summary>
+      <Summary>Named source workspace contract as name=model. Repeat for additional sources.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-direction:option:target-model" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-direction" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction:option:source-model">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-direction:option:target-model" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-direction" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction:option:source">
       <DisplayName>--target-model</DisplayName>
       <DisplayPath>meta-weave add-direction --target-model</DisplayPath>
       <NativeId>opt-add-direction-target-model</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Target model name; must be the other side of the weave.</Summary>
+      <Status>Changed</Status>
+      <Summary>Target workspace model contract.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-weave:app:command:add-direction:option:workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-direction" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction:option:target-model">
       <DisplayName>--workspace</DisplayName>
@@ -15681,7 +15681,39 @@
       <Status>New</Status>
       <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-relation" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-direction">
+      <DisplayName>meta-weave add-relation</DisplayName>
+      <DisplayPath>meta-weave add-relation</DisplayPath>
+      <NativeId>exec-add-relation</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Read WeaveScript from standard input and add one named relation to a direction.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-relation:option:direction" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-relation">
+      <DisplayName>--direction</DisplayName>
+      <DisplayPath>meta-weave add-relation --direction</DisplayPath>
+      <NativeId>opt-add-relation-direction</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Direction that owns the relation.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-relation:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-relation" PreviousSubjectId="source:cli:meta-weave:app:command:add-relation:option:direction">
+      <DisplayName>--name</DisplayName>
+      <DisplayPath>meta-weave add-relation --name</DisplayPath>
+      <NativeId>opt-add-relation-name</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Relation name within the direction.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-relation:option:workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-relation" PreviousSubjectId="source:cli:meta-weave:app:command:add-relation:option:name">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-weave add-relation --workspace</DisplayPath>
+      <NativeId>opt-add-relation-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-relation">
       <DisplayName>meta-weave add-requirement</DisplayName>
       <DisplayPath>meta-weave add-requirement</DisplayPath>
       <NativeId>exec-add-requirement</NativeId>
@@ -15729,7 +15761,39 @@
       <Status>New</Status>
       <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-transformation" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-requirement">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-string-parameter" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-requirement">
+      <DisplayName>meta-weave add-string-parameter</DisplayName>
+      <DisplayPath>meta-weave add-string-parameter</DisplayPath>
+      <NativeId>exec-add-string-parameter</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Declare one string execution parameter on a direction.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-string-parameter:option:direction" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-string-parameter">
+      <DisplayName>--direction</DisplayName>
+      <DisplayPath>meta-weave add-string-parameter --direction</DisplayPath>
+      <NativeId>opt-add-string-parameter-direction</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Direction that declares the parameter.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-string-parameter:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-string-parameter" PreviousSubjectId="source:cli:meta-weave:app:command:add-string-parameter:option:direction">
+      <DisplayName>--name</DisplayName>
+      <DisplayPath>meta-weave add-string-parameter --name</DisplayPath>
+      <NativeId>opt-add-string-parameter-name</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>String parameter name, referenced from WeaveScript as @name.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-string-parameter:option:workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:add-string-parameter" PreviousSubjectId="source:cli:meta-weave:app:command:add-string-parameter:option:name">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-weave add-string-parameter --workspace</DisplayPath>
+      <NativeId>opt-add-string-parameter-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:add-transformation" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:add-string-parameter">
       <DisplayName>meta-weave add-transformation</DisplayName>
       <DisplayPath>meta-weave add-transformation</DisplayPath>
       <NativeId>exec-add-transformation</NativeId>
@@ -15775,7 +15839,7 @@
       <NativeId>exec-create</NativeId>
       <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>Create a complete MetaWeave workspace for two model contracts.</Summary>
+      <Summary>Create a MetaWeave workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:connection-env" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create">
       <DisplayName>--connection-env</DisplayName>
@@ -15793,15 +15857,7 @@
       <Status>Changed</Status>
       <Summary>Create a C# MetaWeave workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:left-model" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:csharp">
-      <DisplayName>--left-model</DisplayName>
-      <DisplayPath>meta-weave create --left-model</DisplayPath>
-      <NativeId>opt-create-left-model</NativeId>
-      <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Left model contract name.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:left-model">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:csharp">
       <DisplayName>--name</DisplayName>
       <DisplayPath>meta-weave create --name</DisplayPath>
       <NativeId>opt-create-name</NativeId>
@@ -15809,15 +15865,7 @@
       <Status>Changed</Status>
       <Summary>Weave name.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:right-model" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:name">
-      <DisplayName>--right-model</DisplayName>
-      <DisplayPath>meta-weave create --right-model</DisplayPath>
-      <NativeId>opt-create-right-model</NativeId>
-      <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Right model contract name.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:sql" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:right-model">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:create:option:sql" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:create" PreviousSubjectId="source:cli:meta-weave:app:command:create:option:name">
       <DisplayName>--sql</DisplayName>
       <DisplayPath>meta-weave create --sql</DisplayPath>
       <NativeId>opt-create-sql</NativeId>
@@ -15841,7 +15889,39 @@
       <Status>Changed</Status>
       <Summary>Choose one MetaWeave workspace representation.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:create">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-relation" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:create">
+      <DisplayName>meta-weave emit-relation</DisplayName>
+      <DisplayPath>meta-weave emit-relation</DisplayPath>
+      <NativeId>exec-emit-relation</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Emit one named relation as recognizable T-SQL.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-relation:option:direction" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:emit-relation">
+      <DisplayName>--direction</DisplayName>
+      <DisplayPath>meta-weave emit-relation --direction</DisplayPath>
+      <NativeId>opt-emit-relation-direction</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Direction that owns the relation.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-relation:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:emit-relation" PreviousSubjectId="source:cli:meta-weave:app:command:emit-relation:option:direction">
+      <DisplayName>--name</DisplayName>
+      <DisplayPath>meta-weave emit-relation --name</DisplayPath>
+      <NativeId>opt-emit-relation-name</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Relation name within the direction.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-relation:option:workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:emit-relation" PreviousSubjectId="source:cli:meta-weave:app:command:emit-relation:option:name">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-weave emit-relation --workspace</DisplayPath>
+      <NativeId>opt-emit-relation-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:emit-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:emit-relation">
       <DisplayName>meta-weave emit-requirement</DisplayName>
       <DisplayPath>meta-weave emit-requirement</DisplayPath>
       <NativeId>exec-emit-requirement</NativeId>
@@ -15937,13 +16017,21 @@
       <Status>New</Status>
       <Summary>Direction to execute. Defaults to forward.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:execute:option:source-workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:execute" PreviousSubjectId="source:cli:meta-weave:app:command:execute:option:direction">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:execute:option:parameter" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:execute" PreviousSubjectId="source:cli:meta-weave:app:command:execute:option:direction">
+      <DisplayName>--parameter</DisplayName>
+      <DisplayPath>meta-weave execute --parameter</DisplayPath>
+      <NativeId>opt-execute-parameter</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>String execution parameter as name=value. Repeat for additional parameters.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:execute:option:source-workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:execute" PreviousSubjectId="source:cli:meta-weave:app:command:execute:option:parameter">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta-weave execute --source-workspace</DisplayPath>
       <NativeId>opt-execute-source-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>Populated source workspace read by the direction.</Summary>
+      <Summary>Populated source workspace as name=path. Repeat for additional sources; a bare path is accepted for a single-source direction.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-weave:app:command:execute:option:sql" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:execute" PreviousSubjectId="source:cli:meta-weave:app:command:execute:option:source-workspace">
       <DisplayName>--sql</DisplayName>
@@ -16009,7 +16097,39 @@
       <Status>Changed</Status>
       <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:show">
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-relation" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:show">
+      <DisplayName>meta-weave update-relation</DisplayName>
+      <DisplayPath>meta-weave update-relation</DisplayPath>
+      <NativeId>exec-update-relation</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Read replacement WeaveScript from standard input and update one named relation.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-relation:option:direction" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:update-relation">
+      <DisplayName>--direction</DisplayName>
+      <DisplayPath>meta-weave update-relation --direction</DisplayPath>
+      <NativeId>opt-update-relation-direction</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Direction that owns the relation.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-relation:option:name" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:update-relation" PreviousSubjectId="source:cli:meta-weave:app:command:update-relation:option:direction">
+      <DisplayName>--name</DisplayName>
+      <DisplayPath>meta-weave update-relation --name</DisplayPath>
+      <NativeId>opt-update-relation-name</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Relation name within the direction.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-relation:option:workspace" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-weave:app:command:update-relation" PreviousSubjectId="source:cli:meta-weave:app:command:update-relation:option:name">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-weave update-relation --workspace</DisplayPath>
+      <NativeId>opt-update-relation-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaWeave workspace. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-weave:app:command:update-requirement" DocumentationSourceId="source:cli:meta-weave" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-weave:app" PreviousSubjectId="source:cli:meta-weave:app:command:update-relation">
       <DisplayName>meta-weave update-requirement</DisplayName>
       <DisplayPath>meta-weave update-requirement</DisplayPath>
       <NativeId>exec-update-requirement</NativeId>
@@ -21497,7 +21617,15 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:ordinal" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:firstjoininputcolumnname">
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:firstjoininputobjectname" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:firstjoininputcolumnname">
+      <DisplayName>FirstJoinInputObjectName</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPart.FirstJoinInputObjectName</DisplayPath>
+      <NativeId>FirstJoinInputObjectName</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:ordinal" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:firstjoininputobjectname">
       <DisplayName>Ordinal</DisplayName>
       <DisplayPath>MetaDataQuality.JoinPatternKeyPart.Ordinal</DisplayPath>
       <NativeId>Ordinal</NativeId>
@@ -21529,6 +21657,14 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:secondjoininputobjectname" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:property:secondjoininputcolumnname">
+      <DisplayName>SecondJoinInputObjectName</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPart.SecondJoinInputObjectName</DisplayPath>
+      <NativeId>SecondJoinInputObjectName</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypart:relationship:joinpattern-joinpattern" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart">
       <DisplayName>JoinPattern</DisplayName>
       <DisplayPath>MetaDataQuality.JoinPatternKeyPart.JoinPattern</DisplayPath>
@@ -21537,7 +21673,47 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternoccurrence" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-quality:model:metadataquality" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart">
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-quality:model:metadataquality" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypart">
+      <DisplayName>JoinPatternKeyPartInputObjectIdentifierPart</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPartInputObjectIdentifierPart</DisplayPath>
+      <NativeId>JoinPatternKeyPartInputObjectIdentifierPart</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:property:inputside" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart">
+      <DisplayName>InputSide</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPartInputObjectIdentifierPart.InputSide</DisplayPath>
+      <NativeId>InputSide</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:property:ordinal" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:property:inputside">
+      <DisplayName>Ordinal</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPartInputObjectIdentifierPart.Ordinal</DisplayPath>
+      <NativeId>Ordinal</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:property:value" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:property:ordinal">
+      <DisplayName>Value</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPartInputObjectIdentifierPart.Value</DisplayPath>
+      <NativeId>Value</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart:relationship:joinpatternkeypart-joinpatternkeypart" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart">
+      <DisplayName>JoinPatternKeyPart</DisplayName>
+      <DisplayPath>MetaDataQuality.JoinPatternKeyPartInputObjectIdentifierPart.JoinPatternKeyPart</DisplayPath>
+      <NativeId>JoinPatternKeyPart:JoinPatternKeyPart</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-quality:entity:joinpatternoccurrence" DocumentationSourceId="source:workspace-model:meta-data-quality" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-quality:model:metadataquality" PreviousSubjectId="source:workspace-model:meta-data-quality:entity:joinpatternkeypartinputobjectidentifierpart">
       <DisplayName>JoinPatternOccurrence</DisplayName>
       <DisplayPath>MetaDataQuality.JoinPatternOccurrence</DisplayPath>
       <NativeId>JoinPatternOccurrence</NativeId>
@@ -44273,7 +44449,39 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:direction" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:commontableexpressionqueryexpressionlink">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:datatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:commontableexpressionqueryexpressionlink">
+      <DisplayName>DataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.DataTypeReference</DisplayPath>
+      <NativeId>DataTypeReference</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:datatypereferencenamelink" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:datatypereference">
+      <DisplayName>DataTypeReferenceNameLink</DisplayName>
+      <DisplayPath>MetaWeave.DataTypeReferenceNameLink</DisplayPath>
+      <NativeId>DataTypeReferenceNameLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:datatypereferencenamelink:relationship:datatypereference-datatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:datatypereferencenamelink">
+      <DisplayName>DataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.DataTypeReferenceNameLink.DataTypeReference</DisplayPath>
+      <NativeId>DataTypeReference:DataTypeReference</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:datatypereferencenamelink:relationship:schemaobjectname-schemaobjectname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:datatypereferencenamelink" PreviousSubjectId="source:workspace-model:meta-weave:entity:datatypereferencenamelink:relationship:datatypereference-datatypereference">
+      <DisplayName>SchemaObjectName</DisplayName>
+      <DisplayPath>MetaWeave.DataTypeReferenceNameLink.SchemaObjectName</DisplayPath>
+      <NativeId>SchemaObjectName:SchemaObjectName</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:direction" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:datatypereferencenamelink">
       <DisplayName>Direction</DisplayName>
       <DisplayPath>MetaWeave.Direction</DisplayPath>
       <NativeId>Direction</NativeId>
@@ -44281,15 +44489,7 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:direction:property:sourcemodelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:direction">
-      <DisplayName>SourceModelName</DisplayName>
-      <DisplayPath>MetaWeave.Direction.SourceModelName</DisplayPath>
-      <NativeId>SourceModelName</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>New</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:direction:property:targetmodelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:direction" PreviousSubjectId="source:workspace-model:meta-weave:entity:direction:property:sourcemodelname">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:direction:property:targetmodelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:direction">
       <DisplayName>TargetModelName</DisplayName>
       <DisplayPath>MetaWeave.Direction.TargetModelName</DisplayPath>
       <NativeId>TargetModelName</NativeId>
@@ -44305,7 +44505,31 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionrequirement" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:direction">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionrelation" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:direction">
+      <DisplayName>DirectionRelation</DisplayName>
+      <DisplayPath>MetaWeave.DirectionRelation</DisplayPath>
+      <NativeId>DirectionRelation</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionrelation:relationship:direction-direction" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:directionrelation">
+      <DisplayName>Direction</DisplayName>
+      <DisplayPath>MetaWeave.DirectionRelation.Direction</DisplayPath>
+      <NativeId>Direction:Direction</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionrelation:relationship:selectstatement-selectstatement" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:directionrelation" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionrelation:relationship:direction-direction">
+      <DisplayName>SelectStatement</DisplayName>
+      <DisplayPath>MetaWeave.DirectionRelation.SelectStatement</DisplayPath>
+      <NativeId>SelectStatement:SelectStatement</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionrequirement" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionrelation">
       <DisplayName>DirectionRequirement</DisplayName>
       <DisplayPath>MetaWeave.DirectionRequirement</DisplayPath>
       <NativeId>DirectionRequirement</NativeId>
@@ -44345,7 +44569,63 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:existspredicate" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionrequirement">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionsourceworkspace" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionrequirement">
+      <DisplayName>DirectionSourceWorkspace</DisplayName>
+      <DisplayPath>MetaWeave.DirectionSourceWorkspace</DisplayPath>
+      <NativeId>DirectionSourceWorkspace</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionsourceworkspace:property:modelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:directionsourceworkspace">
+      <DisplayName>ModelName</DisplayName>
+      <DisplayPath>MetaWeave.DirectionSourceWorkspace.ModelName</DisplayPath>
+      <NativeId>ModelName</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionsourceworkspace:property:name" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:directionsourceworkspace" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionsourceworkspace:property:modelname">
+      <DisplayName>Name</DisplayName>
+      <DisplayPath>MetaWeave.DirectionSourceWorkspace.Name</DisplayPath>
+      <NativeId>Name</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionsourceworkspace:relationship:direction-direction" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:directionsourceworkspace">
+      <DisplayName>Direction</DisplayName>
+      <DisplayPath>MetaWeave.DirectionSourceWorkspace.Direction</DisplayPath>
+      <NativeId>Direction:Direction</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionstringparameter" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionsourceworkspace">
+      <DisplayName>DirectionStringParameter</DisplayName>
+      <DisplayPath>MetaWeave.DirectionStringParameter</DisplayPath>
+      <NativeId>DirectionStringParameter</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionstringparameter:property:name" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:directionstringparameter">
+      <DisplayName>Name</DisplayName>
+      <DisplayPath>MetaWeave.DirectionStringParameter.Name</DisplayPath>
+      <NativeId>Name</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:directionstringparameter:relationship:direction-direction" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:directionstringparameter">
+      <DisplayName>Direction</DisplayName>
+      <DisplayPath>MetaWeave.DirectionStringParameter.Direction</DisplayPath>
+      <NativeId>Direction:Direction</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:existspredicate" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:directionstringparameter">
       <DisplayName>ExistsPredicate</DisplayName>
       <DisplayPath>MetaWeave.ExistsPredicate</DisplayPath>
       <NativeId>ExistsPredicate</NativeId>
@@ -44545,7 +44825,31 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:functioncallparametersitem" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:functioncallfunctionnamelink">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:functioncalloverclauselink" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:functioncallfunctionnamelink">
+      <DisplayName>FunctionCallOverClauseLink</DisplayName>
+      <DisplayPath>MetaWeave.FunctionCallOverClauseLink</DisplayPath>
+      <NativeId>FunctionCallOverClauseLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:functioncalloverclauselink:relationship:functioncall-functioncall" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:functioncalloverclauselink">
+      <DisplayName>FunctionCall</DisplayName>
+      <DisplayPath>MetaWeave.FunctionCallOverClauseLink.FunctionCall</DisplayPath>
+      <NativeId>FunctionCall:FunctionCall</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:functioncalloverclauselink:relationship:overclause-overclause" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:functioncalloverclauselink" PreviousSubjectId="source:workspace-model:meta-weave:entity:functioncalloverclauselink:relationship:functioncall-functioncall">
+      <DisplayName>OverClause</DisplayName>
+      <DisplayPath>MetaWeave.FunctionCallOverClauseLink.OverClause</DisplayPath>
+      <NativeId>OverClause:OverClause</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:functioncallparametersitem" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:functioncalloverclauselink">
       <DisplayName>FunctionCallParametersItem</DisplayName>
       <DisplayPath>MetaWeave.FunctionCallParametersItem</DisplayPath>
       <NativeId>FunctionCallParametersItem</NativeId>
@@ -45353,7 +45657,111 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parenthesisexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:orderbyclauseorderbyelementsitem">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclause" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:orderbyclauseorderbyelementsitem">
+      <DisplayName>OverClause</DisplayName>
+      <DisplayPath>MetaWeave.OverClause</DisplayPath>
+      <NativeId>OverClause</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:overclause">
+      <DisplayName>OverClauseOrderByClauseLink</DisplayName>
+      <DisplayPath>MetaWeave.OverClauseOrderByClauseLink</DisplayPath>
+      <NativeId>OverClauseOrderByClauseLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink:relationship:orderbyclause-orderbyclause" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink">
+      <DisplayName>OrderByClause</DisplayName>
+      <DisplayPath>MetaWeave.OverClauseOrderByClauseLink.OrderByClause</DisplayPath>
+      <NativeId>OrderByClause:OrderByClause</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink:relationship:overclause-overclause" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink" PreviousSubjectId="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink:relationship:orderbyclause-orderbyclause">
+      <DisplayName>OverClause</DisplayName>
+      <DisplayPath>MetaWeave.OverClauseOrderByClauseLink.OverClause</DisplayPath>
+      <NativeId>OverClause:OverClause</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclausepartitionsitem" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:overclauseorderbyclauselink">
+      <DisplayName>OverClausePartitionsItem</DisplayName>
+      <DisplayPath>MetaWeave.OverClausePartitionsItem</DisplayPath>
+      <NativeId>OverClausePartitionsItem</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclausepartitionsitem:property:ordinal" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:overclausepartitionsitem">
+      <DisplayName>Ordinal</DisplayName>
+      <DisplayPath>MetaWeave.OverClausePartitionsItem.Ordinal</DisplayPath>
+      <NativeId>Ordinal</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclausepartitionsitem:relationship:overclause-overclause" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:overclausepartitionsitem">
+      <DisplayName>OverClause</DisplayName>
+      <DisplayPath>MetaWeave.OverClausePartitionsItem.OverClause</DisplayPath>
+      <NativeId>OverClause:OverClause</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:overclausepartitionsitem:relationship:scalarexpression-scalarexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:overclausepartitionsitem" PreviousSubjectId="source:workspace-model:meta-weave:entity:overclausepartitionsitem:relationship:overclause-overclause">
+      <DisplayName>ScalarExpression</DisplayName>
+      <DisplayPath>MetaWeave.OverClausePartitionsItem.ScalarExpression</DisplayPath>
+      <NativeId>ScalarExpression:ScalarExpression</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parameterizeddatatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:overclausepartitionsitem">
+      <DisplayName>ParameterizedDataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.ParameterizedDataTypeReference</DisplayPath>
+      <NativeId>ParameterizedDataTypeReference</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parameterizeddatatypereference:relationship:datatypereference-datatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:parameterizeddatatypereference">
+      <DisplayName>DataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.ParameterizedDataTypeReference.DataTypeReference</DisplayPath>
+      <NativeId>DataTypeReference:DataTypeReference</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parameterreferenceexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:parameterizeddatatypereference">
+      <DisplayName>ParameterReferenceExpression</DisplayName>
+      <DisplayPath>MetaWeave.ParameterReferenceExpression</DisplayPath>
+      <NativeId>ParameterReferenceExpression</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parameterreferenceexpression:property:name" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:parameterreferenceexpression">
+      <DisplayName>Name</DisplayName>
+      <DisplayPath>MetaWeave.ParameterReferenceExpression.Name</DisplayPath>
+      <NativeId>Name</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parameterreferenceexpression:relationship:valueexpression-valueexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:parameterreferenceexpression">
+      <DisplayName>ValueExpression</DisplayName>
+      <DisplayPath>MetaWeave.ParameterReferenceExpression.ValueExpression</DisplayPath>
+      <NativeId>ValueExpression:ValueExpression</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:parenthesisexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:parameterreferenceexpression">
       <DisplayName>ParenthesisExpression</DisplayName>
       <DisplayPath>MetaWeave.ParenthesisExpression</DisplayPath>
       <NativeId>ParenthesisExpression</NativeId>
@@ -46001,7 +46409,31 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:statementwithctes" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:selectstatementqueryexpressionlink">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:sqldatatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:selectstatementqueryexpressionlink">
+      <DisplayName>SqlDataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.SqlDataTypeReference</DisplayPath>
+      <NativeId>SqlDataTypeReference</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:sqldatatypereference:property:sqldatatypeoption" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:sqldatatypereference">
+      <DisplayName>SqlDataTypeOption</DisplayName>
+      <DisplayPath>MetaWeave.SqlDataTypeReference.SqlDataTypeOption</DisplayPath>
+      <NativeId>SqlDataTypeOption</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:sqldatatypereference:relationship:parameterizeddatatypereference-parameterizeddatatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:sqldatatypereference">
+      <DisplayName>ParameterizedDataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.SqlDataTypeReference.ParameterizedDataTypeReference</DisplayPath>
+      <NativeId>ParameterizedDataTypeReference:ParameterizedDataTypeReference</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:statementwithctes" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:sqldatatypereference">
       <DisplayName>StatementWithCtes</DisplayName>
       <DisplayPath>MetaWeave.StatementWithCtes</DisplayPath>
       <NativeId>StatementWithCtes</NativeId>
@@ -46185,7 +46617,71 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tsqlstatement" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:transformation">
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcall" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:transformation">
+      <DisplayName>TryConvertCall</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCall</DisplayPath>
+      <NativeId>TryConvertCall</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcall:relationship:primaryexpression-primaryexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:tryconvertcall">
+      <DisplayName>PrimaryExpression</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCall.PrimaryExpression</DisplayPath>
+      <NativeId>PrimaryExpression:PrimaryExpression</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:tryconvertcall">
+      <DisplayName>TryConvertCallDataTypeLink</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallDataTypeLink</DisplayPath>
+      <NativeId>TryConvertCallDataTypeLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink:relationship:datatypereference-datatypereference" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink">
+      <DisplayName>DataTypeReference</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallDataTypeLink.DataTypeReference</DisplayPath>
+      <NativeId>DataTypeReference:DataTypeReference</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink:relationship:tryconvertcall-tryconvertcall" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink" PreviousSubjectId="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink:relationship:datatypereference-datatypereference">
+      <DisplayName>TryConvertCall</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallDataTypeLink.TryConvertCall</DisplayPath>
+      <NativeId>TryConvertCall:TryConvertCall</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:tryconvertcalldatatypelink">
+      <DisplayName>TryConvertCallParameterLink</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallParameterLink</DisplayPath>
+      <NativeId>TryConvertCallParameterLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink:relationship:scalarexpression-scalarexpression" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink">
+      <DisplayName>ScalarExpression</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallParameterLink.ScalarExpression</DisplayPath>
+      <NativeId>ScalarExpression:ScalarExpression</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink:relationship:tryconvertcall-tryconvertcall" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink" PreviousSubjectId="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink:relationship:scalarexpression-scalarexpression">
+      <DisplayName>TryConvertCall</DisplayName>
+      <DisplayPath>MetaWeave.TryConvertCallParameterLink.TryConvertCall</DisplayPath>
+      <NativeId>TryConvertCall:TryConvertCall</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:tsqlstatement" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-weave:model:metaweave" PreviousSubjectId="source:workspace-model:meta-weave:entity:tryconvertcallparameterlink">
       <DisplayName>TSqlStatement</DisplayName>
       <DisplayPath>MetaWeave.TSqlStatement</DisplayPath>
       <NativeId>TSqlStatement</NativeId>
@@ -46238,22 +46734,6 @@
       <DisplayPath>MetaWeave.Weave</DisplayPath>
       <NativeId>Weave</NativeId>
       <SourceTypeName>GenericEntity</SourceTypeName>
-      <Status>New</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:weave:property:leftmodelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:weave">
-      <DisplayName>LeftModelName</DisplayName>
-      <DisplayPath>MetaWeave.Weave.LeftModelName</DisplayPath>
-      <NativeId>LeftModelName</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>New</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-weave:entity:weave:property:rightmodelname" DocumentationSourceId="source:workspace-model:meta-weave" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-weave:entity:weave" PreviousSubjectId="source:workspace-model:meta-weave:entity:weave:property:leftmodelname">
-      <DisplayName>RightModelName</DisplayName>
-      <DisplayPath>MetaWeave.Weave.RightModelName</DisplayPath>
-      <NativeId>RightModelName</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>

@@ -5288,7 +5288,7 @@ meta-mesh run --operation regenerate-public-docs
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave add-direction --name &lt;value&gt; --source-model &lt;value&gt; --target-model &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+                <pre><code>meta-weave add-direction --name &lt;value&gt; --source &lt;value&gt; --target-model &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -5302,14 +5302,58 @@ meta-mesh run --operation regenerate-public-docs
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--source-model &lt;value&gt;</td>
-                      <td>Source model name; must be one side of the weave.</td>
+                      <td class="opt">--source &lt;value&gt;</td>
+                      <td>Named source workspace contract as name=model. Repeat for additional sources.</td>
                       <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
                       <td class="opt">--target-model &lt;value&gt;</td>
-                      <td>Target model name; must be the other side of the weave.</td>
+                      <td>Target workspace model contract.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-relation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave add-relation</span>
+                <span class="command-summary-text">Read WeaveScript from standard input and add one named relation to a direction.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave add-relation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the relation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Relation name within the direction.</td>
                       <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
@@ -5381,6 +5425,50 @@ meta-mesh run --operation regenerate-public-docs
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-string-parameter">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave add-string-parameter</span>
+                <span class="command-summary-text">Declare one string execution parameter on a direction.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave add-string-parameter --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that declares the parameter.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>String parameter name, referenced from WeaveScript as @name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-add-transformation">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -5436,15 +5524,15 @@ meta-mesh run --operation regenerate-public-docs
               <span class="command-toggle" aria-hidden="true"></span>
               <span class="command-main">
                 <span class="command-name">meta-weave create</span>
-                <span class="command-summary-text">Create a complete MetaWeave workspace for two model contracts.</span>
+                <span class="command-summary-text">Create a MetaWeave workspace.</span>
               </span>
-              <span class="command-counts">7 options</span>
+              <span class="command-counts">5 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] --left-model &lt;value&gt; --name &lt;value&gt; --right-model &lt;value&gt; [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
+                <pre><code>meta-weave create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] --name &lt;value&gt; [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -5464,20 +5552,8 @@ meta-mesh run --operation regenerate-public-docs
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--left-model &lt;value&gt;</td>
-                      <td>Left model contract name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
                       <td class="opt">--name &lt;value&gt;</td>
                       <td>Weave name.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--right-model &lt;value&gt;</td>
-                      <td>Right model contract name.</td>
                       <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
@@ -5491,6 +5567,50 @@ meta-mesh run --operation regenerate-public-docs
                       <td class="opt">--xml &lt;path&gt;</td>
                       <td>Create an XML MetaWeave workspace.</td>
                       <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-emit-relation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave emit-relation</span>
+                <span class="command-summary-text">Emit one named relation as recognizable T-SQL.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave emit-relation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the relation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Relation name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
                       <td>False</td>
                     </tr>
                   </tbody>
@@ -5594,13 +5714,13 @@ meta-mesh run --operation regenerate-public-docs
                 <span class="command-name">meta-weave execute</span>
                 <span class="command-summary-text">Execute one modeled direction into a new target workspace.</span>
               </span>
-              <span class="command-counts">8 options</span>
+              <span class="command-counts">9 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-weave execute [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--direction &lt;value&gt;] --source-workspace &lt;workspace&gt; [--sql &lt;path&gt;] --target-workspace &lt;workspace&gt; [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
+                <pre><code>meta-weave execute [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--direction &lt;value&gt;] [--parameter &lt;value&gt;] --source-workspace &lt;workspace&gt; [--sql &lt;path&gt;] --target-workspace &lt;workspace&gt; [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -5626,8 +5746,14 @@ meta-mesh run --operation regenerate-public-docs
                       <td>False</td>
                     </tr>
                     <tr>
+                      <td class="opt">--parameter &lt;value&gt;</td>
+                      <td>String execution parameter as name=value. Repeat for additional parameters.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
                       <td class="opt">--source-workspace &lt;workspace&gt;</td>
-                      <td>Populated source workspace read by the direction.</td>
+                      <td>Populated source workspace as name=path. Repeat for additional sources; a bare path is accepted for a single-source direction.</td>
                       <td>&lt;workspace&gt;</td>
                       <td>False</td>
                     </tr>
@@ -5699,6 +5825,50 @@ meta-mesh run --operation regenerate-public-docs
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaWeave workspace. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-weave-app-command-update-relation">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-weave update-relation</span>
+                <span class="command-summary-text">Read replacement WeaveScript from standard input and update one named relation.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-weave update-relation --direction &lt;value&gt; --name &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--direction &lt;value&gt;</td>
+                      <td>Direction that owns the relation.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Relation name within the direction.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--workspace &lt;workspace&gt;</td>
                       <td>MetaWeave workspace. Defaults to the current directory.</td>
@@ -5803,18 +5973,22 @@ meta-mesh run --operation regenerate-public-docs
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>11 commands</p>
+                <p>15 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-direction" aria-label="Open meta-weave add-direction"><code>add-direction</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-relation" aria-label="Open meta-weave add-relation"><code>add-relation</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-requirement" aria-label="Open meta-weave add-requirement"><code>add-requirement</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-string-parameter" aria-label="Open meta-weave add-string-parameter"><code>add-string-parameter</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-add-transformation" aria-label="Open meta-weave add-transformation"><code>add-transformation</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-create" aria-label="Open meta-weave create"><code>create</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-relation" aria-label="Open meta-weave emit-relation"><code>emit-relation</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-requirement" aria-label="Open meta-weave emit-requirement"><code>emit-requirement</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-emit-transformation" aria-label="Open meta-weave emit-transformation"><code>emit-transformation</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-execute" aria-label="Open meta-weave execute"><code>execute</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-help" aria-label="Open meta-weave help"><code>help</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-show" aria-label="Open meta-weave show"><code>show</code></a>
+                <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-relation" aria-label="Open meta-weave update-relation"><code>update-relation</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-requirement" aria-label="Open meta-weave update-requirement"><code>update-requirement</code></a>
                 <a class="application-command-link" href="#cli-meta-weave" data-local-anchor="subject-source-cli-meta-weave-app-command-update-transformation" aria-label="Open meta-weave update-transformation"><code>update-transformation</code></a>
               </nav>
@@ -5856,9 +6030,9 @@ meta-mesh run --operation regenerate-public-docs
                   </tr>
                   <tr>
                     <td><a href="#model-metaweave" data-panel-link="model-metaweave">MetaWeave</a></td>
-                    <td>126</td>
-                    <td>32</td>
-                    <td>170</td>
+                    <td>141</td>
+                    <td>35</td>
+                    <td>190</td>
                   </tr>
                 </tbody>
               </table>
@@ -9769,9 +9943,9 @@ meta-mesh run --operation regenerate-public-docs
             <p class="panel-lead">Models mappings between workspace shapes, including source and target models, correspondence rules, field mappings, and generated transformation intent.</p>
           </header>
           <div class="summary-row">
-            <span class="pill">126 entities</span>
-            <span class="pill">32 properties</span>
-            <span class="pill">170 relationships</span>
+            <span class="pill">141 entities</span>
+            <span class="pill">35 properties</span>
+            <span class="pill">190 relationships</span>
           </div>
           <div class="card">
             <div class="card-header">
@@ -9908,14 +10082,39 @@ meta-mesh run --operation regenerate-public-docs
                     <td>2</td>
                   </tr>
                   <tr>
-                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-direction">Direction</a></td>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereference">DataTypeReference</a></td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink">DataTypeReferenceNameLink</a></td>
+                    <td>0</td>
                     <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-direction">Direction</a></td>
                     <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrelation" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrelation">DirectionRelation</a></td>
+                    <td>0</td>
+                    <td>2</td>
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrequirement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrequirement">DirectionRequirement</a></td>
                     <td>2</td>
                     <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionsourceworkspace" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionsourceworkspace">DirectionSourceWorkspace</a></td>
+                    <td>2</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionstringparameter" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionstringparameter">DirectionStringParameter</a></td>
+                    <td>1</td>
+                    <td>1</td>
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-existspredicate" data-local-anchor="subject-source-workspace-model-meta-weave-entity-existspredicate">ExistsPredicate</a></td>
@@ -9964,6 +10163,11 @@ meta-mesh run --operation regenerate-public-docs
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink">FunctionCallFunctionNameLink</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink">FunctionCallOverClauseLink</a></td>
                     <td>0</td>
                     <td>2</td>
                   </tr>
@@ -10158,6 +10362,31 @@ meta-mesh run --operation regenerate-public-docs
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclause">OverClause</a></td>
+                    <td>0</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink">OverClauseOrderByClauseLink</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem">OverClausePartitionsItem</a></td>
+                    <td>1</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference">ParameterizedDataTypeReference</a></td>
+                    <td>0</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression">ParameterReferenceExpression</a></td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parenthesisexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parenthesisexpression">ParenthesisExpression</a></td>
                     <td>0</td>
                     <td>1</td>
@@ -10318,6 +10547,11 @@ meta-mesh run --operation regenerate-public-docs
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-sqldatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-sqldatatypereference">SqlDataTypeReference</a></td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-statementwithctes" data-local-anchor="subject-source-workspace-model-meta-weave-entity-statementwithctes">StatementWithCtes</a></td>
                     <td>0</td>
                     <td>1</td>
@@ -10363,6 +10597,21 @@ meta-mesh run --operation regenerate-public-docs
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcall">TryConvertCall</a></td>
+                    <td>0</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink">TryConvertCallDataTypeLink</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink">TryConvertCallParameterLink</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tsqlstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tsqlstatement">TSqlStatement</a></td>
                     <td>0</td>
                     <td>0</td>
@@ -10379,7 +10628,7 @@ meta-mesh run --operation regenerate-public-docs
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-weave" data-local-anchor="subject-source-workspace-model-meta-weave-entity-weave">Weave</a></td>
-                    <td>2</td>
+                    <td>0</td>
                     <td>0</td>
                   </tr>
                   <tr>
@@ -11566,13 +11815,90 @@ meta-mesh run --operation regenerate-public-docs
               </div>
             </div>
           </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-datatypereference">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">DataTypeReference</span>
+              </span>
+              <span class="entity-counts">0 properties / 0 relationships / 3 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink">DataTypeReferenceNameLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-datatypereference-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-datatypereference-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference">ParameterizedDataTypeReference</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference-relationship-datatypereference-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference-relationship-datatypereference-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink">TryConvertCallDataTypeLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-datatypereference-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-datatypereference-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">DataTypeReferenceNameLink</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-datatypereference-datatypereference">
+                      <td>DataTypeReference</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-schemaobjectname-schemaobjectname">
+                      <td>SchemaObjectName</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-schemaobjectname" data-local-anchor="subject-source-workspace-model-meta-weave-entity-schemaobjectname">SchemaObjectName</a></td>
+                      <td></td>
+                      <td>SchemaObjectNameId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-direction">
             <summary class="entity-summary">
               <span class="entity-toggle" aria-hidden="true"></span>
               <span class="entity-main">
                 <span class="entity-name">Direction</span>
               </span>
-              <span class="entity-counts">2 properties / 1 relationship / 2 references</span>
+              <span class="entity-counts">1 property / 1 relationship / 5 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -11581,12 +11907,6 @@ meta-mesh run --operation regenerate-public-docs
                 <table>
                   <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
                   <tbody>
-                    <tr>
-                      <td>SourceModelName</td>
-                      <td>True</td>
-                      <td>False</td>
-                      <td></td>
-                    </tr>
                     <tr>
                       <td>TargetModelName</td>
                       <td>True</td>
@@ -11617,8 +11937,29 @@ meta-mesh run --operation regenerate-public-docs
                   <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
                   <tbody>
                     <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrelation" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrelation">DirectionRelation</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-direction-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-direction-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrequirement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrequirement">DirectionRequirement</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrequirement-relationship-direction-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrequirement-relationship-direction-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionsourceworkspace" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionsourceworkspace">DirectionSourceWorkspace</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionsourceworkspace-relationship-direction-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionsourceworkspace-relationship-direction-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionstringparameter" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionstringparameter">DirectionStringParameter</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionstringparameter-relationship-direction-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionstringparameter-relationship-direction-direction">Direction</a></td>
                       <td></td>
                       <td>DirectionId</td>
                       <td>True</td>
@@ -11628,6 +11969,41 @@ meta-mesh run --operation regenerate-public-docs
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-transformation-relationship-direction-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-transformation-relationship-direction-direction">Direction</a></td>
                       <td></td>
                       <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-directionrelation">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">DirectionRelation</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-direction-direction">
+                      <td>Direction</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-selectstatement-selectstatement">
+                      <td>SelectStatement</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-selectstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-selectstatement">SelectStatement</a></td>
+                      <td></td>
+                      <td>SelectStatementId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -11683,6 +12059,96 @@ meta-mesh run --operation regenerate-public-docs
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-selectstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-selectstatement">SelectStatement</a></td>
                       <td></td>
                       <td>SelectStatementId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-directionsourceworkspace">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">DirectionSourceWorkspace</span>
+              </span>
+              <span class="entity-counts">2 properties / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>ModelName</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-directionsourceworkspace-relationship-direction-direction">
+                      <td>Direction</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-directionstringparameter">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">DirectionStringParameter</span>
+              </span>
+              <span class="entity-counts">1 property / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-directionstringparameter-relationship-direction-direction">
+                      <td>Direction</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-direction" data-local-anchor="subject-source-workspace-model-meta-weave-entity-direction">Direction</a></td>
+                      <td></td>
+                      <td>DirectionId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -12021,7 +12487,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">FunctionCall</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 3 references</span>
+              <span class="entity-counts">0 properties / 1 relationship / 4 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -12048,6 +12514,13 @@ meta-mesh run --operation regenerate-public-docs
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink">FunctionCallFunctionNameLink</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink-relationship-functioncall-functioncall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncallfunctionnamelink-relationship-functioncall-functioncall">FunctionCall</a></td>
+                      <td></td>
+                      <td>FunctionCallId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink">FunctionCallOverClauseLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-functioncall-functioncall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-functioncall-functioncall">FunctionCall</a></td>
                       <td></td>
                       <td>FunctionCallId</td>
                       <td>True</td>
@@ -12099,6 +12572,41 @@ meta-mesh run --operation regenerate-public-docs
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-identifier" data-local-anchor="subject-source-workspace-model-meta-weave-entity-identifier">Identifier</a></td>
                       <td></td>
                       <td>IdentifierId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">FunctionCallOverClauseLink</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-functioncall-functioncall">
+                      <td>FunctionCall</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncall">FunctionCall</a></td>
+                      <td></td>
+                      <td>FunctionCallId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-overclause-overclause">
+                      <td>OverClause</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -13675,7 +14183,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">OrderByClause</span>
               </span>
-              <span class="entity-counts">0 properties / 0 relationships / 2 references</span>
+              <span class="entity-counts">0 properties / 0 relationships / 3 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -13694,6 +14202,13 @@ meta-mesh run --operation regenerate-public-docs
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-orderbyclauseorderbyelementsitem" data-local-anchor="subject-source-workspace-model-meta-weave-entity-orderbyclauseorderbyelementsitem">OrderByClauseOrderByElementsItem</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-orderbyclauseorderbyelementsitem-relationship-orderbyclause-orderbyclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-orderbyclauseorderbyelementsitem-relationship-orderbyclause-orderbyclause">OrderByClause</a></td>
+                      <td></td>
+                      <td>OrderByClauseId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink">OverClauseOrderByClauseLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-orderbyclause-orderbyclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-orderbyclause-orderbyclause">OrderByClause</a></td>
                       <td></td>
                       <td>OrderByClauseId</td>
                       <td>True</td>
@@ -13745,6 +14260,217 @@ meta-mesh run --operation regenerate-public-docs
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-orderbyclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-orderbyclause">OrderByClause</a></td>
                       <td></td>
                       <td>OrderByClauseId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-overclause">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">OverClause</span>
+              </span>
+              <span class="entity-counts">0 properties / 0 relationships / 3 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink">FunctionCallOverClauseLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-overclause-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-functioncalloverclauselink-relationship-overclause-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink">OverClauseOrderByClauseLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-overclause-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-overclause-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem">OverClausePartitionsItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-overclause-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-overclause-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">OverClauseOrderByClauseLink</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-orderbyclause-orderbyclause">
+                      <td>OrderByClause</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-orderbyclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-orderbyclause">OrderByClause</a></td>
+                      <td></td>
+                      <td>OrderByClauseId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-overclauseorderbyclauselink-relationship-overclause-overclause">
+                      <td>OverClause</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">OverClausePartitionsItem</span>
+              </span>
+              <span class="entity-counts">1 property / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Ordinal</td>
+                      <td>False</td>
+                      <td>True</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-overclause-overclause">
+                      <td>OverClause</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclause" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclause">OverClause</a></td>
+                      <td></td>
+                      <td>OverClauseId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-scalarexpression-scalarexpression">
+                      <td>ScalarExpression</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-scalarexpression">ScalarExpression</a></td>
+                      <td></td>
+                      <td>ScalarExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">ParameterizedDataTypeReference</span>
+              </span>
+              <span class="entity-counts">0 properties / 1 relationship / 1 reference</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference-relationship-datatypereference-datatypereference">
+                      <td>DataTypeReference</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-sqldatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-sqldatatypereference">SqlDataTypeReference</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-sqldatatypereference-relationship-parameterizeddatatypereference-parameterizeddatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-sqldatatypereference-relationship-parameterizeddatatypereference-parameterizeddatatypereference">ParameterizedDataTypeReference</a></td>
+                      <td></td>
+                      <td>ParameterizedDataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">ParameterReferenceExpression</span>
+              </span>
+              <span class="entity-counts">1 property / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression-relationship-valueexpression-valueexpression">
+                      <td>ValueExpression</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-valueexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-valueexpression">ValueExpression</a></td>
+                      <td></td>
+                      <td>ValueExpressionId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -13837,7 +14563,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">PrimaryExpression</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 9 references</span>
+              <span class="entity-counts">0 properties / 1 relationship / 10 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -13913,6 +14639,13 @@ meta-mesh run --operation regenerate-public-docs
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-scalarsubquery" data-local-anchor="subject-source-workspace-model-meta-weave-entity-scalarsubquery">ScalarSubquery</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-scalarsubquery-relationship-primaryexpression-primaryexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-scalarsubquery-relationship-primaryexpression-primaryexpression">PrimaryExpression</a></td>
+                      <td></td>
+                      <td>PrimaryExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcall">TryConvertCall</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcall-relationship-primaryexpression-primaryexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcall-relationship-primaryexpression-primaryexpression">PrimaryExpression</a></td>
                       <td></td>
                       <td>PrimaryExpressionId</td>
                       <td>True</td>
@@ -14591,7 +15324,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">ScalarExpression</span>
               </span>
-              <span class="entity-counts">0 properties / 0 relationships / 22 references</span>
+              <span class="entity-counts">0 properties / 0 relationships / 24 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -14720,6 +15453,13 @@ meta-mesh run --operation regenerate-public-docs
                       <td>True</td>
                     </tr>
                     <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem">OverClausePartitionsItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-scalarexpression-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-overclausepartitionsitem-relationship-scalarexpression-scalarexpression">ScalarExpression</a></td>
+                      <td></td>
+                      <td>ScalarExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parenthesisexpressionexpressionlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parenthesisexpressionexpressionlink">ParenthesisExpressionExpressionLink</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parenthesisexpressionexpressionlink-relationship-scalarexpression-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parenthesisexpressionexpressionlink-relationship-scalarexpression-scalarexpression">ScalarExpression</a></td>
                       <td></td>
@@ -14743,6 +15483,13 @@ meta-mesh run --operation regenerate-public-docs
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-selectscalarexpressionexpressionlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-selectscalarexpressionexpressionlink">SelectScalarExpressionExpressionLink</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-selectscalarexpressionexpressionlink-relationship-scalarexpression-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-selectscalarexpressionexpressionlink-relationship-scalarexpression-scalarexpression">ScalarExpression</a></td>
+                      <td></td>
+                      <td>ScalarExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink">TryConvertCallParameterLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-scalarexpression-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-scalarexpression-scalarexpression">ScalarExpression</a></td>
                       <td></td>
                       <td>ScalarExpressionId</td>
                       <td>True</td>
@@ -14851,7 +15598,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">SchemaObjectName</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 2 references</span>
+              <span class="entity-counts">0 properties / 1 relationship / 3 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -14875,6 +15622,13 @@ meta-mesh run --operation regenerate-public-docs
                 <table>
                   <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink">DataTypeReferenceNameLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-schemaobjectname-schemaobjectname" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereferencenamelink-relationship-schemaobjectname-schemaobjectname">SchemaObjectName</a></td>
+                      <td></td>
+                      <td>SchemaObjectNameId</td>
+                      <td>True</td>
+                    </tr>
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-namedtablereferenceschemaobjectlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-namedtablereferenceschemaobjectlink">NamedTableReferenceSchemaObjectLink</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-namedtablereferenceschemaobjectlink-relationship-schemaobjectname-schemaobjectname" data-local-anchor="subject-source-workspace-model-meta-weave-entity-namedtablereferenceschemaobjectlink-relationship-schemaobjectname-schemaobjectname">SchemaObjectName</a></td>
@@ -15268,7 +16022,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">SelectStatement</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 3 references</span>
+              <span class="entity-counts">0 properties / 1 relationship / 4 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -15292,6 +16046,13 @@ meta-mesh run --operation regenerate-public-docs
                 <table>
                   <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrelation" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrelation">DirectionRelation</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-selectstatement-selectstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrelation-relationship-selectstatement-selectstatement">SelectStatement</a></td>
+                      <td></td>
+                      <td>SelectStatementId</td>
+                      <td>True</td>
+                    </tr>
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrequirement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrequirement">DirectionRequirement</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-directionrequirement-relationship-selectstatement-selectstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-directionrequirement-relationship-selectstatement-selectstatement">SelectStatement</a></td>
@@ -15346,6 +16107,48 @@ meta-mesh run --operation regenerate-public-docs
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-selectstatement" data-local-anchor="subject-source-workspace-model-meta-weave-entity-selectstatement">SelectStatement</a></td>
                       <td></td>
                       <td>SelectStatementId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-sqldatatypereference">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">SqlDataTypeReference</span>
+              </span>
+              <span class="entity-counts">1 property / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>SqlDataTypeOption</td>
+                      <td>False</td>
+                      <td>True</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-sqldatatypereference-relationship-parameterizeddatatypereference-parameterizeddatatypereference">
+                      <td>ParameterizedDataTypeReference</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterizeddatatypereference">ParameterizedDataTypeReference</a></td>
+                      <td></td>
+                      <td>ParameterizedDataTypeReferenceId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -15777,6 +16580,126 @@ meta-mesh run --operation regenerate-public-docs
               </div>
             </div>
           </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-tryconvertcall">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TryConvertCall</span>
+              </span>
+              <span class="entity-counts">0 properties / 1 relationship / 2 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-tryconvertcall-relationship-primaryexpression-primaryexpression">
+                      <td>PrimaryExpression</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-primaryexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-primaryexpression">PrimaryExpression</a></td>
+                      <td></td>
+                      <td>PrimaryExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink">TryConvertCallDataTypeLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-tryconvertcall-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-tryconvertcall-tryconvertcall">TryConvertCall</a></td>
+                      <td></td>
+                      <td>TryConvertCallId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink">TryConvertCallParameterLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-tryconvertcall-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-tryconvertcall-tryconvertcall">TryConvertCall</a></td>
+                      <td></td>
+                      <td>TryConvertCallId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TryConvertCallDataTypeLink</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-datatypereference-datatypereference">
+                      <td>DataTypeReference</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-datatypereference" data-local-anchor="subject-source-workspace-model-meta-weave-entity-datatypereference">DataTypeReference</a></td>
+                      <td></td>
+                      <td>DataTypeReferenceId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-tryconvertcalldatatypelink-relationship-tryconvertcall-tryconvertcall">
+                      <td>TryConvertCall</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcall">TryConvertCall</a></td>
+                      <td></td>
+                      <td>TryConvertCallId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TryConvertCallParameterLink</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-scalarexpression-scalarexpression">
+                      <td>ScalarExpression</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-scalarexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-scalarexpression">ScalarExpression</a></td>
+                      <td></td>
+                      <td>ScalarExpressionId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-weave-entity-tryconvertcallparameterlink-relationship-tryconvertcall-tryconvertcall">
+                      <td>TryConvertCall</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-tryconvertcall" data-local-anchor="subject-source-workspace-model-meta-weave-entity-tryconvertcall">TryConvertCall</a></td>
+                      <td></td>
+                      <td>TryConvertCallId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card model-entity-card" id="subject-source-workspace-model-meta-weave-entity-tsqlstatement">
             <summary class="entity-summary">
               <span class="entity-toggle" aria-hidden="true"></span>
@@ -15853,7 +16776,7 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">ValueExpression</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 1 reference</span>
+              <span class="entity-counts">0 properties / 1 relationship / 2 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -15884,6 +16807,13 @@ meta-mesh run --operation regenerate-public-docs
                       <td>ValueExpressionId</td>
                       <td>True</td>
                     </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression">ParameterReferenceExpression</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression-relationship-valueexpression-valueexpression" data-local-anchor="subject-source-workspace-model-meta-weave-entity-parameterreferenceexpression-relationship-valueexpression-valueexpression">ValueExpression</a></td>
+                      <td></td>
+                      <td>ValueExpressionId</td>
+                      <td>True</td>
+                    </tr>
                   </tbody>
                 </table>
               </section>
@@ -15896,30 +16826,10 @@ meta-mesh run --operation regenerate-public-docs
               <span class="entity-main">
                 <span class="entity-name">Weave</span>
               </span>
-              <span class="entity-counts">2 properties / 0 relationships / 1 reference</span>
+              <span class="entity-counts">0 properties / 0 relationships / 1 reference</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Properties</h4>
-                <table>
-                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td>LeftModelName</td>
-                      <td>True</td>
-                      <td>False</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>RightModelName</td>
-                      <td>True</td>
-                      <td>False</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
               <section class="subsection">
                 <h4 class="subsection-title">Referenced by</h4>
                 <table>
@@ -16282,7 +17192,7 @@ checked in alongside that construction record.</p>
 </tr>
 <tr>
 <td>Turn evidence into quality checks</td>
-<td>176 promoted checks covering orphan joins, multiplicity expansion, duplicate risk, and outer-join null expansion</td>
+<td>167 promoted checks covering orphan joins, multiplicity expansion, duplicate risk, and outer-join null expansion</td>
 <td><code>meta-data-quality</code> derives reviewable <code>MetaDataQuality</code> candidates and <code>meta-convert</code> emits executable quality SQL.</td>
 </tr>
 <tr>
@@ -16355,7 +17265,7 @@ meta-mesh run --operation create-tabular
 meta-mesh run --operation verify-stack
 </code></pre>
 <p>For an inspected layer-by-layer run, use <code>load-raw-vault</code>, <code>load-business-vault</code>, and <code>load-dimensional-warehouse</code> instead of <code>run-etl</code>.</p>
-<p>The verification operation checks Raw and Business Vault counts, warehouse fact grains, source-to-warehouse measures, deployed Data Quality results, and the latest task-level pipeline evidence. The expected static AdventureWorks result is 31,465 orders, 121,317 lines, 163 quota rows, and 176 promoted Data Quality checks with no findings.</p>
+<p>The verification operation checks Raw and Business Vault counts, warehouse fact grains, source-to-warehouse measures, deployed Data Quality results, and the latest task-level pipeline evidence. The expected static AdventureWorks result is 31,465 orders, 121,317 lines, 163 quota rows, and 167 promoted Data Quality checks with no findings.</p>
 <h2 id="tabular-runtime">Tabular runtime</h2>
 <p>The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local <code>.\TABULAR</code> instance and deploy the model as <code>AdventureWorksSales</code>:</p>
 <pre><code class="language-powershell">meta-mesh run --operation deploy-tabular
@@ -31130,9 +32040,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a href="#model-metadataquality" data-panel-link="model-metadataquality">MetaDataQuality</a></td>
-                    <td>29</td>
-                    <td>85</td>
-                    <td>46</td>
+                    <td>30</td>
+                    <td>90</td>
+                    <td>47</td>
                   </tr>
                   <tr>
                     <td><a href="#model-metadatatype" data-panel-link="model-metadatatype">MetaDataType</a></td>
@@ -35086,9 +35996,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <p class="panel-lead">Models data quality evidence, candidates, promotions, review views, and operational SQL for checking modeled data pipelines.</p>
           </header>
           <div class="summary-row">
-            <span class="pill">29 entities</span>
-            <span class="pill">85 properties</span>
-            <span class="pill">46 relationships</span>
+            <span class="pill">30 entities</span>
+            <span class="pill">90 properties</span>
+            <span class="pill">47 relationships</span>
           </div>
           <div class="card">
             <div class="card-header">
@@ -35191,7 +36101,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypart" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypart">JoinPatternKeyPart</a></td>
-                    <td>8</td>
+                    <td>10</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart">JoinPatternKeyPartInputObjectIdentifierPart</a></td>
+                    <td>3</td>
                     <td>1</td>
                   </tr>
                   <tr>
@@ -36457,7 +37372,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">JoinPatternKeyPart</span>
               </span>
-              <span class="entity-counts">8 properties / 1 relationship / 0 references</span>
+              <span class="entity-counts">10 properties / 1 relationship / 1 reference</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -36491,6 +37406,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td></td>
                     </tr>
                     <tr>
+                      <td>FirstJoinInputObjectName</td>
+                      <td>False</td>
+                      <td>True</td>
+                      <td></td>
+                    </tr>
+                    <tr>
                       <td>Ordinal</td>
                       <td>True</td>
                       <td>False</td>
@@ -36514,6 +37435,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td>True</td>
                       <td></td>
                     </tr>
+                    <tr>
+                      <td>SecondJoinInputObjectName</td>
+                      <td>False</td>
+                      <td>True</td>
+                      <td></td>
+                    </tr>
                   </tbody>
                 </table>
               </section>
@@ -36527,6 +37454,75 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpattern" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpattern">JoinPattern</a></td>
                       <td></td>
                       <td>JoinPatternId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart">JoinPatternKeyPartInputObjectIdentifierPart</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart-relationship-joinpatternkeypart-joinpatternkeypart" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart-relationship-joinpatternkeypart-joinpatternkeypart">JoinPatternKeyPart</a></td>
+                      <td></td>
+                      <td>JoinPatternKeyPartId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">JoinPatternKeyPartInputObjectIdentifierPart</span>
+              </span>
+              <span class="entity-counts">3 properties / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>InputSide</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Ordinal</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Value</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypartinputobjectidentifierpart-relationship-joinpatternkeypart-joinpatternkeypart">
+                      <td>JoinPatternKeyPart</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypart" data-local-anchor="subject-source-workspace-model-meta-data-quality-entity-joinpatternkeypart">JoinPatternKeyPart</a></td>
+                      <td></td>
+                      <td>JoinPatternKeyPartId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
