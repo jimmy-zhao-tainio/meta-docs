@@ -120,6 +120,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#cli-meta-sql" data-panel-link="cli-meta-sql">meta-sql</a></li>
           <li><a class="nav-link" href="#cli-meta-tabular" data-panel-link="cli-meta-tabular">meta-tabular</a></li>
           <li><a class="nav-link" href="#cli-meta-transform-binding" data-panel-link="cli-meta-transform-binding">meta-transform-binding</a></li>
+          <li><a class="nav-link" href="#cli-meta-transform-pattern" data-panel-link="cli-meta-transform-pattern">meta-transform-pattern</a></li>
           <li><a class="nav-link" href="#cli-meta-transform-script" data-panel-link="cli-meta-transform-script">meta-transform-script</a></li>
         </ul>
         <a class="nav-surface" href="#group-public-meta-bi-models" data-panel-link="group-public-meta-bi-models">Models</a>
@@ -141,6 +142,8 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#model-metasqldeploymanifest" data-panel-link="model-metasqldeploymanifest">MetaSqlDeployManifest</a></li>
           <li><a class="nav-link" href="#model-metatabular" data-panel-link="model-metatabular">MetaTabular</a></li>
           <li><a class="nav-link" href="#model-metatransformbinding" data-panel-link="model-metatransformbinding">MetaTransformBinding</a></li>
+          <li><a class="nav-link" href="#model-metatransformpattern" data-panel-link="model-metatransformpattern">MetaTransformPattern</a></li>
+          <li><a class="nav-link" href="#model-metatransformpatterninstance" data-panel-link="model-metatransformpatterninstance">MetaTransformPatternInstance</a></li>
           <li><a class="nav-link" href="#model-metatransformscript" data-panel-link="model-metatransformscript">MetaTransformScript</a></li>
         </ul>
       </aside>
@@ -185,12 +188,12 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <a class="entry-card" href="#group-public-meta-bi-cli" data-panel-link="group-public-meta-bi-cli">
               <div class="label">Meta-BI</div>
               <h2>CLI</h2>
-              <p>16 references</p>
+              <p>17 references</p>
             </a>
             <a class="entry-card" href="#group-public-meta-bi-models" data-panel-link="group-public-meta-bi-models">
               <div class="label">Meta-BI</div>
               <h2>Models</h2>
-              <p>18 references</p>
+              <p>20 references</p>
             </a>
           </section>
         </section>
@@ -17081,7 +17084,7 @@ meta-mesh run --operation regenerate-public-docs
           <header class="panel-header">
             <h2>meta-bi</h2>
             <div class="panel-lead markdown-content">
-<p><code>meta-bi</code> brings BI engineering into the workspace system provided by <code>meta</code>. A project can move from a discovered source schema to Data Vault and dimensional models, bind SQL transforms to those structures, turn transform patterns into data-quality checks, execute loads, derive orchestration, and publish analytical models.</p>
+<p><code>meta-bi</code> brings BI engineering into the workspace system provided by <code>meta</code>. A project can move from a discovered source schema to Data Vault and dimensional models, bind SQL transforms to those structures, analyze them for data-quality checks, execute loads, derive orchestration, and publish analytical models.</p>
 <p>Each stage leaves a model workspace behind. Those workspaces carry the structures and decisions used by the next stage, while the command-line tools create and operate them.</p>
             </div>
           </header>
@@ -17098,6 +17101,7 @@ meta-mesh run --operation regenerate-public-docs
 <p>Dimensional design begins with grain. <code>MetaDataWarehouse</code> carries facts, dimensions, attributes, measures, dimensional roles, table types, historization, and the relationships that connect them. <code>MetaDataWarehouseImplementation</code> applies schemas and naming, surrogate keys, slowly-changing-dimension columns, SQL types, defaults, and indexes when that design is converted into database tables.</p>
 <h4 id="transforms">Transforms</h4>
 <p><code>MetaTransformScript</code> is a semantic model of supported T-SQL. It carries statements, queries, CTEs, row sources, expressions, functions, identifiers, ordering, and mutations as related model entities. SQL can be imported into that model, inspected and changed as workspace data, and emitted again as T-SQL.</p>
+<p><code>MetaTransformPattern</code> models reusable SQL transform shapes as ordered text and named placeholders. Its workspace contains definitions only, so a pattern library can be shared and versioned on its own. <code>MetaTransformPatternInstance</code> keeps concrete uses in a separate workspace: each instance identifies a pattern and supplies one SQL fragment for each placeholder. The <code>TransformPatternToSqlScript</code> weave takes both workspaces and produces one <code>MetaSqlScript</code> record per instance; the existing SQL importer then parses those statements into <code>MetaTransformScript</code>.</p>
 <p>Binding places those transforms against source and target <code>MetaSchema</code> workspaces. <code>MetaTransformBinding</code> resolves object and field references, derives input and output rowsets, records reads and writes, matches projected columns to target columns, and applies the selected <code>MetaDataTypeConversion</code> rules. The resulting binding workspace feeds data-quality discovery, pipeline execution, and orchestration analysis.</p>
 <h4 id="sql-databases">SQL databases</h4>
 <p><code>MetaSql</code> carries the SQL Server database structure produced by the design and transform models, and it can also be extracted from SQL Server. <code>meta-sql deploy-plan</code> compares a MetaSql workspace with a live database and writes a <code>MetaSqlDeployManifest</code> containing fingerprints, changes, and exact approvals for table drops, column drops, and column truncations. <code>meta-sql deploy</code> checks the source and live fingerprints and applies the recorded changes.</p>
@@ -17416,6 +17420,10 @@ meta-mesh run --operation process-tabular
                   <tr>
                     <td class="cmd"><a href="#cli-meta-transform-binding" data-panel-link="cli-meta-transform-binding">meta-transform-binding</a></td>
                     <td>Bind transform scripts to source and target schemas so references, data types, and writable contracts are verified before generation.</td>
+                  </tr>
+                  <tr>
+                    <td class="cmd"><a href="#cli-meta-transform-pattern" data-panel-link="cli-meta-transform-pattern">meta-transform-pattern</a></td>
+                    <td>Author reusable SQL transform patterns and their concrete instance workspaces.</td>
                   </tr>
                   <tr>
                     <td class="cmd"><a href="#cli-meta-transform-script" data-panel-link="cli-meta-transform-script">meta-transform-script</a></td>
@@ -19767,6 +19775,68 @@ meta-mesh run --operation process-tabular
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-convert-app-command-transform-pattern-to-sql-script">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-convert transform-pattern-to-sql-script</span>
+                <span class="command-summary-text">Materialize MetaTransformPattern definitions and MetaTransformPatternInstance values as a MetaSqlScript workspace.</span>
+              </span>
+              <span class="command-counts">6 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-convert transform-pattern-to-sql-script --instance-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] --pattern-workspace &lt;path&gt;</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--instance-workspace &lt;path&gt;</td>
+                      <td>Source MetaTransformPatternInstance workspace containing concrete instances.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the output SQL workspace connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-csharp &lt;location&gt;</td>
+                      <td>Create the output as a C# workspace at this path.</td>
+                      <td>&lt;location&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-sql &lt;location&gt;</td>
+                      <td>Create the output as a SQL workspace at this path.</td>
+                      <td>&lt;location&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-xml &lt;location&gt;</td>
+                      <td>Create the output as an XML workspace at this path.</td>
+                      <td>&lt;location&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
+                      <td>Source MetaTransformPattern workspace containing reusable definitions.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-convert-app-command-transform-script-to-sql">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -19833,7 +19903,7 @@ meta-mesh run --operation process-tabular
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>10 commands</p>
+                <p>11 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-analytics-to-multi-dimensional" aria-label="Open meta-convert analytics-to-multi-dimensional"><code>analytics-to-multi-dimensional</code></a>
@@ -19845,6 +19915,7 @@ meta-mesh run --operation process-tabular
                 <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-raw-datavault-to-sql" aria-label="Open meta-convert raw-datavault-to-sql"><code>raw-datavault-to-sql</code></a>
                 <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-schema-to-raw-datavault" aria-label="Open meta-convert schema-to-raw-datavault"><code>schema-to-raw-datavault</code></a>
                 <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-sql-to-transform-script" aria-label="Open meta-convert sql-to-transform-script"><code>sql-to-transform-script</code></a>
+                <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-transform-pattern-to-sql-script" aria-label="Open meta-convert transform-pattern-to-sql-script"><code>transform-pattern-to-sql-script</code></a>
                 <a class="application-command-link" href="#cli-meta-convert" data-local-anchor="subject-source-cli-meta-convert-app-command-transform-script-to-sql" aria-label="Open meta-convert transform-script-to-sql"><code>transform-script-to-sql</code></a>
               </nav>
             </aside>
@@ -31473,6 +31544,528 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
             </aside>
           </div>
         </section>
+        <section class="panel" id="cli-meta-transform-pattern" data-panel="cli-meta-transform-pattern">
+          <header class="panel-header">
+            <div class="breadcrumb">Meta-BI / CLI</div>
+            <h2>meta-transform-pattern</h2>
+            <p class="panel-lead">Author reusable SQL transform patterns and their concrete instance workspaces.</p>
+          </header>
+          <div class="application-layout">
+            <div class="application-main">
+              <section class="subsection description-block">
+                <h3 class="document-heading">Working with transform patterns</h3>
+                <div class="markdown-content">
+<p><code>MetaTransformPattern</code> and <code>MetaTransformPatternInstance</code> deliberately use separate workspaces. The pattern workspace is a reusable library of ordered SQL text and placeholders. The instance workspace identifies those patterns and supplies the concrete values used by one project.</p>
+<p><code>meta-transform-pattern</code> authors both workspace types. Definition commands use the pattern workspace; instance commands use the instance workspace together with <code>--pattern-workspace</code> so placeholder identities are resolved against the reusable definition. The sanctioned weave takes both workspaces and produces <code>MetaSqlScript</code>. SQL parsing remains in the existing MetaTransformScript importer.</p>
+                </div>
+              </section>
+              <section class="subsection description-block">
+                <h3 class="document-heading">Render pattern instances</h3>
+                <div class="markdown-content">
+<p>Create a reusable pattern library and a separate workspace for concrete instances:</p>
+<pre><code class="language-text">meta-transform-pattern create --xml .\Patterns
+meta-transform-pattern add-pattern --workspace .\Patterns --id insert-select --name &quot;Insert select&quot; &lt; insert-select.pattern.sql
+meta-transform-pattern create-instance-workspace --xml .\PatternInstances
+meta-transform-pattern add-instance --workspace .\PatternInstances --pattern-workspace .\Patterns --id load-customer --name LoadCustomer --pattern insert-select
+</code></pre>
+<p>Supply each placeholder through standard input, then materialize the instances:</p>
+<pre><code class="language-text">echo [dbo].[Customer] | meta-transform-pattern set-binding --workspace .\PatternInstances --pattern-workspace .\Patterns --instance load-customer --placeholder target
+meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --instance-workspace .\PatternInstances --output-xml .\SqlScripts
+</code></pre>
+                </div>
+              </section>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-add-instance">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern add-instance</span>
+                <span class="command-summary-text">Add one concrete instance of a reusable transform pattern.</span>
+              </span>
+              <span class="command-counts">5 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern add-instance --id &lt;value&gt; --name &lt;value&gt; --pattern &lt;value&gt; --pattern-workspace &lt;path&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--id &lt;value&gt;</td>
+                      <td>Stable instance identity and output script identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Instance and output script name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pattern &lt;value&gt;</td>
+                      <td>Stable identity of the reusable pattern.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace containing the reusable pattern.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPatternInstance workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-add-pattern">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern add-pattern</span>
+                <span class="command-summary-text">Read a pattern projection from standard input and add it.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern add-pattern [--description &lt;value&gt;] --id &lt;value&gt; --name &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--description &lt;value&gt;</td>
+                      <td>Pattern description.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--id &lt;value&gt;</td>
+                      <td>Stable pattern identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Pattern display name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-clear-binding">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern clear-binding</span>
+                <span class="command-summary-text">Set one instance placeholder to empty SQL text.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern clear-binding --instance &lt;value&gt; --pattern-workspace &lt;path&gt; --placeholder &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--instance &lt;value&gt;</td>
+                      <td>Transform-pattern instance identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace used to resolve the placeholder.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--placeholder &lt;value&gt;</td>
+                      <td>Placeholder name or stable identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPatternInstance workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-create">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern create</span>
+                <span class="command-summary-text">Create an empty MetaTransformPattern workspace.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the SQL workspace connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--csharp &lt;path&gt;</td>
+                      <td>Create a C# workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--sql &lt;path&gt;</td>
+                      <td>Create a SQL workspace described by this directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--xml &lt;path&gt;</td>
+                      <td>Create an XML workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-create-instance-workspace">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern create-instance-workspace</span>
+                <span class="command-summary-text">Create an empty MetaTransformPatternInstance workspace.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern create-instance-workspace [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--sql &lt;path&gt;] [--xml &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the SQL workspace connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--csharp &lt;path&gt;</td>
+                      <td>Create a C# MetaTransformPatternInstance workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--sql &lt;path&gt;</td>
+                      <td>Create a SQL MetaTransformPatternInstance workspace described by this directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--xml &lt;path&gt;</td>
+                      <td>Create an XML MetaTransformPatternInstance workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-emit-pattern">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern emit-pattern</span>
+                <span class="command-summary-text">Write one pattern as its editable text projection.</span>
+              </span>
+              <span class="command-counts">2 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern emit-pattern --id &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--id &lt;value&gt;</td>
+                      <td>Pattern identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-help">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern help</span>
+                <span class="command-summary-text">Show help.</span>
+              </span>
+              <span class="command-counts">0 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern help</code></pre>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-set-binding">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern set-binding</span>
+                <span class="command-summary-text">Replace one instance placeholder with a SQL fragment read from standard input.</span>
+              </span>
+              <span class="command-counts">4 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern set-binding --instance &lt;value&gt; --pattern-workspace &lt;path&gt; --placeholder &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--instance &lt;value&gt;</td>
+                      <td>Transform-pattern instance identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace used to resolve the placeholder.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--placeholder &lt;value&gt;</td>
+                      <td>Placeholder name or stable identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPatternInstance workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-show">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern show</span>
+                <span class="command-summary-text">Show reusable transform-pattern definitions.</span>
+              </span>
+              <span class="command-counts">1 option</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern show [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-show-instances">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern show-instances</span>
+                <span class="command-summary-text">Show concrete pattern instances and placeholder coverage.</span>
+              </span>
+              <span class="command-counts">2 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern show-instances --pattern-workspace &lt;path&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace containing the reusable definitions.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPatternInstance workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-update-pattern">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-pattern update-pattern</span>
+                <span class="command-summary-text">Read a replacement pattern projection from standard input.</span>
+              </span>
+              <span class="command-counts">2 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-pattern update-pattern --id &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--id &lt;value&gt;</td>
+                      <td>Pattern identity.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>MetaTransformPattern workspace. Defaults to the current directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+            </div>
+            <aside class="application-command-rail" aria-label="Command navigation">
+              <div class="application-command-rail-header">
+                <h3>Commands</h3>
+                <p>11 commands</p>
+              </div>
+              <nav class="application-command-list">
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-add-instance" aria-label="Open meta-transform-pattern add-instance"><code>add-instance</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-add-pattern" aria-label="Open meta-transform-pattern add-pattern"><code>add-pattern</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-clear-binding" aria-label="Open meta-transform-pattern clear-binding"><code>clear-binding</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-create" aria-label="Open meta-transform-pattern create"><code>create</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-create-instance-workspace" aria-label="Open meta-transform-pattern create-instance-workspace"><code>create-instance-workspace</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-emit-pattern" aria-label="Open meta-transform-pattern emit-pattern"><code>emit-pattern</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-help" aria-label="Open meta-transform-pattern help"><code>help</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-set-binding" aria-label="Open meta-transform-pattern set-binding"><code>set-binding</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-show" aria-label="Open meta-transform-pattern show"><code>show</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-show-instances" aria-label="Open meta-transform-pattern show-instances"><code>show-instances</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-update-pattern" aria-label="Open meta-transform-pattern update-pattern"><code>update-pattern</code></a>
+              </nav>
+            </aside>
+          </div>
+        </section>
         <section class="panel" id="cli-meta-transform-script" data-panel="cli-meta-transform-script">
           <header class="panel-header">
             <div class="breadcrumb">Meta-BI / CLI</div>
@@ -31705,6 +32298,68 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <tr>
                       <td class="opt">--workspace &lt;path&gt;</td>
                       <td>Add successful imports to an existing workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-script-app-command-from-sql-script-workspace">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-script from sql-script-workspace</span>
+                <span class="command-summary-text">Import every script from a MetaSqlScript workspace.</span>
+              </span>
+              <span class="command-counts">6 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-script from sql-script-workspace [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --source-workspace &lt;path&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--output-connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the output SQL workspace connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-csharp &lt;path&gt;</td>
+                      <td>Create the output as a C# workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-sql &lt;path&gt;</td>
+                      <td>Create the output as a SQL workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-xml &lt;path&gt;</td>
+                      <td>Create the output as an XML workspace at this path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--source-workspace &lt;path&gt;</td>
+                      <td>Source MetaSqlScript workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td>Existing MetaTransformScript workspace to update.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -32018,12 +32673,13 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>10 commands</p>
+                <p>11 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-code" aria-label="Open meta-transform-script from sql-code"><code>from sql-code</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-file" aria-label="Open meta-transform-script from sql-file"><code>from sql-file</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-files" aria-label="Open meta-transform-script from sql-files"><code>from sql-files</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-script-workspace" aria-label="Open meta-transform-script from sql-script-workspace"><code>from sql-script-workspace</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-help" aria-label="Open meta-transform-script help"><code>help</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-stored-procedure-add-contract" aria-label="Open meta-transform-script stored-procedure add-contract"><code>stored-procedure add-contract</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-stored-procedure-remove-contract" aria-label="Open meta-transform-script stored-procedure remove-contract"><code>stored-procedure remove-contract</code></a>
@@ -32151,6 +32807,18 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <td>28</td>
                     <td>33</td>
                     <td>39</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#model-metatransformpattern" data-panel-link="model-metatransformpattern">MetaTransformPattern</a></td>
+                    <td>5</td>
+                    <td>4</td>
+                    <td>6</td>
+                  </tr>
+                  <tr>
+                    <td><a href="#model-metatransformpatterninstance" data-panel-link="model-metatransformpatterninstance">MetaTransformPatternInstance</a></td>
+                    <td>2</td>
+                    <td>4</td>
+                    <td>1</td>
                   </tr>
                   <tr>
                     <td><a href="#model-metatransformscript" data-panel-link="model-metatransformscript">MetaTransformScript</a></td>
@@ -57676,6 +58344,446 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
           <details class="inline-details">
             <summary>Technical metadata</summary>
             <p class="note">Source: MetaTransformBinding. Status: Changed.</p>
+          </details>
+        </section>
+        <section class="panel" id="model-metatransformpattern" data-panel="model-metatransformpattern">
+          <header class="panel-header">
+            <div class="breadcrumb">Meta-BI / Models</div>
+            <h2>MetaTransformPattern</h2>
+          </header>
+          <div class="summary-row">
+            <span class="pill">5 entities</span>
+            <span class="pill">4 properties</span>
+            <span class="pill">6 relationships</span>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Entity index</h3>
+              <p>Entities defined by the MetaTransformPattern model.</p>
+            </div>
+            <div class="card-body">
+              <table>
+                <thead><tr><th>Entity</th><th>Properties</th><th>Relationships</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpattern" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpattern">TransformPattern</a></td>
+                    <td>2</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder">TransformPatternPlaceholder</a></td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem">TransformPatternPlaceholderItem</a></td>
+                    <td>0</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext">TransformPatternText</a></td>
+                    <td>1</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-entity-transformpattern">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPattern</span>
+              </span>
+              <span class="entity-counts">2 properties / 0 relationships / 2 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Description</td>
+                      <td>False</td>
+                      <td>True</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-transformpattern-transformpattern" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-transformpattern-transformpattern">TransformPattern</a></td>
+                      <td></td>
+                      <td>TransformPatternId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder">TransformPatternPlaceholder</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder-relationship-transformpattern-transformpattern" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder-relationship-transformpattern-transformpattern">TransformPattern</a></td>
+                      <td></td>
+                      <td>TransformPatternId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternItem</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 3 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-previousitem-transformpatternitem">
+                      <td>PreviousItem</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                      <td>PreviousItem</td>
+                      <td>PreviousItemId</td>
+                      <td>False</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-transformpattern-transformpattern">
+                      <td>TransformPattern</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpattern" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpattern">TransformPattern</a></td>
+                      <td></td>
+                      <td>TransformPatternId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-previousitem-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem-relationship-previousitem-transformpatternitem">PreviousItem</a></td>
+                      <td>PreviousItem</td>
+                      <td>PreviousItemId</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem">TransformPatternPlaceholderItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternitem-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternitem-transformpatternitem">TransformPatternItem</a></td>
+                      <td></td>
+                      <td>TransformPatternItemId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext">TransformPatternText</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext-relationship-transformpatternitem-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext-relationship-transformpatternitem-transformpatternitem">TransformPatternItem</a></td>
+                      <td></td>
+                      <td>TransformPatternItemId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternPlaceholder</span>
+              </span>
+              <span class="entity-counts">1 property / 1 relationship / 1 reference</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder-relationship-transformpattern-transformpattern">
+                      <td>TransformPattern</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpattern" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpattern">TransformPattern</a></td>
+                      <td></td>
+                      <td>TransformPatternId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem">TransformPatternPlaceholderItem</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternplaceholder-transformpatternplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternplaceholder-transformpatternplaceholder">TransformPatternPlaceholder</a></td>
+                      <td></td>
+                      <td>TransformPatternPlaceholderId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternPlaceholderItem</span>
+              </span>
+              <span class="entity-counts">0 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternitem-transformpatternitem">
+                      <td>TransformPatternItem</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                      <td></td>
+                      <td>TransformPatternItemId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholderitem-relationship-transformpatternplaceholder-transformpatternplaceholder">
+                      <td>TransformPatternPlaceholder</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternplaceholder">TransformPatternPlaceholder</a></td>
+                      <td></td>
+                      <td>TransformPatternPlaceholderId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternText</span>
+              </span>
+              <span class="entity-counts">1 property / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>SqlText</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-entity-transformpatterntext-relationship-transformpatternitem-transformpatternitem">
+                      <td>TransformPatternItem</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-entity-transformpatternitem">TransformPatternItem</a></td>
+                      <td></td>
+                      <td>TransformPatternItemId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="inline-details">
+            <summary>Technical metadata</summary>
+            <p class="note">Source: MetaTransformPattern. Status: New.</p>
+          </details>
+        </section>
+        <section class="panel" id="model-metatransformpatterninstance" data-panel="model-metatransformpatterninstance">
+          <header class="panel-header">
+            <div class="breadcrumb">Meta-BI / Models</div>
+            <h2>MetaTransformPatternInstance</h2>
+          </header>
+          <div class="summary-row">
+            <span class="pill">2 entities</span>
+            <span class="pill">4 properties</span>
+            <span class="pill">1 relationship</span>
+          </div>
+          <div class="card">
+            <div class="card-header">
+              <h3>Entity index</h3>
+              <p>Entities defined by the MetaTransformPatternInstance model.</p>
+            </div>
+            <div class="card-body">
+              <table>
+                <thead><tr><th>Entity</th><th>Properties</th><th>Relationships</th></tr></thead>
+                <tbody>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstance" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstance">TransformPatternInstance</a></td>
+                    <td>2</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder">TransformPatternInstancePlaceholder</a></td>
+                    <td>2</td>
+                    <td>1</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstance">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternInstance</span>
+              </span>
+              <span class="entity-counts">2 properties / 0 relationships / 1 reference</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>TransformPatternId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder">TransformPatternInstancePlaceholder</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder-relationship-transformpatterninstance-transformpatterninstance" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder-relationship-transformpatterninstance-transformpatterninstance">TransformPatternInstance</a></td>
+                      <td></td>
+                      <td>TransformPatternInstanceId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">TransformPatternInstancePlaceholder</span>
+              </span>
+              <span class="entity-counts">2 properties / 1 relationship / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>SqlText</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>TransformPatternPlaceholderId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstanceplaceholder-relationship-transformpatterninstance-transformpatterninstance">
+                      <td>TransformPatternInstance</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstance" data-local-anchor="subject-source-workspace-model-meta-transform-pattern-instance-entity-transformpatterninstance">TransformPatternInstance</a></td>
+                      <td></td>
+                      <td>TransformPatternInstanceId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="inline-details">
+            <summary>Technical metadata</summary>
+            <p class="note">Source: MetaTransformPatternInstance. Status: New.</p>
           </details>
         </section>
         <section class="panel" id="model-metatransformscript" data-panel="model-metatransformscript">
