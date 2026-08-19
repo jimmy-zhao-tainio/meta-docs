@@ -31569,7 +31569,7 @@ meta-transform-pattern create-instance-workspace --xml .\PatternInstances
 meta-transform-pattern add-instance --workspace .\PatternInstances --pattern-workspace .\Patterns --id load-customer --name LoadCustomer --pattern insert-select
 </code></pre>
 <p>Supply each placeholder through standard input, then materialize the instances:</p>
-<pre><code class="language-text">echo [dbo].[Customer] | meta-transform-pattern set-binding --workspace .\PatternInstances --pattern-workspace .\Patterns --instance load-customer --placeholder target
+<pre><code class="language-text">echo [dbo].[Customer] | meta-transform-pattern set-placeholder --workspace .\PatternInstances --pattern-workspace .\Patterns --instance load-customer --placeholder target
 meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --instance-workspace .\PatternInstances --output-xml .\SqlScripts
 </code></pre>
                 </div>
@@ -31671,56 +31671,6 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
                     <tr>
                       <td class="opt">--workspace &lt;path&gt;</td>
                       <td>MetaTransformPattern workspace. Defaults to the current directory.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-clear-binding">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-transform-pattern clear-binding</span>
-                <span class="command-summary-text">Set one instance placeholder to empty SQL text.</span>
-              </span>
-              <span class="command-counts">4 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-transform-pattern clear-binding --instance &lt;value&gt; --pattern-workspace &lt;path&gt; --placeholder &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--instance &lt;value&gt;</td>
-                      <td>Transform-pattern instance identity.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--pattern-workspace &lt;path&gt;</td>
-                      <td>MetaTransformPattern workspace used to resolve the placeholder.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--placeholder &lt;value&gt;</td>
-                      <td>Placeholder name or stable identity.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--workspace &lt;path&gt;</td>
-                      <td>MetaTransformPatternInstance workspace. Defaults to the current directory.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -31886,11 +31836,11 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
               </div>
             </div>
           </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-set-binding">
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-pattern-app-command-set-placeholder">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
               <span class="command-main">
-                <span class="command-name">meta-transform-pattern set-binding</span>
+                <span class="command-name">meta-transform-pattern set-placeholder</span>
                 <span class="command-summary-text">Replace one instance placeholder with a SQL fragment read from standard input.</span>
               </span>
               <span class="command-counts">4 options</span>
@@ -31899,7 +31849,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-transform-pattern set-binding --instance &lt;value&gt; --pattern-workspace &lt;path&gt; --placeholder &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-transform-pattern set-placeholder --instance &lt;value&gt; --pattern-workspace &lt;path&gt; --placeholder &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -32048,17 +31998,16 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>11 commands</p>
+                <p>10 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-add-instance" aria-label="Open meta-transform-pattern add-instance"><code>add-instance</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-add-pattern" aria-label="Open meta-transform-pattern add-pattern"><code>add-pattern</code></a>
-                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-clear-binding" aria-label="Open meta-transform-pattern clear-binding"><code>clear-binding</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-create" aria-label="Open meta-transform-pattern create"><code>create</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-create-instance-workspace" aria-label="Open meta-transform-pattern create-instance-workspace"><code>create-instance-workspace</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-emit-pattern" aria-label="Open meta-transform-pattern emit-pattern"><code>emit-pattern</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-help" aria-label="Open meta-transform-pattern help"><code>help</code></a>
-                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-set-binding" aria-label="Open meta-transform-pattern set-binding"><code>set-binding</code></a>
+                <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-set-placeholder" aria-label="Open meta-transform-pattern set-placeholder"><code>set-placeholder</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-show" aria-label="Open meta-transform-pattern show"><code>show</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-show-instances" aria-label="Open meta-transform-pattern show-instances"><code>show-instances</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-pattern" data-local-anchor="subject-source-cli-meta-transform-pattern-app-command-update-pattern" aria-label="Open meta-transform-pattern update-pattern"><code>update-pattern</code></a>
@@ -58750,8 +58699,8 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tbody>
                     <tr>
                       <td>SqlText</td>
-                      <td>True</td>
                       <td>False</td>
+                      <td>True</td>
                       <td></td>
                     </tr>
                     <tr>
