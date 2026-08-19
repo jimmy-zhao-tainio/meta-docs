@@ -31555,8 +31555,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <section class="subsection description-block">
                 <h3 class="document-heading">Working with transform patterns</h3>
                 <div class="markdown-content">
-<p><code>MetaTransformPattern</code> and <code>MetaTransformPatternInstance</code> deliberately use separate workspaces. The pattern workspace is a reusable library of ordered SQL text and placeholders. The instance workspace identifies those patterns and supplies the concrete values used by one project.</p>
-<p><code>meta-transform-pattern</code> authors both workspace types. Definition commands use the pattern workspace; instance commands use the instance workspace together with <code>--pattern-workspace</code> so placeholder identities are resolved against the reusable definition. The sanctioned weave takes both workspaces and produces <code>MetaSqlScript</code>. SQL parsing remains in the existing MetaTransformScript importer.</p>
+<p><code>MetaTransformPattern</code> stores reusable transform patterns as ordered SQL text and named placeholders. <code>MetaTransformPatternInstance</code> stores concrete uses of those patterns, with one SQL fragment supplied for each placeholder. A pattern library can therefore be shared across projects while each project keeps its own transform instances.</p>
+<p><code>meta-transform-pattern</code> works with both workspace types. Definition commands create and update reusable patterns. Instance commands select a pattern and supply its placeholder values, using <code>--pattern-workspace</code> to locate the referenced definition. <code>TransformPatternToSqlScript</code> combines the two workspaces into <code>MetaSqlScript</code>, which can then be imported into <code>MetaTransformScript</code>.</p>
                 </div>
               </section>
               <section class="subsection description-block">
