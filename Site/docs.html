@@ -3922,13 +3922,13 @@ meta-docs search deploy
                 <span class="command-name">meta-docs cli-matrix</span>
                 <span class="command-summary-text">Generate an exhaustive CLI command matrix with structural classifications and discrepancy evidence.</span>
               </span>
-              <span class="command-counts">3 options</span>
+              <span class="command-counts">5 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-docs cli-matrix --out &lt;path&gt; [--view commands|cohorts|findings] [--workspace &lt;workspace&gt;]</code></pre>
+                <pre><code>meta-docs cli-matrix [--mesh-root &lt;path&gt;] --out &lt;path&gt; [--require-conformant] [--view commands|cohorts|findings|invocations] [--workspace &lt;workspace&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -3936,15 +3936,27 @@ meta-docs search deploy
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
                     <tr>
+                      <td class="opt">--mesh-root &lt;path&gt;</td>
+                      <td>Root directory or MetaMesh workspace to inspect. Repeat for multiple roots.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
                       <td class="opt">--out &lt;path&gt;</td>
                       <td>CSV output path.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--view commands|cohorts|findings</td>
-                      <td>Export command inventory, decision cohorts, or raw finding occurrences.</td>
-                      <td>commands|cohorts|findings: cohorts, commands, findings</td>
+                      <td class="opt">--require-conformant</td>
+                      <td>Exit with code 4 when any mesh invocation violates the CLI matrix.</td>
+                      <td></td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--view commands|cohorts|findings|invocations</td>
+                      <td>Export command inventory, decision cohorts, raw findings, or mesh invocation conformance.</td>
+                      <td>commands|cohorts|findings|invocations: cohorts, commands, findings, invocations</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -5052,6 +5064,50 @@ render-site --workspace ..\SuiteWorkspace --out ..\Site
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-mesh-app-command-remove-step">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-mesh remove-step</span>
+                <span class="command-summary-text">Remove one executable operation step and preserve operation order.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-mesh remove-step --name &lt;value&gt; --operation &lt;value&gt; [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Step name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--operation &lt;value&gt;</td>
+                      <td>Operation containing the step.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaMesh workspace location.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-mesh-app-command-run">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -5189,6 +5245,92 @@ meta-mesh run --operation regenerate-public-docs
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-mesh-app-command-update-step">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-mesh update-step</span>
+                <span class="command-summary-text">Update one executable operation step.</span>
+              </span>
+              <span class="command-counts">10 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-mesh update-step [--arguments &lt;arguments&gt;] [--arguments-stdin] [--description &lt;value&gt;] [--executable &lt;path&gt;] [--expected-exit-code &lt;value&gt;] --name &lt;value&gt; --operation &lt;value&gt; [--previous-step &lt;value&gt;] [--working-directory &lt;path&gt;] [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--arguments &lt;arguments&gt;</td>
+                      <td>Replace the executable arguments.</td>
+                      <td>&lt;arguments&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--arguments-stdin</td>
+                      <td>Read replacement executable arguments from standard input.</td>
+                      <td></td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--description &lt;value&gt;</td>
+                      <td>Replace the step description.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--executable &lt;path&gt;</td>
+                      <td>Replace the executable.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--expected-exit-code &lt;value&gt;</td>
+                      <td>Replace the expected successful exit code.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Step name.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--operation &lt;value&gt;</td>
+                      <td>Operation containing the step.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--previous-step &lt;value&gt;</td>
+                      <td>Replace the predecessor step.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--working-directory &lt;path&gt;</td>
+                      <td>Replace the working directory.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaMesh workspace location.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-mesh-app-command-validate">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -5270,7 +5412,7 @@ meta-mesh run --operation regenerate-public-docs
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>11 commands</p>
+                <p>13 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-add-operation" aria-label="Open meta-mesh add-operation"><code>add-operation</code></a>
@@ -5279,9 +5421,11 @@ meta-mesh run --operation regenerate-public-docs
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-create" aria-label="Open meta-mesh create"><code>create</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-help" aria-label="Open meta-mesh help"><code>help</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-operations" aria-label="Open meta-mesh operations"><code>operations</code></a>
+                <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-remove-step" aria-label="Open meta-mesh remove-step"><code>remove-step</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-run" aria-label="Open meta-mesh run"><code>run</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-show" aria-label="Open meta-mesh show"><code>show</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-steps" aria-label="Open meta-mesh steps"><code>steps</code></a>
+                <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-update-step" aria-label="Open meta-mesh update-step"><code>update-step</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-validate" aria-label="Open meta-mesh validate"><code>validate</code></a>
                 <a class="application-command-link" href="#cli-meta-mesh" data-local-anchor="subject-source-cli-meta-mesh-app-command-workspaces" aria-label="Open meta-mesh workspaces"><code>workspaces</code></a>
               </nav>
