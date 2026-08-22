@@ -17582,7 +17582,7 @@ meta-mesh run --operation process-tabular
                   </tr>
                   <tr>
                     <td class="cmd"><a href="#cli-meta-orchestration" data-panel-link="cli-meta-orchestration">meta-orchestration</a></td>
-                    <td>Infer, author, and execute orchestration plans with task ordering, concurrency policy, and run evidence.</td>
+                    <td>Create, inspect, plan, and execute orchestration plans with task ordering, concurrency policy, and run evidence.</td>
                   </tr>
                   <tr>
                     <td class="cmd"><a href="#cli-meta-pipeline" data-panel-link="cli-meta-pipeline">meta-pipeline</a></td>
@@ -19416,7 +19416,7 @@ meta-mesh run --operation process-tabular
                 <div class="markdown-content">
 <p>Project a modeled source schema into a raw-vault workspace.</p>
 <p>Use a MetaSchema workspace as the source contract, then create the raw-vault design that will carry its source identities and relationships forward.</p>
-<pre><code class="language-powershell">meta-convert schema-to-raw-datavault --source-workspace .\SourceSchema.Workspace --new-workspace .\RawVault.Workspace
+<pre><code class="language-powershell">meta-convert schema-to-raw-datavault --source-workspace .\SourceSchema.Workspace --output-xml .\RawVault.Workspace
 </code></pre>
                 </div>
               </section>
@@ -20124,7 +20124,7 @@ meta-mesh run --operation process-tabular
                 <div class="markdown-content">
 <p>Generate review candidates from validated transforms, then promote approved candidates.</p>
 <p>The binding workspace limits discovery to scripts whose source and target contracts are known. Promotion marks the candidates that should become generated SQL assets.</p>
-<pre><code class="language-powershell">meta-data-quality from-transform-workspace --transform-workspace .\Transforms.Workspace --binding-workspace .\Binding.Workspace --new-workspace .\DataQuality.Workspace
+<pre><code class="language-powershell">meta-data-quality from-transform-workspace --transform-workspace .\Transforms.Workspace --binding-workspace .\Binding.Workspace --output-xml .\DataQuality.Workspace
 meta-data-quality inspect --workspace .\DataQuality.Workspace
 meta-data-quality promote --workspace .\DataQuality.Workspace --all
 meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\DataQuality.sql
@@ -27323,7 +27323,7 @@ meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\Dat
           <header class="panel-header">
             <div class="breadcrumb">Meta-BI / CLI</div>
             <h2>meta-orchestration</h2>
-            <p class="panel-lead">Infer, author, and execute orchestration plans with task ordering, concurrency policy, and run evidence.</p>
+            <p class="panel-lead">Create, inspect, plan, and execute orchestration plans with task ordering, concurrency policy, and run evidence.</p>
           </header>
           <div class="application-layout">
             <div class="application-main">
@@ -27335,11 +27335,11 @@ meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\Dat
                 </div>
               </section>
               <section class="subsection description-block">
-                <h3 class="document-heading">Infer and review a run plan</h3>
+                <h3 class="document-heading">Create and review a run plan</h3>
                 <div class="markdown-content">
-<p>Build orchestration from a modeled pipeline, then review the issues and plan.</p>
-<p>Inference creates the provable part of the run graph. Any remaining ordering or lock decision is visible in the orchestration workspace before execution.</p>
-<pre><code class="language-powershell">meta-orchestration infer --pipeline-workspace .\Pipeline.Workspace --new-workspace .\Orchestration.Workspace
+<p>Create orchestration from a modeled pipeline, then review the issues and plan.</p>
+<p>Creation derives the provable part of the run graph. Any remaining ordering or lock decision is visible in the orchestration workspace before execution.</p>
+<pre><code class="language-powershell">meta-orchestration create --pipeline-workspace .\Pipeline.Workspace --output-xml .\Orchestration.Workspace
 meta-orchestration list-issues --workspace .\Orchestration.Workspace
 meta-orchestration refresh-run-plan --workspace .\Orchestration.Workspace
 meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
@@ -27514,6 +27514,68 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-orchestration-app-command-create">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-orchestration create</span>
+                <span class="command-summary-text">Create a MetaOrchestration workspace from a modeled MetaPipeline workspace.</span>
+              </span>
+              <span class="command-counts">6 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-orchestration create [--description &lt;value&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --pipeline-workspace &lt;path&gt;</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--description &lt;value&gt;</td>
+                      <td>Description recorded on the orchestration plan.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-connection-env &lt;value&gt;</td>
+                      <td>Environment variable containing the output SQL workspace connection string.</td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-csharp &lt;path&gt;</td>
+                      <td>Create the output on the selected workspace surface.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-sql &lt;path&gt;</td>
+                      <td>Create the output on the selected workspace surface.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-xml &lt;path&gt;</td>
+                      <td>Create the output on the selected workspace surface.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--pipeline-workspace &lt;path&gt;</td>
+                      <td>MetaPipeline workspace to analyze.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-orchestration-app-command-execute">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -27646,68 +27708,6 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
                 <pre><code>meta-orchestration help</code></pre>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card cli-command-card" id="subject-source-cli-meta-orchestration-app-command-infer">
-            <summary class="command-summary">
-              <span class="command-toggle" aria-hidden="true"></span>
-              <span class="command-main">
-                <span class="command-name">meta-orchestration infer</span>
-                <span class="command-summary-text">Infer a MetaOrchestration workspace from a modeled MetaPipeline workspace.</span>
-              </span>
-              <span class="command-counts">6 options</span>
-            </summary>
-            <div class="command-body">
-              <div class="command-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-orchestration infer [--description &lt;value&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --pipeline-workspace &lt;path&gt;</code></pre>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Options</h4>
-                <table>
-                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td class="opt">--description &lt;value&gt;</td>
-                      <td>Description recorded on the orchestration plan.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--output-connection-env &lt;value&gt;</td>
-                      <td>Environment variable containing the output SQL workspace connection string.</td>
-                      <td>&lt;value&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--output-csharp &lt;path&gt;</td>
-                      <td>Create the output on the selected workspace surface.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--output-sql &lt;path&gt;</td>
-                      <td>Create the output on the selected workspace surface.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--output-xml &lt;path&gt;</td>
-                      <td>Create the output on the selected workspace surface.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--pipeline-workspace &lt;path&gt;</td>
-                      <td>MetaPipeline workspace to analyze.</td>
-                      <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                  </tbody>
-                </table>
               </section>
               </div>
             </div>
@@ -27912,10 +27912,10 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-add-dependency" aria-label="Open meta-orchestration add-dependency"><code>add-dependency</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-add-order" aria-label="Open meta-orchestration add-order"><code>add-order</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-allow-concurrent-append" aria-label="Open meta-orchestration allow-concurrent-append"><code>allow-concurrent-append</code></a>
+                <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-create" aria-label="Open meta-orchestration create"><code>create</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-execute" aria-label="Open meta-orchestration execute"><code>execute</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-explain-issue" aria-label="Open meta-orchestration explain-issue"><code>explain-issue</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-help" aria-label="Open meta-orchestration help"><code>help</code></a>
-                <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-infer" aria-label="Open meta-orchestration infer"><code>infer</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-inspect" aria-label="Open meta-orchestration inspect"><code>inspect</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-inspect-run-plan" aria-label="Open meta-orchestration inspect-run-plan"><code>inspect-run-plan</code></a>
                 <a class="application-command-link" href="#cli-meta-orchestration" data-local-anchor="subject-source-cli-meta-orchestration-app-command-list-issues" aria-label="Open meta-orchestration list-issues"><code>list-issues</code></a>
@@ -27945,7 +27945,7 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
                 <div class="markdown-content">
 <p>Create the pipeline workspace and give the first pipeline a durable name.</p>
 <p>Tasks and execution context are added to a named pipeline after the workspace exists. The resulting plan can then be inspected, executed, or used as orchestration input.</p>
-<pre><code class="language-powershell">meta-pipeline new-workspace .\Pipeline.Workspace
+<pre><code class="language-powershell">meta-pipeline create --xml .\Pipeline.Workspace
 meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
 </code></pre>
                 </div>
@@ -28705,7 +28705,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <div class="markdown-content">
 <p>Extract the selected source boundary before designing downstream workspaces.</p>
 <p>Capture the source schema once, then use the resulting workspace as the contract for transform binding and downstream design.</p>
-<pre><code class="language-powershell">meta-schema extract sqlserver --new-workspace .\SourceSchema.Workspace --connection-env META_SOURCE_SQL --system SourceWarehouse --schema dbo --all-tables
+<pre><code class="language-powershell">meta-schema extract sqlserver --output-xml .\SourceSchema.Workspace --connection-env META_SOURCE_SQL --system SourceWarehouse --schema dbo --all-tables
 </code></pre>
                 </div>
               </section>
@@ -31582,7 +31582,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <div class="markdown-content">
 <p>Bind transform scripts to explicit source and target schemas.</p>
 <p>Binding records the resolved source and target evidence only when every required reference and type rule can be proven from the supplied workspaces.</p>
-<pre><code class="language-powershell">meta-transform-binding bind --transform-workspace .\Transforms.Workspace --source-schema .\SourceSchema.Workspace --target-schema .\WarehouseSchema.Workspace --execute-system SourceWarehouse --execute-system-default-schema-name dbo --new-workspace .\Binding.Workspace
+<pre><code class="language-powershell">meta-transform-binding bind --transform-workspace .\Transforms.Workspace --source-schema .\SourceSchema.Workspace --target-schema .\WarehouseSchema.Workspace --execute-system SourceWarehouse --execute-system-default-schema-name dbo --output-xml .\Binding.Workspace
 </code></pre>
                 </div>
               </section>
@@ -32218,7 +32218,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
                 <div class="markdown-content">
 <p>Import a view into a typed transform workspace and emit it again as SQL.</p>
 <p>The workspace captures the view structure once. Exported SQL can be compared with the source artifact or bound to an explicit schema contract.</p>
-<pre><code class="language-powershell">meta-transform-script from sql-file --path .\views\v_customer.sql --new-workspace .\Transforms.Workspace --target dbo.v_customer
+<pre><code class="language-powershell">meta-transform-script from sql-file --path .\views\v_customer.sql --output-xml .\Transforms.Workspace --target dbo.v_customer
 meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\RoundTrippedSql
 </code></pre>
                 </div>
