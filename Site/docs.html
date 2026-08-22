@@ -268,7 +268,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <h3 class="document-heading">One workspace across XML, SQL and C#</h3>
             <div class="markdown-content">
 <p>Create an XML workspace and give its initial model one entity and two records:</p>
-<pre><code class="language-powershell">meta create --new-workspace .\XmlWorkspace --xml
+<pre><code class="language-powershell">meta create --xml .\XmlWorkspace
 meta model rename-model MetadataModel WorkspaceCatalog --workspace .\XmlWorkspace
 meta model add-entity System --workspace .\XmlWorkspace
 meta model add-property System SystemName --workspace .\XmlWorkspace
@@ -277,8 +277,8 @@ meta insert System crm --set SystemName=CRM --workspace .\XmlWorkspace
 </code></pre>
 <p>Now create SQL and C# workspaces from that exact model and instance graph:</p>
 <pre><code class="language-powershell">$env:META_SQL_CONNECTION = &quot;Server=.;Database=WorkspaceCatalog;Integrated Security=true;TrustServerCertificate=true;Encrypt=false&quot;
-meta create --new-workspace .\SqlWorkspace --source-workspace .\XmlWorkspace --with-instances --connection-env META_SQL_CONNECTION --sql
-meta create --new-workspace .\CSharpWorkspace --source-workspace .\XmlWorkspace --with-instances --csharp
+meta create --sql .\SqlWorkspace --source-workspace .\XmlWorkspace --with-instances --connection-env META_SQL_CONNECTION
+meta create --csharp .\CSharpWorkspace --source-workspace .\XmlWorkspace --with-instances
 </code></pre>
 <p>The C# surface contains the generated <code>WorkspaceCatalogModel</code>, the <code>System</code> type, and the same two records. Application or service code can consume them directly:</p>
 <pre><code class="language-csharp">using WorkspaceCatalog;
@@ -455,13 +455,13 @@ foreach (var system in catalog.SystemList)
                 <span class="command-name">meta create</span>
                 <span class="command-summary-text">Create a metadata workspace.</span>
               </span>
-              <span class="command-counts">9 options</span>
+              <span class="command-counts">8 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta create [--connection-env &lt;value&gt;] [--csharp] --new-workspace &lt;path&gt; [--source-workspace &lt;path&gt;] [--sql] [--strict] [--with-instances] [--workspace &lt;workspace&gt;] [--xml]</code></pre>
+                <pre><code>meta create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--source-workspace &lt;path&gt;] [--sql &lt;path&gt;] [--strict] [--with-instances] [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -475,14 +475,8 @@ foreach (var system in catalog.SystemList)
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--csharp</td>
-                      <td>Create the destination on the selected workspace surface.</td>
-                      <td></td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--new-workspace &lt;path&gt;</td>
-                      <td>Destination workspace directory.</td>
+                      <td class="opt">--csharp &lt;path&gt;</td>
+                      <td>Create a C# workspace at this directory.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -493,9 +487,9 @@ foreach (var system in catalog.SystemList)
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--sql</td>
-                      <td>Create the destination on the selected workspace surface.</td>
-                      <td></td>
+                      <td class="opt">--sql &lt;path&gt;</td>
+                      <td>Create a SQL workspace described by this directory.</td>
+                      <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -517,9 +511,9 @@ foreach (var system in catalog.SystemList)
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--xml</td>
-                      <td>Create the destination on the selected workspace surface.</td>
-                      <td></td>
+                      <td class="opt">--xml &lt;path&gt;</td>
+                      <td>Create an XML workspace at this directory.</td>
+                      <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                   </tbody>
@@ -3921,6 +3915,50 @@ meta-docs search deploy
               </div>
             </div>
           </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-docs-app-command-cli-matrix">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-docs cli-matrix</span>
+                <span class="command-summary-text">Generate an exhaustive CLI command matrix with structural classifications and discrepancy evidence.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-docs cli-matrix --out &lt;path&gt; [--view commands|cohorts|findings] [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--out &lt;path&gt;</td>
+                      <td>CSV output path.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--view commands|cohorts|findings</td>
+                      <td>Export command inventory, decision cohorts, or raw finding occurrences.</td>
+                      <td>commands|cohorts|findings: cohorts, commands, findings</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td>MetaDocs workspace to analyze. Defaults to the current directory.</td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-docs-app-command-contents">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -4643,11 +4681,12 @@ meta-docs search deploy
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>15 commands</p>
+                <p>16 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-author-page" aria-label="Open meta-docs author-page"><code>author-page</code></a>
                 <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-browse" aria-label="Open meta-docs browse"><code>browse</code></a>
+                <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-cli-matrix" aria-label="Open meta-docs cli-matrix"><code>cli-matrix</code></a>
                 <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-contents" aria-label="Open meta-docs contents"><code>contents</code></a>
                 <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-help" aria-label="Open meta-docs help"><code>help</code></a>
                 <a class="application-command-link" href="#cli-meta-docs" data-local-anchor="subject-source-cli-meta-docs-app-command-import-cli" aria-label="Open meta-docs import-cli"><code>import-cli</code></a>
@@ -32753,9 +32792,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a href="#model-metatransformbinding" data-panel-link="model-metatransformbinding">MetaTransformBinding</a></td>
-                    <td>28</td>
-                    <td>33</td>
-                    <td>39</td>
+                    <td>30</td>
+                    <td>38</td>
+                    <td>43</td>
                   </tr>
                   <tr>
                     <td><a href="#model-metatransformpattern" data-panel-link="model-metatransformpattern">MetaTransformPattern</a></td>
@@ -56529,9 +56568,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <p class="panel-lead">Models the binding between transform scripts and schema contracts, resolving references, data types, lineage, and target writeability.</p>
           </header>
           <div class="summary-row">
-            <span class="pill">28 entities</span>
-            <span class="pill">33 properties</span>
-            <span class="pill">39 relationships</span>
+            <span class="pill">30 entities</span>
+            <span class="pill">38 properties</span>
+            <span class="pill">43 relationships</span>
           </div>
           <div class="card">
             <div class="card-header">
@@ -56598,6 +56637,11 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <td>2</td>
                   </tr>
                   <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding">StoredProcedureOperationBinding</a></td>
+                    <td>1</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-tablesource" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-tablesource">TableSource</a></td>
                     <td>2</td>
                     <td>2</td>
@@ -56639,7 +56683,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink">ValidationSourceRowsetLink</a></td>
-                    <td>1</td>
+                    <td>2</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink">ValidationStoredProcedureOperationLink</a></td>
+                    <td>2</td>
                     <td>2</td>
                   </tr>
                   <tr>
@@ -56664,7 +56713,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetrowsetlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetrowsetlink">ValidationTargetRowsetLink</a></td>
-                    <td>1</td>
+                    <td>2</td>
                     <td>3</td>
                   </tr>
                   <tr>
@@ -57119,7 +57168,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">Rowset</span>
               </span>
-              <span class="entity-counts">3 properties / 1 relationship / 7 references</span>
+              <span class="entity-counts">3 properties / 1 relationship / 8 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -57198,6 +57247,13 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td>True</td>
                     </tr>
                     <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding">StoredProcedureOperationBinding</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-rowset-rowset" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-rowset-rowset">Rowset</a></td>
+                      <td></td>
+                      <td>RowsetId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-tablesource" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-tablesource">TableSource</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-tablesource-relationship-rowset-rowset" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-tablesource-relationship-rowset-rowset">Rowset</a></td>
                       <td></td>
@@ -57271,6 +57327,70 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-rowset" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-rowset">Rowset</a></td>
                       <td>Target</td>
                       <td>TargetId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">StoredProcedureOperationBinding</span>
+              </span>
+              <span class="entity-counts">1 property / 2 relationships / 1 reference</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>MetaTransformScriptStoredProcedureContractOperationId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-rowset-rowset">
+                      <td>Rowset</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-rowset" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-rowset">Rowset</a></td>
+                      <td></td>
+                      <td>RowsetId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-transformbinding-transformbinding">
+                      <td>TransformBinding</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-transformbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-transformbinding">TransformBinding</a></td>
+                      <td></td>
+                      <td>TransformBindingId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink">ValidationStoredProcedureOperationLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-storedprocedureoperationbinding-storedprocedureoperationbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-storedprocedureoperationbinding-storedprocedureoperationbinding">StoredProcedureOperationBinding</a></td>
+                      <td></td>
+                      <td>StoredProcedureOperationBindingId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -57410,7 +57530,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">TransformBinding</span>
               </span>
-              <span class="entity-counts">2 properties / 0 relationships / 6 references</span>
+              <span class="entity-counts">2 properties / 0 relationships / 7 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -57456,6 +57576,13 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-rowset" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-rowset">Rowset</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-rowset-relationship-transformbinding-transformbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-rowset-relationship-transformbinding-transformbinding">TransformBinding</a></td>
+                      <td></td>
+                      <td>TransformBindingId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding">StoredProcedureOperationBinding</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-transformbinding-transformbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding-relationship-transformbinding-transformbinding">TransformBinding</a></td>
                       <td></td>
                       <td>TransformBindingId</td>
                       <td>True</td>
@@ -57641,7 +57768,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">Validation</span>
               </span>
-              <span class="entity-counts">0 properties / 1 relationship / 2 references</span>
+              <span class="entity-counts">0 properties / 1 relationship / 3 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -57668,6 +57795,13 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink">ValidationSourceRowsetLink</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink-relationship-validation-validation" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationsourcerowsetlink-relationship-validation-validation">Validation</a></td>
+                      <td></td>
+                      <td>ValidationId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink">ValidationStoredProcedureOperationLink</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-validation-validation" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-validation-validation">Validation</a></td>
                       <td></td>
                       <td>ValidationId</td>
                       <td>True</td>
@@ -57740,7 +57874,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">ValidationSourceRowsetLink</span>
               </span>
-              <span class="entity-counts">1 property / 2 relationships / 1 reference</span>
+              <span class="entity-counts">2 properties / 2 relationships / 1 reference</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -57751,6 +57885,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tbody>
                     <tr>
                       <td>MetaSchemaTableId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>ResolvedSqlIdentifier</td>
                       <td>True</td>
                       <td>False</td>
                       <td></td>
@@ -57790,6 +57930,61 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationsourcecolumnlink-relationship-validationsourcerowsetlink-validationsourcerowsetlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationsourcecolumnlink-relationship-validationsourcerowsetlink-validationsourcerowsetlink">ValidationSourceRowsetLink</a></td>
                       <td></td>
                       <td>ValidationSourceRowsetLinkId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">ValidationStoredProcedureOperationLink</span>
+              </span>
+              <span class="entity-counts">2 properties / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>MetaSchemaTableId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>ResolvedSqlIdentifier</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-storedprocedureoperationbinding-storedprocedureoperationbinding">
+                      <td>StoredProcedureOperationBinding</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-storedprocedureoperationbinding">StoredProcedureOperationBinding</a></td>
+                      <td></td>
+                      <td>StoredProcedureOperationBindingId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-transform-binding-entity-validationstoredprocedureoperationlink-relationship-validation-validation">
+                      <td>Validation</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validation" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validation">Validation</a></td>
+                      <td></td>
+                      <td>ValidationId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -58020,7 +58215,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">ValidationTargetRowsetLink</span>
               </span>
-              <span class="entity-counts">1 property / 3 relationships / 6 references</span>
+              <span class="entity-counts">2 properties / 3 relationships / 6 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -58031,6 +58226,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tbody>
                     <tr>
                       <td>MetaSchemaTableId</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>ResolvedSqlIdentifier</td>
                       <td>True</td>
                       <td>False</td>
                       <td></td>

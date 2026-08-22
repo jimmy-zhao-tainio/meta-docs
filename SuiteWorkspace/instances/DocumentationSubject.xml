@@ -3145,6 +3145,14 @@
       <Status>New</Status>
       <Summary>Source workspace path. Defaults to the current directory.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:analytics-to-multi-dimensional:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:analytics-to-multi-dimensional">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert analytics-to-multi-dimensional group output</DisplayPath>
+      <NativeId>group-analytics-to-multi-dimensional-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:analytics-to-tabular" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:analytics-to-multi-dimensional">
       <DisplayName>meta-convert analytics-to-tabular</DisplayName>
       <DisplayPath>meta-convert analytics-to-tabular</DisplayPath>
@@ -3192,6 +3200,14 @@
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
       <Summary>Source workspace path. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:analytics-to-tabular:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:analytics-to-tabular">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert analytics-to-tabular group output</DisplayPath>
+      <NativeId>group-analytics-to-tabular-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:analytics-to-tabular">
       <DisplayName>meta-convert business-datavault-to-sql</DisplayName>
@@ -3256,6 +3272,14 @@
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
       <Summary>Source workspace path. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert business-datavault-to-sql group output</DisplayPath>
+      <NativeId>group-business-datavault-to-sql-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:data-quality-to-sql" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
       <DisplayName>meta-convert data-quality-to-sql</DisplayName>
@@ -3345,6 +3369,14 @@
       <Status>New</Status>
       <Summary>Source workspace path. Defaults to the current directory.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert data-warehouse-to-sql group output</DisplayPath>
+      <NativeId>group-data-warehouse-to-sql-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:help" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
       <DisplayName>meta-convert help</DisplayName>
       <DisplayPath>meta-convert help</DisplayPath>
@@ -3416,6 +3448,14 @@
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
       <Summary>Source workspace path. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert raw-datavault-to-sql group output</DisplayPath>
+      <NativeId>group-raw-datavault-to-sql-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:schema-to-raw-datavault" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
       <DisplayName>meta-convert schema-to-raw-datavault</DisplayName>
@@ -3593,6 +3633,14 @@
       <Status>New</Status>
       <Summary>Source MetaSql workspace path. Defaults to the current directory.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:sql-to-transform-script:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:sql-to-transform-script">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert sql-to-transform-script group output</DisplayPath>
+      <NativeId>group-sql-to-transform-script-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:transform-pattern-to-sql-script" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:sql-to-transform-script">
       <DisplayName>meta-convert transform-pattern-to-sql-script</DisplayName>
       <DisplayPath>meta-convert transform-pattern-to-sql-script</DisplayPath>
@@ -3649,6 +3697,14 @@
       <Status>New</Status>
       <Summary>Source MetaTransformPattern workspace containing reusable definitions.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:transform-pattern-to-sql-script:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:transform-pattern-to-sql-script">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert transform-pattern-to-sql-script group output</DisplayPath>
+      <NativeId>group-transform-pattern-to-sql-script-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-convert:app:command:transform-script-to-sql" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-convert:app" PreviousSubjectId="source:cli:meta-convert:app:command:transform-pattern-to-sql-script">
       <DisplayName>meta-convert transform-script-to-sql</DisplayName>
       <DisplayPath>meta-convert transform-script-to-sql</DisplayPath>
@@ -3704,6 +3760,14 @@
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
       <Summary>Source MetaTransformScript workspace path. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:transform-script-to-sql:parameter-group:output" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-convert:app:command:transform-script-to-sql">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-convert transform-script-to-sql group output</DisplayPath>
+      <NativeId>group-transform-script-to-sql-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-data-quality:app" DocumentationSourceId="source:cli:meta-data-quality" DocumentationSubjectTypeId="subject-type:cliapplication" ParentSubjectId="public:meta-bi:cli">
       <DisplayName>meta-data-quality</DisplayName>
@@ -7617,7 +7681,63 @@
       <Status>New</Status>
       <Summary>MetaDocs workspace to browse. Defaults to the current directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-docs:app:command:contents" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-docs:app" PreviousSubjectId="source:cli:meta-docs:app:command:browse">
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-docs:app" PreviousSubjectId="source:cli:meta-docs:app:command:browse">
+      <DisplayName>meta-docs cli-matrix</DisplayName>
+      <DisplayPath>meta-docs cli-matrix</DisplayPath>
+      <NativeId>exec-cli-matrix</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Generate an exhaustive CLI command matrix with structural classifications and discrepancy evidence.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:out" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix">
+      <DisplayName>--out</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --out</DisplayPath>
+      <NativeId>option-cli-matrix-out</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>CSV output path.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:view" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix" PreviousSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:out">
+      <DisplayName>--view</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --view</DisplayPath>
+      <NativeId>option-cli-matrix-view</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Export command inventory, decision cohorts, or raw finding occurrences.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:view:allowed-value:cohorts" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:cliallowedvalue" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view">
+      <DisplayName>cohorts</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --view value cohorts</DisplayPath>
+      <NativeId>allowed-cli-matrix-view-cohorts</NativeId>
+      <SourceTypeName>MetaCli.AllowedValue</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:view:allowed-value:commands" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:cliallowedvalue" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view" PreviousSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view:allowed-value:cohorts">
+      <DisplayName>commands</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --view value commands</DisplayPath>
+      <NativeId>allowed-cli-matrix-view-commands</NativeId>
+      <SourceTypeName>MetaCli.AllowedValue</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:view:allowed-value:findings" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:cliallowedvalue" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view" PreviousSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view:allowed-value:commands">
+      <DisplayName>findings</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --view value findings</DisplayPath>
+      <NativeId>allowed-cli-matrix-view-findings</NativeId>
+      <SourceTypeName>MetaCli.AllowedValue</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:cli-matrix:option:workspace" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-docs:app:command:cli-matrix" PreviousSubjectId="source:cli:meta-docs:app:command:cli-matrix:option:view">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-docs cli-matrix --workspace</DisplayPath>
+      <NativeId>option-cli-matrix-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDocs workspace to analyze. Defaults to the current directory.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:contents" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-docs:app" PreviousSubjectId="source:cli:meta-docs:app:command:cli-matrix">
       <DisplayName>meta-docs contents</DisplayName>
       <DisplayPath>meta-docs contents</DisplayPath>
       <NativeId>exec-contents</NativeId>
@@ -8056,6 +8176,14 @@
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
       <Summary>Create the merged workspace as XML at this path.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-docs:app:command:merge:parameter-group:output" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-docs:app:command:merge">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-docs merge group output</DisplayPath>
+      <NativeId>group-merge-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-docs:app:command:render-site" DocumentationSourceId="source:cli:meta-docs" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-docs:app" PreviousSubjectId="source:cli:meta-docs:app:command:merge">
       <DisplayName>meta-docs render-site</DisplayName>
@@ -12633,6 +12761,14 @@
       <Status>New</Status>
       <Summary>Source MetaSql workspace to compare with the live database.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:parameter-group:output" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-sql deploy-plan group output</DisplayPath>
+      <NativeId>group-deploy-plan-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Select exactly one workspace output surface.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:connection-env" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy">
       <DisplayName>--connection-env</DisplayName>
       <DisplayPath>meta-sql deploy --connection-env</DisplayPath>
@@ -16743,17 +16879,9 @@
       <NativeId>option-create-csharp</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>Create the destination on the selected workspace surface.</Summary>
+      <Summary>Create a C# workspace at this directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta:app:command:create:option:new-workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:csharp">
-      <DisplayName>--new-workspace</DisplayName>
-      <DisplayPath>meta create --new-workspace</DisplayPath>
-      <NativeId>option-create-new-workspace</NativeId>
-      <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Destination workspace directory.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta:app:command:create:option:source-workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:new-workspace">
+    <DocumentationSubject Id="source:cli:meta:app:command:create:option:source-workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:csharp">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta create --source-workspace</DisplayPath>
       <NativeId>option-create-source-workspace</NativeId>
@@ -16767,7 +16895,7 @@
       <NativeId>option-create-sql</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>Create the destination on the selected workspace surface.</Summary>
+      <Summary>Create a SQL workspace described by this directory.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta:app:command:create:option:strict" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:sql">
       <DisplayName>--strict</DisplayName>
@@ -16799,15 +16927,15 @@
       <NativeId>option-create-xml</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>Create the destination on the selected workspace surface.</Summary>
+      <Summary>Create an XML workspace at this directory.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta:app:command:create:parameter-group:output" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta:app:command:create">
       <DisplayName>output</DisplayName>
       <DisplayPath>meta create group output</DisplayPath>
       <NativeId>group-create-output</NativeId>
       <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Choose one workspace representation.</Summary>
+      <Status>Changed</Status>
+      <Summary>Choose exactly one workspace surface and destination.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta:app:command:delete" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:create">
       <DisplayName>meta delete</DisplayName>
@@ -36041,7 +36169,39 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:tablesource" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:sourcetarget">
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:sourcetarget">
+      <DisplayName>StoredProcedureOperationBinding</DisplayName>
+      <DisplayPath>MetaTransformBinding.StoredProcedureOperationBinding</DisplayPath>
+      <NativeId>StoredProcedureOperationBinding</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding:property:metatransformscriptstoredprocedurecontractoperationid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding">
+      <DisplayName>MetaTransformScriptStoredProcedureContractOperationId</DisplayName>
+      <DisplayPath>MetaTransformBinding.StoredProcedureOperationBinding.MetaTransformScriptStoredProcedureContractOperationId</DisplayPath>
+      <NativeId>MetaTransformScriptStoredProcedureContractOperationId</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding:relationship:rowset-rowset" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding">
+      <DisplayName>Rowset</DisplayName>
+      <DisplayPath>MetaTransformBinding.StoredProcedureOperationBinding.Rowset</DisplayPath>
+      <NativeId>Rowset:Rowset</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding:relationship:transformbinding-transformbinding" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding:relationship:rowset-rowset">
+      <DisplayName>TransformBinding</DisplayName>
+      <DisplayPath>MetaTransformBinding.StoredProcedureOperationBinding.TransformBinding</DisplayPath>
+      <NativeId>TransformBinding:TransformBinding</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:tablesource" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:storedprocedureoperationbinding">
       <DisplayName>TableSource</DisplayName>
       <DisplayPath>MetaTransformBinding.TableSource</DisplayPath>
       <NativeId>TableSource</NativeId>
@@ -36281,6 +36441,14 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink:property:resolvedsqlidentifier" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink:property:metaschematableid">
+      <DisplayName>ResolvedSqlIdentifier</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationSourceRowsetLink.ResolvedSqlIdentifier</DisplayPath>
+      <NativeId>ResolvedSqlIdentifier</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink:relationship:rowset-rowset" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink">
       <DisplayName>Rowset</DisplayName>
       <DisplayPath>MetaTransformBinding.ValidationSourceRowsetLink.Rowset</DisplayPath>
@@ -36297,7 +36465,47 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumnlink" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink">
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationsourcerowsetlink">
+      <DisplayName>ValidationStoredProcedureOperationLink</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationStoredProcedureOperationLink</DisplayPath>
+      <NativeId>ValidationStoredProcedureOperationLink</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:property:metaschematableid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink">
+      <DisplayName>MetaSchemaTableId</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationStoredProcedureOperationLink.MetaSchemaTableId</DisplayPath>
+      <NativeId>MetaSchemaTableId</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:property:resolvedsqlidentifier" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:property:metaschematableid">
+      <DisplayName>ResolvedSqlIdentifier</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationStoredProcedureOperationLink.ResolvedSqlIdentifier</DisplayPath>
+      <NativeId>ResolvedSqlIdentifier</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:relationship:storedprocedureoperationbinding-storedprocedureoperationbinding" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink">
+      <DisplayName>StoredProcedureOperationBinding</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationStoredProcedureOperationLink.StoredProcedureOperationBinding</DisplayPath>
+      <NativeId>StoredProcedureOperationBinding:StoredProcedureOperationBinding</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:relationship:validation-validation" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink:relationship:storedprocedureoperationbinding-storedprocedureoperationbinding">
+      <DisplayName>Validation</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationStoredProcedureOperationLink.Validation</DisplayPath>
+      <NativeId>Validation:Validation</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumnlink" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationstoredprocedureoperationlink">
       <DisplayName>ValidationTargetColumnLink</DisplayName>
       <DisplayPath>MetaTransformBinding.ValidationTargetColumnLink</DisplayPath>
       <NativeId>ValidationTargetColumnLink</NativeId>
@@ -36431,6 +36639,14 @@
       <NativeId>MetaSchemaTableId</NativeId>
       <SourceTypeName>GenericProperty</SourceTypeName>
       <Status>Changed</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetrowsetlink:property:resolvedsqlidentifier" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetrowsetlink" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetrowsetlink:property:metaschematableid">
+      <DisplayName>ResolvedSqlIdentifier</DisplayName>
+      <DisplayPath>MetaTransformBinding.ValidationTargetRowsetLink.ResolvedSqlIdentifier</DisplayPath>
+      <NativeId>ResolvedSqlIdentifier</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetrowsetlink:relationship:rowset-rowset" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetrowsetlink">
