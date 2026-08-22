@@ -345,7 +345,7 @@
       <WorkingDirectory>{mesh.root}</WorkingDirectory>
     </OperationStep>
     <OperationStep Id="operation-step:regenerate-public-docs:render-public-site" OperationId="operation:regenerate-public-docs" PreviousStepId="operation-step:regenerate-public-docs:validate-public-suite">
-      <Arguments>render-site --workspace {workspace:docs-suite.location} --out {mesh.root}\MetaDocs\Docs\Site</Arguments>
+      <Arguments>render-site --workspace {workspace:docs-suite.location} --out {mesh.root}\Site</Arguments>
       <Description>Render the public MetaDocs site.</Description>
       <Executable>meta-docs.exe</Executable>
       <Name>render-public-site</Name>
