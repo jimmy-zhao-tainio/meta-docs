@@ -3,10 +3,10 @@
   <DocumentationSourceList>
     <DocumentationSource Id="source:cli:meta" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta</DisplayName>
-      <ImportedAt>2026-08-22T15:11:32.6097948+00:00</ImportedAt>
+      <ImportedAt>2026-08-23T17:34:50.8243205+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta</Locator>
-      <SourceFingerprint>742a6ee21d0ae6e7d1c85fb186f068f4ba1e120d4ee56d1a73db03ba218fb5c2</SourceFingerprint>
+      <SourceFingerprint>e98960c4ee2d99ffc9f18c9f27996db63e72f26bda1db7a529e9bf2fff7d211f</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
   </DocumentationSourceList>

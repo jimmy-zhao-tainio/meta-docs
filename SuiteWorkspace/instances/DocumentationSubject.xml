@@ -17033,7 +17033,15 @@
       <Status>Changed</Status>
       <Summary>Create a C# workspace at this directory.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta:app:command:create:option:source-workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:csharp">
+    <DocumentationSubject Id="source:cli:meta:app:command:create:option:name" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:csharp">
+      <DisplayName>--name</DisplayName>
+      <DisplayPath>meta create --name</DisplayPath>
+      <NativeId>option-create-name</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Name of the new model.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:create:option:source-workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:option:name">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta create --source-workspace</DisplayPath>
       <NativeId>option-create-source-workspace</NativeId>
@@ -17088,6 +17096,14 @@
       <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
       <Status>Changed</Status>
       <Summary>Choose exactly one workspace surface and destination.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:create:parameter-group:source" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta:app:command:create" PreviousSubjectId="source:cli:meta:app:command:create:parameter-group:output">
+      <DisplayName>source</DisplayName>
+      <DisplayPath>meta create group source</DisplayPath>
+      <NativeId>group-create-source</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Choose a new model name or a source workspace to copy.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta:app:command:delete" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:create">
       <DisplayName>meta delete</DisplayName>

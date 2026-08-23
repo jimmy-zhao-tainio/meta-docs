@@ -268,8 +268,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <h3 class="document-heading">One workspace across XML, SQL and C#</h3>
             <div class="markdown-content">
 <p>Create an XML workspace and give its initial model one entity and two records:</p>
-<pre><code class="language-powershell">meta create --xml .\XmlWorkspace
-meta model rename-model MetadataModel WorkspaceCatalog --workspace .\XmlWorkspace
+<pre><code class="language-powershell">meta create --name WorkspaceCatalog --xml .\XmlWorkspace
 meta model add-entity System --workspace .\XmlWorkspace
 meta model add-property System SystemName --workspace .\XmlWorkspace
 meta insert System erp --set SystemName=ERP --workspace .\XmlWorkspace
@@ -455,13 +454,13 @@ foreach (var system in catalog.SystemList)
                 <span class="command-name">meta create</span>
                 <span class="command-summary-text">Create a metadata workspace.</span>
               </span>
-              <span class="command-counts">8 options</span>
+              <span class="command-counts">9 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--source-workspace &lt;path&gt;] [--sql &lt;path&gt;] [--strict] [--with-instances] [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
+                <pre><code>meta create [--connection-env &lt;value&gt;] [--csharp &lt;path&gt;] [--name &lt;value&gt;] [--source-workspace &lt;path&gt;] [--sql &lt;path&gt;] [--strict] [--with-instances] [--workspace &lt;workspace&gt;] [--xml &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -478,6 +477,12 @@ foreach (var system in catalog.SystemList)
                       <td class="opt">--csharp &lt;path&gt;</td>
                       <td>Create a C# workspace at this directory.</td>
                       <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--name &lt;value&gt;</td>
+                      <td>Name of the new model.</td>
+                      <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>

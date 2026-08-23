@@ -71,5 +71,12 @@
       <SourceFingerprint>742a6ee21d0ae6e7d1c85fb186f068f4ba1e120d4ee56d1a73db03ba218fb5c2</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta:batch:20260823173450825" DocumentationSourceId="source:cli:meta">
+      <ImportedAt>2026-08-23T17:34:50.8243205+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>e98960c4ee2d99ffc9f18c9f27996db63e72f26bda1db7a529e9bf2fff7d211f</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
   </DocumentationImportBatchList>
 </MetaDocs>

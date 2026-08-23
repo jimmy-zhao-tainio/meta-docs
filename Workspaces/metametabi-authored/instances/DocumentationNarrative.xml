@@ -339,8 +339,7 @@ Workspace-oriented commands use the current directory by default. Pass `--worksp
       <Body>Create an XML workspace and give its initial model one entity and two records:
 
 ```powershell
-meta create --xml .\XmlWorkspace
-meta model rename-model MetadataModel WorkspaceCatalog --workspace .\XmlWorkspace
+meta create --name WorkspaceCatalog --xml .\XmlWorkspace
 meta model add-entity System --workspace .\XmlWorkspace
 meta model add-property System SystemName --workspace .\XmlWorkspace
 meta insert System erp --set SystemName=ERP --workspace .\XmlWorkspace
