@@ -477,6 +477,27 @@
       <SourceFingerprint>9afc9329ae47611e4d75ee626d8edcd9e5b771f94510020436d5ee143b08908f</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20260907205614445" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-09-07T20:56:14.4442091+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>e7164778d011f36099f5a75033c1c84422f31d42253c99f45f40f851240f068c</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20260908050538664" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-09-08T05:05:38.6641116+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>95051ba9e105855fc2d36f4720ec4fa3eb1538c775dba51fe5804e8c02f281b8</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20260908103507552" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-09-08T10:35:07.5521924+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>2d02b9f329227eff982a5cf4ba608be097ebe330cf9bcaf8cc7adf401fc29d53</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:workspace-model:meta-docs:batch:20260704194347186" DocumentationSourceId="source:workspace-model:meta-docs">
       <ImportedAt>2026-07-04T19:43:47.1863128+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>

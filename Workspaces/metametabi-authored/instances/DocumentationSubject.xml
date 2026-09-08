@@ -58,12 +58,12 @@
       <Summary>Model references for the sanctioned BI metadata workspaces.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:meta-bi:overview" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi">
-      <DisplayName>meta-bi</DisplayName>
+      <DisplayName>Meta-BI</DisplayName>
       <DisplayPath>Reference.Meta-BI.Overview</DisplayPath>
       <NativeId>public:meta-bi:overview</NativeId>
       <SourceTypeName>AuthoredPage</SourceTypeName>
       <Status>Current</Status>
-      <Summary>A model-driven BI stack from source contracts and transform syntax through execution and analytical targets.</Summary>
+      <Summary>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:meta:cli" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:meta" PreviousSubjectId="public:meta:overview">
       <DisplayName>CLI</DisplayName>
@@ -82,12 +82,12 @@
       <Summary>Model references for the core metadata foundation.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:meta:overview" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta">
-      <DisplayName>meta</DisplayName>
+      <DisplayName>Meta</DisplayName>
       <DisplayPath>Reference.Meta.Overview</DisplayPath>
       <NativeId>public:meta:overview</NativeId>
       <SourceTypeName>AuthoredPage</SourceTypeName>
       <Status>Current</Status>
-      <Summary>A model-first metadata foundation with isomorphic XML, SQL, and C# surfaces.</Summary>
+      <Summary>Meta is a foundation for building tools and systems around metadata models. You can define a model, query and edit its instances, refactor its structure together with the affected data, and use its definitions to drive transformations and tools.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:reference" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referenceroot">
       <DisplayName>meta + meta-bi reference</DisplayName>

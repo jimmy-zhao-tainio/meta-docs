@@ -158,7 +158,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <a class="entry-card" href="#subject-public-meta-overview" data-panel-link="subject-public-meta-overview">
               <div class="label">Meta</div>
               <h2>Overview</h2>
-              <p>A model-first metadata foundation with isomorphic XML, SQL, and C# surfaces.</p>
+              <p>Meta is a foundation for building tools and systems around metadata models.</p>
             </a>
             <a class="entry-card" href="#group-public-meta-cli" data-panel-link="group-public-meta-cli">
               <div class="label">Meta</div>
@@ -173,7 +173,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
             <a class="entry-card" href="#subject-public-meta-bi-overview" data-panel-link="subject-public-meta-bi-overview">
               <div class="label">Meta-BI</div>
               <h2>Overview</h2>
-              <p>A model-driven BI stack from source contracts and transform syntax through execution and analytical targets.</p>
+              <p>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle.</p>
             </a>
             <a class="entry-card" href="#subject-public-meta-bi-adventureworks" data-panel-link="subject-public-meta-bi-adventureworks">
               <div class="label">Meta-BI</div>
@@ -199,120 +199,93 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
         </section>
         <section class="panel" id="subject-public-meta-overview" data-panel="subject-public-meta-overview">
           <header class="panel-header">
-            <h2>meta</h2>
+            <h2>Meta</h2>
             <div class="panel-lead markdown-content">
-<p><code>meta</code> is a model-first metadata foundation. It lets tools and people create, inspect, change, and move one workspace contract across XML, SQL, and C# without making any one representation the source of semantic truth.</p>
+<p>Meta is a foundation for building tools and systems around metadata models. You can define a model, query and edit its instances, refactor its structure together with the affected data, and use its definitions to drive transformations and tools.</p>
             </div>
           </header>
           <section class="subsection description-block">
-            <h3 class="document-heading">Metadata foundations</h3>
+            <h3 class="document-heading">Working with models and instances</h3>
             <div class="markdown-content">
-<p>Metadata is the structure that tools operate on. A model defines entity types, scalar properties, and relationships. Its instance graph contains identified records and references. A workspace carries both so the same declared meaning can be authored, inspected, changed, and moved between surfaces.</p>
-<p>Core terms:</p>
-<ul>
-<li><strong>Model:</strong> a named set of entity definitions.</li>
-<li><strong>Entity:</strong> a record type with an identity.</li>
-<li><strong>Property:</strong> a scalar value on an entity.</li>
-<li><strong>Relationship:</strong> a reference from one entity to another.</li>
-<li><strong>Instance:</strong> one identified record of an entity.</li>
-<li><strong>Workspace:</strong> the unit that carries a model, its instance graph, and the selected surface.</li>
-</ul>
+<p>A model defines types, properties and relationships. For example, a model could define <code>Country</code> and <code>City</code>, their names, and a relationship linking each city to its country. Sweden and Stockholm are <strong>instances</strong> of those types. Meta calls a model and its instances a <strong>workspace</strong>.</p>
+<p>Use <code>meta</code> to inspect models, query records, follow relationships, edit values and compare workspaces. Its refactoring commands change model definitions together with the affected records—for example, turning a property into a relationship. This lets you evolve how information is structured while carrying the existing data through the change.</p>
+<p>Models also provide the definitions used by other tools. A model can describe a command interface, a correspondence between two models, or the workspaces and steps in a repository workflow. The foundation tools use these definitions to expose commands, transform data, generate reference documentation and execute repeatable operations.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">Workspace contract</h3>
+            <h3 class="document-heading">The foundation tools</h3>
             <div class="markdown-content">
-<p>A workspace contains one model, one instance graph, and the storage required by its selected surface. Commands address the workspace as a unit rather than depending on a particular file, table, or generated type.</p>
-<p>The line-oriented <code>workspace.meta</code> descriptor selects the surface with <code>representation xml</code>, <code>representation sql</code>, or <code>representation csharp</code>. A SQL workspace also names the environment variable that supplies its database connection. XML files, SQL tables, and C# source remain owned by their respective surfaces behind this common boundary.</p>
+<p>The repository contains five command-line tools:</p>
+<table>
+<thead>
+<tr>
+<th>Tool</th>
+<th>Purpose</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>meta</code></td>
+<td>Create, inspect, query and change models and their instances.</td>
+</tr>
+<tr>
+<td><code>meta-cli</code></td>
+<td>Define a tool's commands and options in a model, with shared parsing, help and runtime binding.</td>
+</tr>
+<tr>
+<td><code>meta-weave</code></td>
+<td>Define correspondences between models and execute transformations that populate a target workspace.</td>
+</tr>
+<tr>
+<td><code>meta-docs</code></td>
+<td>Combine authored explanations with generated command and model reference material, then render the documentation.</td>
+</tr>
+<tr>
+<td><code>meta-mesh</code></td>
+<td>Record the workspaces and ordered commands needed for a repeatable repository workflow.</td>
+</tr>
+</tbody>
+</table>
+<p><a href="https://github.com/jimmy-zhao-tainio/meta-bi">Meta-BI</a> builds on this foundation with models and tools for BI engineering.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">Why isomorphic metadata</h3>
+            <h3 class="document-heading">Files, database tables and application code</h3>
             <div class="markdown-content">
-<p>A supported surface is isomorphic when it can carry the modeled facts of a workspace without assigning them a different meaning. The model, identities, scalar values, and relationships remain the same when the workspace moves between XML, SQL, and C#.</p>
+<p>You can author and change a model and its instances in any supported representation:</p>
 <ul>
-<li><strong>XML</strong> stores deterministic model and instance files. Their structured, stable ordering makes metadata changes practical to review, branch, merge, and version in Git.</li>
-<li><strong>SQL</strong> stores the workspace in relational tables, where database constraints, queries, and set-based operations can work over large instance sets.</li>
-<li><strong>C#</strong> stores readable and writable typed source for applications and services that need to consume or produce the workspace directly.</li>
+<li><strong>XML</strong> expresses the model and its instances in deterministic files to review, branch and version in Git.</li>
+<li><strong>SQL</strong> expresses the model through tables, columns and foreign keys, with instances stored as rows. You can query and manage the metadata relationally, with database constraints enforcing its structure.</li>
+<li><strong>C#</strong> expresses the model through classes, properties and references, with instances represented as objects. Applications get typed access through readable, writable source.</li>
 </ul>
-<p>Commands open the selected surface through the common workspace contract, apply operations to the same modeled state, and persist through that surface or a selected destination surface. XML is not a canonical semantic form; it is one first-class representation alongside SQL and C#.</p>
+<p>Meta guarantees isomorphism across its supported XML, SQL and C# representations: conversion preserves the model, record identities, property values and relationships. This allows you to choose a representation to suit the work and move between them as your tools and workflow require. You can convert the model alone or include its instances.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">Foundation command-line tools</h3>
+            <h3 class="document-heading">Selecting a workspace</h3>
             <div class="markdown-content">
-<p>Five command-line tools share the foundation:</p>
-<ul>
-<li><strong><code>meta</code></strong> creates and operates on model and instance workspaces across XML, SQL, and C# surfaces.</li>
-<li><strong><code>meta-cli</code></strong> defines modeled command surfaces and provides shared parsing, help, workspace access, and runtime binding.</li>
-<li><strong><code>meta-weave</code></strong> authors first-class correspondences between workspace contracts. Its WeaveScript language is modeled transformation of models, distilled from MetaTransformScript; the T-SQL-shaped text is a readable projection of semantic query graphs stored in the correspondence workspace.</li>
-<li><strong><code>meta-docs</code></strong> combines CLI and model reference data with authored technical documentation, then merges and renders the public reference.</li>
-<li><strong><code>meta-mesh</code></strong> declares the workspaces involved in a repository workflow and the ordered executable steps that operate on them.</li>
-</ul>
-<p>BI-specific models and command-line tools live in the separate <code>meta-bi</code> repository.</p>
+<p>The <code>workspace.meta</code> file identifies the workspace's representation and storage configuration. Commands use the current directory by default; pass <code>--workspace &lt;path&gt;</code> to select another workspace. Run <code>meta help</code> to list commands, or <code>meta help &lt;command&gt;</code> for their arguments and options.</p>
             </div>
           </section>
           <section class="subsection description-block">
             <h3 class="document-heading">Install and run</h3>
             <div class="markdown-content">
-<p>The repository targets .NET 8. Build the foundation from its root:</p>
+<p>For a packaged release, extract the archive and run <code>install-meta.exe</code>. Keep the extracted directory layout intact. The installer adds the tools to your user <code>PATH</code>; open a new terminal and run <code>meta help</code>.</p>
+<p>A framework-dependent package needs the .NET 8 runtime. A self-contained package includes it.</p>
+<p>To build from source, use the .NET 8 SDK and run these commands from the repository root:</p>
 <pre><code class="language-powershell">dotnet build Metadata.Framework.sln
+dotnet run --project Meta\Cli\Meta.Cli.csproj -- help
 </code></pre>
-<p>Run the CLI directly during development:</p>
-<pre><code class="language-powershell">dotnet run --project Meta\Cli\Meta.Cli.csproj -- help
-</code></pre>
-<p>For an offline release, extract the archive without changing its layout and run <code>install-meta.exe</code>. A framework-dependent package requires the .NET 8 runtime; a self-contained package carries its runtime. The installer places <code>meta.exe</code>, <code>meta-weave.exe</code>, and <code>meta-docs.exe</code> in <code>%LOCALAPPDATA%\meta\bin</code> and adds that directory to the user <code>PATH</code>. Open a new terminal, then run <code>meta help</code>.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">One workspace across XML, SQL and C#</h3>
-            <div class="markdown-content">
-<p>Create an XML workspace and give its initial model one entity and two records:</p>
-<pre><code class="language-powershell">meta create --name WorkspaceCatalog --xml .\XmlWorkspace
-meta model add-entity System --workspace .\XmlWorkspace
-meta model add-property System SystemName --workspace .\XmlWorkspace
-meta insert System erp --set SystemName=ERP --workspace .\XmlWorkspace
-meta insert System crm --set SystemName=CRM --workspace .\XmlWorkspace
-</code></pre>
-<p>Now create SQL and C# workspaces from that exact model and instance graph:</p>
-<pre><code class="language-powershell">$env:META_SQL_CONNECTION = &quot;Server=.;Database=WorkspaceCatalog;Integrated Security=true;TrustServerCertificate=true;Encrypt=false&quot;
-meta create --sql .\SqlWorkspace --source-workspace .\XmlWorkspace --with-instances --connection-env META_SQL_CONNECTION
-meta create --csharp .\CSharpWorkspace --source-workspace .\XmlWorkspace --with-instances
-</code></pre>
-<p>The C# surface contains the generated <code>WorkspaceCatalogModel</code>, the <code>System</code> type, and the same two records. Application or service code can consume them directly:</p>
-<pre><code class="language-csharp">using WorkspaceCatalog;
-
-WorkspaceCatalogModel catalog = WorkspaceCatalogInstance.BuiltIn;
-foreach (var system in catalog.SystemList)
-{
-    Console.WriteLine($&quot;{system.Id}: {system.SystemName}&quot;);
-}
-</code></pre>
-<p>All three workspaces carry the <code>WorkspaceCatalog</code> model, its <code>System</code> entity, and the <code>erp</code> and <code>crm</code> instances. Only their storage and execution surfaces differ.</p>
-            </div>
-          </section>
-          <section class="subsection description-block">
-            <h3 class="document-heading">Meta CLI at a glance</h3>
-            <div class="markdown-content">
-<p><code>meta</code> organizes commands by the work performed on a workspace:</p>
-<ul>
-<li><strong>Create:</strong> create an empty workspace or project an existing workspace onto another surface.</li>
-<li><strong>Inspect:</strong> view workspace status, models, instances, relationships, queries, and graphs.</li>
-<li><strong>Author:</strong> add or change model definitions and instance records.</li>
-<li><strong>Refactor:</strong> change model structure together with the affected instance data.</li>
-<li><strong>Import and export:</strong> bring external metadata into a workspace or write it in another supported form.</li>
-</ul>
-<p>Workspace-oriented commands use the current directory by default. Pass <code>--workspace &lt;path&gt;</code> to target another workspace. Use <code>meta help</code> for the command list and <code>meta help &lt;command&gt;</code> for the current arguments and options; the complete command reference is generated from that same modeled command surface.</p>
-            </div>
-          </section>
-          <section class="subsection description-block">
-            <h3 class="document-heading">Further reference</h3>
+            <h3 class="document-heading">Reference</h3>
             <div class="markdown-content">
 <ul>
-<li><a href="https://metametabi.com/docs.html#group-public-meta-cli">Meta CLI reference</a> is generated from the modeled command surfaces.</li>
-<li><a href="https://metametabi.com/docs.html#group-public-meta-models">Meta model reference</a> describes the foundation models.</li>
-<li><a href="https://github.com/jimmy-zhao-tainio/meta/blob/master/PACKAGE-README.md">Development package documentation</a> records the maintained package boundaries.</li>
-<li><a href="https://github.com/jimmy-zhao-tainio/meta/blob/master/CONTRIBUTING.md">Contributor guidance</a> covers repository builds and generated-artifact policy.</li>
+<li><a href="https://metametabi.com/docs.html#group-public-meta-cli">Meta command reference</a></li>
+<li><a href="https://metametabi.com/docs.html#group-public-meta-models">Foundation models</a></li>
+<li><a href="https://github.com/jimmy-zhao-tainio/meta/blob/master/PACKAGE-README.md">Development packages</a></li>
+<li><a href="https://github.com/jimmy-zhao-tainio/meta/blob/master/CONTRIBUTING.md">Contributor guide</a></li>
 </ul>
             </div>
           </section>
@@ -17270,55 +17243,75 @@ meta-mesh run --operation regenerate-public-docs
         </section>
         <section class="panel" id="subject-public-meta-bi-overview" data-panel="subject-public-meta-bi-overview">
           <header class="panel-header">
-            <h2>meta-bi</h2>
+            <h2>Meta-BI</h2>
             <div class="panel-lead markdown-content">
-<p><code>meta-bi</code> brings BI engineering into the workspace system provided by <code>meta</code>. A project can move from a discovered source schema to Data Vault and dimensional models, bind SQL transforms to those structures, analyze them for data-quality checks, execute loads, derive orchestration, and publish analytical models.</p>
-<p>Each stage leaves a model workspace behind. Those workspaces carry the structures and decisions used by the next stage, while the command-line tools create and operate them.</p>
+<p>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</p>
+<p><code>MetaMesh</code> brings these components together into a working system. It records the participating workspaces, commands and ordered steps as named operations for construction, deployment, execution and verification. An operation can build an environment, deploy one target or verify one layer. The construction process is maintained alongside the design, and its workspace and command references can be validated before execution.</p>
+<p>Conversions connect the stages. <code>meta-convert</code> provides established conversion paths, while <code>MetaWeave</code> expresses correspondences and transformations between workspace contracts. These steps can be combined in a mesh to suit the project's architecture.</p>
             </div>
           </header>
           <section class="subsection description-block">
-            <h3 class="document-heading">The models</h3>
+            <h3 class="document-heading">Transformations</h3>
             <div class="markdown-content">
-<p>The model set follows the working parts of a BI system, from source structure through data stores and transforms to runtime and analytics.</p>
-<h4 id="schemas-and-data-types">Schemas and data types</h4>
-<p>Work can begin by extracting SQL Server into <code>MetaSchema</code>. The resulting workspace contains schemas, objects, fields, keys, and relationships that other models can reference. Other systems can provide the same contract through <code>MetaSchemaAdapter</code>. <code>MetaDataType</code> gives those fields shared type identities, and <code>MetaDataTypeConversion</code> carries the conversion rules used when source and target systems use different type systems.</p>
-<h4 id="data-vault">Data Vault</h4>
-<p>From a source contract, the Raw Data Vault model captures hubs, links, satellites, business keys, and descriptive fields in <code>MetaRawDataVault</code>. Business integration is authored in <code>MetaBusinessDataVault</code>, including Business hubs, links, satellites, bridges, point-in-time structures, and their supporting relationships.</p>
-<p><code>MetaDataVaultImplementation</code> supplies schemas and names, SQL types, hashing policy, audit columns, defaults, and indexes. Conversion combines a vault workspace with that implementation workspace and produces the corresponding <code>MetaSql</code> database structure.</p>
-<h4 id="data-warehouse">Data warehouse</h4>
-<p>Dimensional design begins with grain. <code>MetaDataWarehouse</code> carries facts, dimensions, attributes, measures, dimensional roles, table types, historization, and the relationships that connect them. <code>MetaDataWarehouseImplementation</code> applies schemas and naming, surrogate keys, slowly-changing-dimension columns, SQL types, defaults, and indexes when that design is converted into database tables.</p>
-<h4 id="transforms">Transforms</h4>
-<p><code>MetaTransformScript</code> is a semantic model of supported T-SQL. It carries statements, queries, CTEs, row sources, expressions, functions, identifiers, ordering, and mutations as related model entities. SQL can be imported into that model, inspected and changed as workspace data, and emitted again as T-SQL.</p>
-<p><code>MetaTransformPattern</code> models reusable SQL transform shapes as ordered text and named placeholders. Its workspace contains definitions only, so a pattern library can be shared and versioned on its own. <code>MetaTransformPatternInstance</code> keeps concrete uses in a separate workspace: each instance identifies a pattern and supplies one SQL fragment for each placeholder. The <code>TransformPatternToSqlScript</code> weave takes both workspaces and produces one <code>MetaSqlScript</code> record per instance; the existing SQL importer then parses those statements into <code>MetaTransformScript</code>.</p>
-<p>Binding places those transforms against source and target <code>MetaSchema</code> workspaces. <code>MetaTransformBinding</code> resolves object and field references, derives input and output rowsets, records reads and writes, matches projected columns to target columns, and applies the selected <code>MetaDataTypeConversion</code> rules. The resulting binding workspace feeds data-quality discovery, pipeline execution, and orchestration analysis.</p>
-<h4 id="sql-databases">SQL databases</h4>
-<p><code>MetaSql</code> carries the SQL Server database structure produced by the design and transform models, and it can also be extracted from SQL Server. <code>meta-sql deploy-plan</code> compares a MetaSql workspace with a live database and writes a <code>MetaSqlDeployManifest</code> containing fingerprints, changes, and exact approvals for table drops, column drops, and column truncations. <code>meta-sql deploy</code> checks the source and live fingerprints and applies the recorded changes.</p>
-<h4 id="data-quality">Data quality</h4>
-<p>The transform estate already contains repeated joins, projections, and grain clues. <code>MetaDataQuality</code> walks that modeled structure, follows joins through CTEs and derived queries, and gathers recurring patterns across transforms. From them it produces candidates for orphan joins, outer-join null expansion, multiplicity growth, and duplicate output.</p>
-<p>The workspace keeps each pattern, its occurrences, the generated candidates, and their promotion status. Promoted candidates become SQL views, a review dashboard, and an operational run and findings pack.</p>
-<h4 id="pipelines">Pipelines</h4>
-<p>Bound transforms become runnable work in <code>MetaPipeline</code>. A pipeline arranges transform tasks and executable tasks into an ordered unit, with connection references, target writes, timeouts, and execution settings recorded in the workspace. During a run, the pipeline runtime reads and writes data, buffers batches, invokes processes, and records task results, row and batch counts, timings, metrics, and failures.</p>
-<h4 id="orchestration">Orchestration</h4>
-<p>The reads and writes captured by binding give <code>MetaOrchestration</code> the information needed to connect pipeline tasks. It derives producer-consumer dependencies and object effects, then combines them with ordering, locking, retry, and failure-branch policy in an orchestration workspace.</p>
-<p>Run planning turns that workspace into planned tasks and locks. At execution time, orchestration grants work as dependencies become satisfied and locks become available, allowing independent paths to run together while recording attempts, retries, and failure paths.</p>
-<h4 id="analytics">Analytics</h4>
-<p>At the analytical layer, <code>MetaAnalytics</code> carries tables, attributes, relationships, hierarchies, perspectives, security, cultures, translations, and source-backed base measures with typed aggregate functions. That workspace can be converted into either analytical target.</p>
-<p><code>MetaTabular</code> adds the Tabular structures used for DAX measures, row filters, partitions, calculation groups, roles, perspectives, and translations. <code>MetaMultiDimensional</code> carries cubes, dimensions, measure groups, MDX calculations, named sets, actions, partitions, roles, perspectives, and translations. Their CLIs deploy the target databases, process them, query them, back them up, restore them, and remove them.</p>
+<p><code>MetaTransformScript</code> exposes supported T-SQL as structured statements, queries and expressions. Transformation logic can be inspected and changed programmatically, including logic inside CTEs and derived queries, then emitted again as semantically equivalent code.</p>
+<p><code>MetaTransformBinding</code> resolves object and field references against source and target schemas, checks output shape and type compatibility, and records reads and writes. The resulting binding feeds quality analysis, execution and orchestration. Reusable transform patterns keep shared definitions separate from the SQL fragments supplied for each use.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">Conversions</h3>
+            <h3 class="document-heading">Data quality</h3>
             <div class="markdown-content">
-<p>Conversions carry one workspace into the next part of the system. <code>meta-convert</code> covers the established paths: schema to Raw Data Vault; Raw and Business Data Vault to SQL; data warehouse to SQL; SQL and TransformScript in both directions; Data Quality to SQL; and MetaAnalytics to Tabular or Multidimensional models.</p>
-<p>MetaWeave brings the conversion itself into a model. A <code>MetaWeave</code> workspace names the source and target contracts, the available directions, their requirements, and the transformations that populate target entities. Those transformations have a readable WeaveScript form and execute through MetaWeave's in-memory engine. The result of <code>meta-weave execute</code> is a new workspace in the selected XML, SQL, or C# representation.</p>
+<p>Across a large transformation estate, the same joins recur in different contexts. <code>MetaDataQuality</code> follows them through CTEs and derived queries and consolidates recurring patterns, retaining the transformations and occurrences behind each one.</p>
+<p>From that structure it derives candidate checks for orphaned joins, null expansion, multiplicity growth and duplicate output. Review can focus on shared patterns and their reach across the system. Promoted candidates become executable SQL checks, with a review dashboard and an operational record of runs and findings. This connects quality investigation to the transformation logic that prompted it.</p>
             </div>
           </section>
           <section class="subsection description-block">
-            <h3 class="document-heading">Building systems with MetaMesh</h3>
+            <h3 class="document-heading">Automatic orchestration</h3>
             <div class="markdown-content">
-<p>A BI build uses many workspaces and many CLI calls. MetaMesh turns that construction path into a workspace of its own: participating workspaces, executables, arguments, named operations, and ordered steps.</p>
-<p>An operation can begin with source discovery, create the vault and warehouse models, convert them into database structures, deploy them, import and bind transforms, build pipelines, derive orchestration, execute the load, check the result, and publish an analytical model. Other operations can refresh one layer, deploy one target, or run one verification sequence.</p>
-<p><code>meta-mesh validate</code> resolves the declared workspaces and commands before execution. <code>meta-mesh run</code> then invokes each step in the recorded order. The mesh workspace keeps the construction process alongside the model workspaces and gives the system named entry points for build, deployment, execution, verification, and cleanup.</p>
+<p><code>MetaOrchestration</code> derives producer-consumer dependencies across pipelines from the reads and writes captured during binding. Load order follows those dependencies, supplemented by explicit ordering and locking policies.</p>
+<p>Execution releases tasks as their prerequisites are satisfied and locks become available, allowing independent paths to run concurrently. Planning and run records cover tasks, locks, attempts, retries and failure branches. <code>MetaPipeline</code> performs the underlying work and records task results, row and batch counts, timings and failures.</p>
+            </div>
+          </section>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Other capabilities</h3>
+            <div class="markdown-content">
+<table>
+<thead>
+<tr>
+<th>Area</th>
+<th>Capability</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Source structure and types</td>
+<td><code>MetaSchema</code> and its adapters provide a common contract for source objects, fields, keys and relationships. <code>MetaDataType</code> and <code>MetaDataTypeConversion</code> make type identities and conversion rules available during binding and generation.</td>
+</tr>
+<tr>
+<td>Data-store design</td>
+<td><code>MetaRawDataVault</code>, <code>MetaBusinessDataVault</code> and <code>MetaDataWarehouse</code> describe vault and dimensional structures. Separate implementation definitions apply physical conventions such as naming, keys, hashing, SQL types and indexes during conversion.</td>
+</tr>
+<tr>
+<td>Database deployment</td>
+<td><code>MetaSql</code> deployment plans record database differences, source and live fingerprints, and the approvals required for destructive changes. Deployment verifies the fingerprints before applying the recorded changes.</td>
+</tr>
+<tr>
+<td>Analytics</td>
+<td><code>MetaAnalytics</code> supplies shared analytical definitions for conversion to Tabular or Multidimensional targets. <code>MetaTabular</code> and <code>MetaMultiDimensional</code> add their respective calculations, security, partitions and tools for deployment, processing and queries.</td>
+</tr>
+</tbody>
+</table>
+<p>The <a href="https://github.com/jimmy-zhao-tainio/meta-bi/tree/main/Demos/AdventureWorksBiStackDemo">AdventureWorks example</a> shows one possible arrangement: source discovery, Raw and Business Vaults, a dimensional warehouse and Tabular analytics, with quality checks and load orchestration. Its workspaces and build operations are included in the repository.</p>
+            </div>
+          </section>
+          <section class="subsection description-block">
+            <h3 class="document-heading">Reference</h3>
+            <div class="markdown-content">
+<ul>
+<li><a href="https://metametabi.com/docs.html#subject-public-meta-overview">Meta foundation</a></li>
+<li><a href="https://metametabi.com/docs.html">Command and model reference</a></li>
+<li><a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/docs/README.md">Product documentation</a></li>
+<li><a href="https://github.com/jimmy-zhao-tainio/meta-bi">Source, build instructions and current status</a></li>
+</ul>
             </div>
           </section>
         </section>
@@ -77419,6 +77412,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
         const viewer = document.getElementById('viewer');
         const app = document.getElementById('docs-app');
         const sidebar = document.getElementById('reference-navigation');
+        const defaultPanel = sidebar?.querySelector('[data-panel-link]')?.getAttribute('data-panel-link') || 'home';
         const menuButton = document.querySelector('.menu-button');
         function setMenuOpen(open) {
           if (!sidebar || !menuButton) return;
@@ -77429,8 +77423,8 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
           if (viewer) viewer.focus({ preventScroll: true });
         }
         function normalizeHash() {
-          const raw = window.location.hash ? window.location.hash.slice(1) : 'home';
-          return raw || 'home';
+          const raw = window.location.hash ? window.location.hash.slice(1) : defaultPanel;
+          return raw || defaultPanel;
         }
         const initialRoute = normalizeHash();
         if (window.location.hash) {

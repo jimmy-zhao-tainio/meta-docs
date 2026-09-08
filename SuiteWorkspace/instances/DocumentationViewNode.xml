@@ -32,6 +32,7 @@
     </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-meta-bi-overview" DocumentationSubjectId="public:meta-bi:overview" DocumentationViewId="view:default">
       <ParentNodeId>view:default:node:public-meta-bi</ParentNodeId>
+      <Selection></Selection>
       <Title>Overview</Title>
     </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-meta-cli" DocumentationSubjectId="public:meta:cli" DocumentationViewId="view:default" PreviousNodeId="view:default:node:public-meta-overview">
@@ -44,6 +45,7 @@
     </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-meta-overview" DocumentationSubjectId="public:meta:overview" DocumentationViewId="view:default">
       <ParentNodeId>view:default:node:public-meta</ParentNodeId>
+      <Selection></Selection>
       <Title>Overview</Title>
     </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-reference" DocumentationSubjectId="public:reference" DocumentationViewId="view:default">

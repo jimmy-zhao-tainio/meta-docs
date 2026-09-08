@@ -73,12 +73,12 @@
       <Summary>Model references for the sanctioned BI metadata workspaces.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-bi-overview" DocumentationSourceId="source:workspace-instances:metametabi-authored" DocumentationSubjectTypeId="subject-type:instance" ParentSubjectId="source:workspace-model:meta-docs:entity:documentationsubject" PreviousSubjectId="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-bi-models">
-      <DisplayName>meta-bi</DisplayName>
+      <DisplayName>Meta-BI</DisplayName>
       <DisplayPath>Authored docs page instances.Reference.Meta-BI.Overview</DisplayPath>
       <NativeId>public:meta-bi:overview</NativeId>
       <SourceTypeName>DocumentationSubject</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>A model-driven BI stack from source contracts and transform syntax through execution and analytical targets.</Summary>
+      <Summary>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-cli" DocumentationSourceId="source:workspace-instances:metametabi-authored" DocumentationSubjectTypeId="subject-type:instance" ParentSubjectId="source:workspace-model:meta-docs:entity:documentationsubject" PreviousSubjectId="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-bi-overview">
       <DisplayName>CLI</DisplayName>
@@ -97,12 +97,12 @@
       <Summary>Model references for the core metadata foundation.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-overview" DocumentationSourceId="source:workspace-instances:metametabi-authored" DocumentationSubjectTypeId="subject-type:instance" ParentSubjectId="source:workspace-model:meta-docs:entity:documentationsubject" PreviousSubjectId="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-models">
-      <DisplayName>meta</DisplayName>
+      <DisplayName>Meta</DisplayName>
       <DisplayPath>Authored docs page instances.Reference.Meta.Overview</DisplayPath>
       <NativeId>public:meta:overview</NativeId>
       <SourceTypeName>DocumentationSubject</SourceTypeName>
       <Status>Changed</Status>
-      <Summary>A model-first metadata foundation with isomorphic XML, SQL, and C# surfaces.</Summary>
+      <Summary>Meta is a foundation for building tools and systems around metadata models. You can define a model, query and edit its instances, refactor its structure together with the affected data, and use its definitions to drive transformations and tools.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-reference" DocumentationSourceId="source:workspace-instances:metametabi-authored" DocumentationSubjectTypeId="subject-type:instance" ParentSubjectId="source:workspace-model:meta-docs:entity:documentationsubject" PreviousSubjectId="source:workspace-instances:metametabi-authored:instance:documentationsubject:public-meta-overview">
       <DisplayName>meta + meta-bi reference</DisplayName>
