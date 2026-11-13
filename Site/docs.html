@@ -17319,6 +17319,13 @@ meta-mesh run --operation regenerate-public-docs
           <header class="panel-header">
             <h2>Demo</h2>
             <div class="panel-lead markdown-content">
+<h1 id="adventureworks-full-bi-stack">AdventureWorks full BI stack</h1>
+<p>The load SQL uses explicit casts where SQL aliases or monetary types cross into
+different destination contracts. Raw integer fields remain integers. All 120
+scripts have regenerated schema-aware Binding against the extracted SQL Server
+contracts; conversion-graph reachability cannot approve an unconverted expression.</p>
+<p>The <a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md">conversion alignment</a> explains the corrected defaults,
+load casts, catalog ownership and the remaining MetaMesh output-recovery limitation.</p>
 <h2 id="a-complete-bi-stack-built-by-an-agent">A complete BI stack built by an agent</h2>
 <p>The AdventureWorks stack was fully designed and built by an agent using the
 public Meta and meta-bi command-line tools. Its starting inputs were a live
@@ -17334,7 +17341,7 @@ Online/Store channel from source evidence; and declined to publish gross margin
 because AdventureWorks lacks complete historical cost coverage.</p>
 <p>The implementation is preserved as models rather than summarized after the
 fact. Every generated workspace was created through its owning CLI. The demo's
-MetaMesh workspace names 27 participating workspaces, 29 operations, and 614
+MetaMesh workspace names 28 participating workspaces, 29 operations, and 614
 ordered executable steps covering discovery, model authoring, conversion,
 deployment, transformation import and binding, pipeline construction,
 execution, verification, and analytical deployment. The generated results are
@@ -17372,12 +17379,12 @@ checked in alongside that construction record.</p>
 </tr>
 <tr>
 <td>Make transformations provable</td>
-<td>53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, each strictly bound</td>
-<td><code>meta-transform-script</code> models the T-SQL program; <code>meta-transform-binding</code>, <code>MetaSchema</code>, <code>MetaDataType</code>, and <code>MetaDataTypeConversion</code> prove its reads, writes, target shape, and type compatibility.</td>
+<td>53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, all validated against the current contracts</td>
+<td><code>meta-transform-script</code> models the T-SQL program; Binding validates its resulting contracts through <code>MetaSchema</code> and the selected <code>MetaDataType</code> catalog. Casts are authored before Binding.</td>
 </tr>
 <tr>
 <td>Turn evidence into quality checks</td>
-<td>167 promoted checks covering orphan joins, multiplicity expansion, duplicate risk, and outer-join null expansion</td>
+<td>167 promoted checks, with 45 returning wanted review findings in the recorded sample run</td>
 <td><code>meta-data-quality</code> derives reviewable <code>MetaDataQuality</code> candidates and <code>meta-convert</code> emits executable quality SQL.</td>
 </tr>
 <tr>
@@ -17404,7 +17411,7 @@ checked in alongside that construction record.</p>
 <li>permission to create the four demo-owned databases;</li>
 <li>Analysis Services Tabular only when running the optional Tabular deployment and processing operations.</li>
 </ul>
-<p><a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/SOURCE-SETUP.md"><code>SOURCE-SETUP.md</code></a> covers the source database. <a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/prepare-adventureworks-db.ps1"><code>prepare-adventureworks-db.ps1</code></a> can download and restore the official backup on a local development machine.</p>
+<p><code>SOURCE-SETUP.md</code> covers the source database. <code>prepare-adventureworks-db.ps1</code> can download and restore the official backup on a local development machine.</p>
 <h2 id="environment">Environment</h2>
 <p>The examples below use the local default SQL Server instance:</p>
 <pre><code class="language-powershell">$env:AW_SOURCE_SQL = &quot;Server=.;Database=AdventureWorks2022;Integrated Security=true;TrustServerCertificate=true;Encrypt=false&quot;
@@ -17444,13 +17451,90 @@ meta-mesh run --operation create-analytics
 meta-mesh run --operation create-tabular
 </code></pre>
 <p>The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.</p>
+<p>Binding and execution explicitly select the mesh's <code>data-type</code> workspace through
+<code>--data-type-workspace</code>; their CLI default remains BuiltIn. The schema generator
+currently uses BuiltIn catalogs independently. This demo authors its required
+casts directly in load SQL, so it does not need an <code>apply-conversions</code> step.</p>
+<p>MetaMesh currently requires referenced output workspaces to exist during preflight.
+The checked-in generated workspaces satisfy that requirement. A missing output
+after failed generation can prevent a retry; see the recovery limitation in the
+alignment note. Bootstrap from absent outputs is not verified by this demo.</p>
 <h2 id="run-and-verify">Run and verify</h2>
 <p>Execute the inferred graph across all three pipelines, then reconcile the result to the source:</p>
 <pre><code class="language-powershell">meta-mesh run --operation run-etl
 meta-mesh run --operation verify-stack
 </code></pre>
 <p>For an inspected layer-by-layer run, use <code>load-raw-vault</code>, <code>load-business-vault</code>, and <code>load-dimensional-warehouse</code> instead of <code>run-etl</code>.</p>
-<p>The verification operation checks Raw and Business Vault counts, warehouse fact grains, source-to-warehouse measures, deployed Data Quality results, and the latest task-level pipeline evidence. The expected static AdventureWorks result is 31,465 orders, 121,317 lines, 163 quota rows, and 167 promoted Data Quality checks with no findings.</p>
+<p>The verification operation checks Raw and Business Vault counts, warehouse fact
+grains, source-to-warehouse measures, native Raw product types and exact values,
+deployed Data Quality results, and the latest task-level pipeline evidence.
+The live alignment loaded 31,465 orders, 121,317 lines and 163 quota rows through
+120 successful tasks. The recorded Data Quality result is <strong>167 promoted checks,
+45 with findings</strong>. Those findings are wanted review evidence, as explained below.
+<code>verify-stack</code> executes the deployed review once and reports the total checks,
+checks with findings and per-family finding groups. Findings do not automatically
+fail verification. Missing checks, SQL execution errors and failures in the
+other reconciliations still fail the operation.</p>
+<h2 id="data-quality-findings">Data Quality findings</h2>
+<p>The demo retains the full promoted review pack and its findings. Returned rows
+identify situations to inspect; they do not automatically establish a faulty
+transformation. The reviewed sample result is:</p>
+<table>
+<thead>
+<tr>
+<th>Check family</th>
+<th style="text-align: right;">Checks with findings</th>
+<th>Observed situation</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>JoinMultiplicityExplosion</td>
+<td style="text-align: right;">14</td>
+<td>Repeated use of lookup keys, including multiple lines per order</td>
+</tr>
+<tr>
+<td>OutputDuplicateRisk</td>
+<td style="text-align: right;">14</td>
+<td>The same join-key groupings, reviewed alongside actual output grains</td>
+</tr>
+<tr>
+<td>JoinOrphan</td>
+<td style="text-align: right;">12</td>
+<td>Related records unused by the consuming side, such as products never ordered</td>
+</tr>
+<tr>
+<td>OuterJoinNullExpansion</td>
+<td style="text-align: right;">5</td>
+<td>Missing relationships corresponding to nullable source references</td>
+</tr>
+</tbody>
+</table>
+<p>These are <strong>45 nonempty checks</strong>, not 45 bad records or 45 confirmed transform
+defects. Independent source comparisons explain the returned groups; forward
+reference probes found no missing lookups or duplicate applicable lookup keys,
+and the fact grains were verified separately. The checks and findings remain
+visible. The counts describe this recorded sample run, not general acceptance
+thresholds or permission to ignore future differences.</p>
+<p>Inspect the findings on the local SQL Server instance:</p>
+<pre><code class="language-sql">SELECT *
+FROM [AdventureWorksAnalytics].[dq].[v_DataQualityReview]
+WHERE COALESCE([ResultRowCount], [RowsReturned], 0) &lt;&gt; 0
+ORDER BY [ResultRowCount] DESC, [CandidateId];
+</code></pre>
+<p><code>ReviewQuery</code> contains SQL for drilling into each check. See
+<a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/DQ-REVIEW.md">DQ-REVIEW.md</a> for the individual findings and supporting probes.
+The former expectation of no findings is superseded by this interpretation;
+the verifier does not hardcode 45 as an allowed-failure threshold.
+MetaDataQuality changes and production-scale execution/dashboard work are
+deferred; no checks are removed, suppressed or changed for this demo.</p>
+<p>The final SQL alignment verification passed through the modeled <code>verify-stack</code>
+operation. Independent source comparisons found zero missing, extra or changed
+selected business rows across the eight reviewed warehouse outputs, including
+binary comparison of text. All 120 scripts were rebound against the selected
+catalog, and the latest task evidence contains 53, 47 and 20 successful tasks
+for the three pipelines. These are verification of the loaded SQL stack;
+Analysis Services was not rerun.</p>
 <h2 id="tabular-runtime">Tabular runtime</h2>
 <p>The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local <code>.\TABULAR</code> instance and deploy the model as <code>AdventureWorksSales</code>:</p>
 <pre><code class="language-powershell">meta-mesh run --operation deploy-tabular
@@ -17458,6 +17542,8 @@ meta-mesh run --operation process-tabular
 </code></pre>
 <p><code>deploy-tabular</code> replaces the target database and deploys metadata without processing. <code>process-tabular</code> performs the full refresh. <code>drop-tabular</code> removes the deployed database.</p>
 <p>The deployment operation also grants the local <code>NT Service\MSOLAP$TABULAR</code> service account read access to <code>AdventureWorksAnalytics</code>. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on <code>.\TABULAR</code>. A direct model query returns Sales Amount <code>109846381.425</code>, Total Due <code>123216786.1159</code>, and Quota Amount <code>95714000</code>, matching the relational verification.</p>
+<p>These Tabular results are the recorded earlier deployment. Analysis Services
+deployment and processing were not repeated during the current SQL alignment.</p>
 <h2 id="cleanup">Cleanup</h2>
 <pre><code class="language-powershell">meta-mesh run --operation cleanup
 </code></pre>
@@ -27587,7 +27673,7 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-orchestration execute [--data-type-conversion-workspace &lt;path&gt;] [--max-degree-of-parallelism &lt;n&gt;] [--pipeline-db-connection-env &lt;value&gt;] --pipeline-workspace &lt;path&gt; [--run-artifacts-root &lt;path&gt;] [--worker-activation-timeout-seconds &lt;n&gt;] [--worker-control-pipe-connect-timeout-seconds &lt;n&gt;] [--worker-event-timeout-seconds &lt;n&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-orchestration execute [--data-type-workspace &lt;path&gt;] [--max-degree-of-parallelism &lt;n&gt;] [--pipeline-db-connection-env &lt;value&gt;] --pipeline-workspace &lt;path&gt; [--run-artifacts-root &lt;path&gt;] [--worker-activation-timeout-seconds &lt;n&gt;] [--worker-control-pipe-connect-timeout-seconds &lt;n&gt;] [--worker-event-timeout-seconds &lt;n&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -27595,8 +27681,8 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Conversion policy workspace passed to child workers.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28277,7 +28363,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-pipeline execute [--binding-workspace &lt;path&gt;] [--data-type-conversion-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-pipeline execute [--binding-workspace &lt;path&gt;] [--data-type-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28291,8 +28377,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Conversion policy workspace; omitted uses built-in defaults.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28339,7 +28425,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-pipeline execute-sqlserver [--batch-size &lt;n&gt;] [--binding &lt;value&gt;] --binding-workspace &lt;path&gt; [--data-type-conversion-workspace &lt;path&gt;] --execution-connection-env &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] --script &lt;value&gt; [--target &lt;sql-identifier&gt;] [--target-connection-env &lt;value&gt;] [--target-data-type-system &lt;value&gt;] [--timeout-seconds &lt;n&gt;] --transform-workspace &lt;path&gt;</code></pre>
+                <pre><code>meta-pipeline execute-sqlserver [--batch-size &lt;n&gt;] [--binding &lt;value&gt;] --binding-workspace &lt;path&gt; [--data-type-workspace &lt;path&gt;] --execution-connection-env &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] --script &lt;value&gt; [--target &lt;sql-identifier&gt;] [--target-connection-env &lt;value&gt;] [--target-data-type-system &lt;value&gt;] [--timeout-seconds &lt;n&gt;] --transform-workspace &lt;path&gt;</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28365,8 +28451,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Conversion policy workspace; omitted uses built-in defaults.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28437,7 +28523,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-pipeline execute-step [--binding-workspace &lt;path&gt;] [--data-type-conversion-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] --step-name &lt;value&gt; [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-pipeline execute-step [--binding-workspace &lt;path&gt;] [--data-type-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] --step-name &lt;value&gt; [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28451,8 +28537,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Conversion policy workspace; omitted uses built-in defaults.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28505,7 +28591,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-pipeline execute-worker [--binding-workspace &lt;path&gt;] --control-pipe &lt;value&gt; [--control-pipe-connect-timeout-seconds &lt;n&gt;] [--data-type-conversion-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-pipeline execute-worker [--binding-workspace &lt;path&gt;] --control-pipe &lt;value&gt; [--control-pipe-connect-timeout-seconds &lt;n&gt;] [--data-type-workspace &lt;path&gt;] --pipeline &lt;value&gt; [--pipeline-db-connection-env &lt;value&gt;] [--transform-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28531,8 +28617,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Conversion policy workspace; omitted uses built-in defaults.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -31597,7 +31683,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-transform-binding bind [--allow-partial] [--data-type-conversion-workspace &lt;path&gt;] --execute-system &lt;value&gt; [--execute-system-default-schema-name &lt;value&gt;] [--ignore-target-columns &lt;col[,col...]&gt;] [--ignore-target-columns-if-present &lt;col[,col...]&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--partial-report &lt;path&gt;] --source-schema &lt;path&gt; --target-schema &lt;path&gt; --transform-workspace &lt;path&gt;</code></pre>
+                <pre><code>meta-transform-binding bind [--allow-partial] [--data-type-workspace &lt;path&gt;] --execute-system &lt;value&gt; [--execute-system-default-schema-name &lt;value&gt;] [--ignore-target-columns &lt;col[,col...]&gt;] [--ignore-target-columns-if-present &lt;col[,col...]&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--partial-report &lt;path&gt;] --source-schema &lt;path&gt; --target-schema &lt;path&gt; --transform-workspace &lt;path&gt;</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -31611,8 +31697,8 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
-                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
-                      <td>Optional sanctioned conversion policy workspace. Omitted uses built-in defaults.</td>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -32221,6 +32307,80 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
 </code></pre>
                 </div>
               </section>
+          <details class="card cli-command-card" id="subject-source-cli-meta-transform-script-app-command-apply-conversions">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta-transform-script apply-conversions</span>
+                <span class="command-summary-text">Apply authored type conversions to source-column reads in a new workspace.</span>
+              </span>
+              <span class="command-counts">8 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta-transform-script apply-conversions --data-type-conversion-workspace &lt;path&gt; --data-type-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --source-schema &lt;path&gt; [--workspace &lt;path&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-connection-env &lt;value&gt;</td>
+                      <td></td>
+                      <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-csharp &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-sql &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--output-xml &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--source-schema &lt;path&gt;</td>
+                      <td>Read schema evidence; repeat for each referenced system.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;path&gt;</td>
+                      <td></td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
           <details class="card cli-command-card" id="subject-source-cli-meta-transform-script-app-command-from-sql-code">
             <summary class="command-summary">
               <span class="command-toggle" aria-hidden="true"></span>
@@ -32803,9 +32963,10 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>11 commands</p>
+                <p>12 commands</p>
               </div>
               <nav class="application-command-list">
+                <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-apply-conversions" aria-label="Open meta-transform-script apply-conversions"><code>apply-conversions</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-code" aria-label="Open meta-transform-script from sql-code"><code>from sql-code</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-file" aria-label="Open meta-transform-script from sql-file"><code>from sql-file</code></a>
                 <a class="application-command-link" href="#cli-meta-transform-script" data-local-anchor="subject-source-cli-meta-transform-script-app-command-from-sql-files" aria-label="Open meta-transform-script from sql-files"><code>from sql-files</code></a>
@@ -32862,9 +33023,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a href="#model-metadatatypeconversion" data-panel-link="model-metadatatypeconversion">MetaDataTypeConversion</a></td>
-                    <td>2</td>
                     <td>5</td>
-                    <td>1</td>
+                    <td>8</td>
+                    <td>4</td>
                   </tr>
                   <tr>
                     <td><a href="#model-metadatavaultimplementation" data-panel-link="model-metadatavaultimplementation">MetaDataVaultImplementation</a></td>
@@ -32934,9 +33095,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a href="#model-metatransformbinding" data-panel-link="model-metatransformbinding">MetaTransformBinding</a></td>
-                    <td>30</td>
-                    <td>38</td>
-                    <td>43</td>
+                    <td>29</td>
+                    <td>36</td>
+                    <td>42</td>
                   </tr>
                   <tr>
                     <td><a href="#model-metatransformpattern" data-panel-link="model-metatransformpattern">MetaTransformPattern</a></td>
@@ -39132,9 +39293,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <p class="panel-lead">Models platform conversion rules for translating data types across engines while preserving length, precision, scale, and semantic intent.</p>
           </header>
           <div class="summary-row">
-            <span class="pill">2 entities</span>
-            <span class="pill">5 properties</span>
-            <span class="pill">1 relationship</span>
+            <span class="pill">5 entities</span>
+            <span class="pill">8 properties</span>
+            <span class="pill">4 relationships</span>
           </div>
           <div class="card">
             <div class="card-header">
@@ -39148,12 +39309,27 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation">ConversionImplementation</a></td>
                     <td>2</td>
-                    <td>0</td>
+                    <td>1</td>
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-datatypemapping" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-datatypemapping">DataTypeMapping</a></td>
                     <td>3</td>
                     <td>1</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameter" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameter">SqlConversionParameter</a></td>
+                    <td>1</td>
+                    <td>0</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding">SqlConversionParameterBinding</a></td>
+                    <td>1</td>
+                    <td>2</td>
+                  </tr>
+                  <tr>
+                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet">SqlConversionSnippet</a></td>
+                    <td>1</td>
+                    <td>0</td>
                   </tr>
                 </tbody>
               </table>
@@ -39165,7 +39341,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">ConversionImplementation</span>
               </span>
-              <span class="entity-counts">2 properties / 0 relationships / 1 reference</span>
+              <span class="entity-counts">2 properties / 1 relationship / 1 reference</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -39185,6 +39361,21 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td>True</td>
                       <td>False</td>
                       <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation-relationship-sqlconversionsnippet-sqlconversionsnippet">
+                      <td>SqlConversionSnippet</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet">SqlConversionSnippet</a></td>
+                      <td></td>
+                      <td>SqlConversionSnippetId</td>
+                      <td>False</td>
                     </tr>
                   </tbody>
                 </table>
@@ -39253,6 +39444,146 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation">ConversionImplementation</a></td>
                       <td></td>
                       <td>ConversionImplementationId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameter">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">SqlConversionParameter</span>
+              </span>
+              <span class="entity-counts">1 property / 0 relationships / 1 reference</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding">SqlConversionParameterBinding</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionparameter-sqlconversionparameter" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionparameter-sqlconversionparameter">SqlConversionParameter</a></td>
+                      <td></td>
+                      <td>SqlConversionParameterId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">SqlConversionParameterBinding</span>
+              </span>
+              <span class="entity-counts">1 property / 2 relationships / 0 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>Name</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Relationships</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr id="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionparameter-sqlconversionparameter">
+                      <td>SqlConversionParameter</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameter" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameter">SqlConversionParameter</a></td>
+                      <td></td>
+                      <td>SqlConversionParameterId</td>
+                      <td>True</td>
+                    </tr>
+                    <tr id="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionsnippet-sqlconversionsnippet">
+                      <td>SqlConversionSnippet</td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet">SqlConversionSnippet</a></td>
+                      <td></td>
+                      <td>SqlConversionSnippetId</td>
+                      <td>True</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card model-entity-card" id="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionsnippet">
+            <summary class="entity-summary">
+              <span class="entity-toggle" aria-hidden="true"></span>
+              <span class="entity-main">
+                <span class="entity-name">SqlConversionSnippet</span>
+              </span>
+              <span class="entity-counts">1 property / 0 relationships / 2 references</span>
+            </summary>
+            <div class="entity-body">
+              <div class="entity-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Properties</h4>
+                <table>
+                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td>TransformScript</td>
+                      <td>True</td>
+                      <td>False</td>
+                      <td></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Referenced by</h4>
+                <table>
+                  <thead><tr><th>Entity</th><th>Relationship</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation">ConversionImplementation</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation-relationship-sqlconversionsnippet-sqlconversionsnippet" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-conversionimplementation-relationship-sqlconversionsnippet-sqlconversionsnippet">SqlConversionSnippet</a></td>
+                      <td></td>
+                      <td>SqlConversionSnippetId</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding">SqlConversionParameterBinding</a></td>
+                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionsnippet-sqlconversionsnippet" data-local-anchor="subject-source-workspace-model-meta-data-type-conversion-entity-sqlconversionparameterbinding-relationship-sqlconversionsnippet-sqlconversionsnippet">SqlConversionSnippet</a></td>
+                      <td></td>
+                      <td>SqlConversionSnippetId</td>
                       <td>True</td>
                     </tr>
                   </tbody>
@@ -56710,9 +57041,9 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <p class="panel-lead">Models the binding between transform scripts and schema contracts, resolving references, data types, lineage, and target writeability.</p>
           </header>
           <div class="summary-row">
-            <span class="pill">30 entities</span>
-            <span class="pill">38 properties</span>
-            <span class="pill">43 relationships</span>
+            <span class="pill">29 entities</span>
+            <span class="pill">36 properties</span>
+            <span class="pill">42 relationships</span>
           </div>
           <div class="card">
             <div class="card-header">
@@ -56840,11 +57171,6 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact">ValidationTargetColumnTypeExact</a></td>
-                    <td>2</td>
-                    <td>1</td>
-                  </tr>
-                  <tr>
-                    <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion">ValidationTargetColumnTypeSanctionedConversion</a></td>
                     <td>2</td>
                     <td>1</td>
                   </tr>
@@ -58141,7 +58467,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">ValidationTargetColumnLink</span>
               </span>
-              <span class="entity-counts">1 property / 2 relationships / 3 references</span>
+              <span class="entity-counts">1 property / 2 relationships / 2 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -58189,13 +58515,6 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                     <tr>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact">ValidationTargetColumnTypeExact</a></td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact-relationship-validationtargetcolumnlink-validationtargetcolumnlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact-relationship-validationtargetcolumnlink-validationtargetcolumnlink">ValidationTargetColumnLink</a></td>
-                      <td></td>
-                      <td>ValidationTargetColumnLinkId</td>
-                      <td>True</td>
-                    </tr>
-                    <tr>
-                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion">ValidationTargetColumnTypeSanctionedConversion</a></td>
-                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion-relationship-validationtargetcolumnlink-validationtargetcolumnlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion-relationship-validationtargetcolumnlink-validationtargetcolumnlink">ValidationTargetColumnLink</a></td>
                       <td></td>
                       <td>ValidationTargetColumnLinkId</td>
                       <td>True</td>
@@ -58249,54 +58568,6 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
                   <tbody>
                     <tr id="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypeexact-relationship-validationtargetcolumnlink-validationtargetcolumnlink">
-                      <td>ValidationTargetColumnLink</td>
-                      <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumnlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumnlink">ValidationTargetColumnLink</a></td>
-                      <td></td>
-                      <td>ValidationTargetColumnLinkId</td>
-                      <td>True</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              </div>
-            </div>
-          </details>
-          <details class="card model-entity-card" id="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion">
-            <summary class="entity-summary">
-              <span class="entity-toggle" aria-hidden="true"></span>
-              <span class="entity-main">
-                <span class="entity-name">ValidationTargetColumnTypeSanctionedConversion</span>
-              </span>
-              <span class="entity-counts">2 properties / 1 relationship / 0 references</span>
-            </summary>
-            <div class="entity-body">
-              <div class="entity-body-inner">
-              <section class="subsection">
-                <h4 class="subsection-title">Properties</h4>
-                <table>
-                  <thead><tr><th>Name</th><th>Required</th><th>Nullable</th><th>Description</th></tr></thead>
-                  <tbody>
-                    <tr>
-                      <td>SourceMetaDataTypeId</td>
-                      <td>True</td>
-                      <td>False</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>TargetMetaDataTypeId</td>
-                      <td>True</td>
-                      <td>False</td>
-                      <td></td>
-                    </tr>
-                  </tbody>
-                </table>
-              </section>
-              <section class="subsection">
-                <h4 class="subsection-title">Relationships</h4>
-                <table>
-                  <thead><tr><th>Name</th><th>Target</th><th>Role</th><th>Column</th><th>Required</th></tr></thead>
-                  <tbody>
-                    <tr id="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumntypesanctionedconversion-relationship-validationtargetcolumnlink-validationtargetcolumnlink">
                       <td>ValidationTargetColumnLink</td>
                       <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumnlink" data-local-anchor="subject-source-workspace-model-meta-transform-binding-entity-validationtargetcolumnlink">ValidationTargetColumnLink</a></td>
                       <td></td>

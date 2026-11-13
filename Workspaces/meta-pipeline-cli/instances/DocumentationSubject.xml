@@ -352,15 +352,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace containing script binding rows.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-sqlserver --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-sqlserver-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-sqlserver-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
       <DisplayName>--execution-connection-env</DisplayName>
       <DisplayPath>meta-pipeline execute-sqlserver --execution-connection-env</DisplayPath>
       <NativeId>opt-execute-sqlserver-execution-connection-env</NativeId>
@@ -440,15 +440,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace path used for operational run context.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-step --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-step-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-step --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-step-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute-step --pipeline</DisplayPath>
       <NativeId>opt-execute-step-pipeline</NativeId>
@@ -520,15 +520,15 @@
       <Status>New</Status>
       <Summary>Timeout while connecting to the orchestration control pipe. 0 or omitted means no timeout.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-worker --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-worker-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-worker --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-worker-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute-worker --pipeline</DisplayPath>
       <NativeId>opt-execute-worker-pipeline</NativeId>
@@ -568,15 +568,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace path used for operational run context.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute --pipeline</DisplayPath>
       <NativeId>opt-execute-pipeline</NativeId>

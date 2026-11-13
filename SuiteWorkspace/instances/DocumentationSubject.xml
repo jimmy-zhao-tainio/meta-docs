@@ -11785,15 +11785,15 @@
       <Status>New</Status>
       <Summary>Execute the current run plan by coordinating meta-pipeline worker processes.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-orchestration execute --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-orchestration execute --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace passed to child workers.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute" PreviousSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute" PreviousSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace">
       <DisplayName>--max-degree-of-parallelism</DisplayName>
       <DisplayPath>meta-orchestration execute --max-degree-of-parallelism</DisplayPath>
       <NativeId>opt-execute-max-degree-of-parallelism</NativeId>
@@ -12369,15 +12369,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace containing script binding rows.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-sqlserver --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-sqlserver-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-sqlserver-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
       <DisplayName>--execution-connection-env</DisplayName>
       <DisplayPath>meta-pipeline execute-sqlserver --execution-connection-env</DisplayPath>
       <NativeId>opt-execute-sqlserver-execution-connection-env</NativeId>
@@ -12457,15 +12457,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace path used for operational run context.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-step --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-step-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-step --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-step-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute-step --pipeline</DisplayPath>
       <NativeId>opt-execute-step-pipeline</NativeId>
@@ -12537,15 +12537,15 @@
       <Status>New</Status>
       <Summary>Timeout while connecting to the orchestration control pipe. 0 or omitted means no timeout.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute-worker --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-worker-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute-worker --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-worker-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute-worker --pipeline</DisplayPath>
       <NativeId>opt-execute-worker-pipeline</NativeId>
@@ -12585,15 +12585,15 @@
       <Status>New</Status>
       <Summary>MetaTransformBinding workspace path used for operational run context.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:binding-workspace">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-pipeline execute --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:binding-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-pipeline execute --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace; omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
       <DisplayPath>meta-pipeline execute --pipeline</DisplayPath>
       <NativeId>opt-execute-pipeline</NativeId>
@@ -15393,15 +15393,15 @@
       <Status>New</Status>
       <Summary>Save only objects that bind and validate successfully.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:allow-partial">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-transform-binding bind --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:allow-partial">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-transform-binding bind --data-type-workspace</DisplayPath>
+      <NativeId>opt-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Optional sanctioned conversion policy workspace. Omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace">
       <DisplayName>--execute-system</DisplayName>
       <DisplayPath>meta-transform-binding bind --execute-system</DisplayPath>
       <NativeId>opt-execute-system</NativeId>
@@ -15849,7 +15849,87 @@
       <Status>Changed</Status>
       <Summary>Import SQL transform scripts into a structured model, export equivalent SQL, and manage transform contracts.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:from-sql-code" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app">
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app">
+      <DisplayName>meta-transform-script apply-conversions</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions</DisplayPath>
+      <NativeId>exec-apply-conversions</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Apply authored type conversions to source-column reads in a new workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --data-type-workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace">
+      <DisplayName>--output-connection-env</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-connection-env</DisplayPath>
+      <NativeId>opt-apply-conversions-output-connection-env</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env">
+      <DisplayName>--output-csharp</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-csharp</DisplayPath>
+      <NativeId>opt-apply-conversions-output-csharp</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp">
+      <DisplayName>--output-sql</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-sql</DisplayPath>
+      <NativeId>opt-apply-conversions-output-sql</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql">
+      <DisplayName>--output-xml</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-xml</DisplayPath>
+      <NativeId>opt-apply-conversions-output-xml</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml">
+      <DisplayName>--source-schema</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --source-schema</DisplayPath>
+      <NativeId>opt-apply-conversions-source-schema</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Read schema evidence; repeat for each referenced system.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:parameter-group:output" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions group output</DisplayPath>
+      <NativeId>group-apply-conversions-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Choose output-csharp or output-sql or output-xml.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:from-sql-code" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
       <DisplayName>meta-transform-script from sql-code</DisplayName>
       <DisplayPath>meta-transform-script from sql-code</DisplayPath>
       <NativeId>exec-from-sql-code</NativeId>
@@ -22977,6 +23057,14 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:conversionimplementation:relationship:sqlconversionsnippet-sqlconversionsnippet" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:conversionimplementation">
+      <DisplayName>SqlConversionSnippet</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.ConversionImplementation.SqlConversionSnippet</DisplayPath>
+      <NativeId>SqlConversionSnippet:SqlConversionSnippet</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:datatypemapping" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-type-conversion:model:metadatatypeconversion" PreviousSubjectId="source:workspace-model:meta-data-type-conversion:entity:conversionimplementation">
       <DisplayName>DataTypeMapping</DisplayName>
       <DisplayPath>MetaDataTypeConversion.DataTypeMapping</DisplayPath>
@@ -23015,6 +23103,70 @@
       <NativeId>ConversionImplementation:ConversionImplementation</NativeId>
       <SourceTypeName>GenericRelationship</SourceTypeName>
       <Status>Changed</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameter" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-type-conversion:model:metadatatypeconversion" PreviousSubjectId="source:workspace-model:meta-data-type-conversion:entity:datatypemapping">
+      <DisplayName>SqlConversionParameter</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameter</DisplayPath>
+      <NativeId>SqlConversionParameter</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameter:property:name" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameter">
+      <DisplayName>Name</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameter.Name</DisplayPath>
+      <NativeId>Name</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-type-conversion:model:metadatatypeconversion" PreviousSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameter">
+      <DisplayName>SqlConversionParameterBinding</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameterBinding</DisplayPath>
+      <NativeId>SqlConversionParameterBinding</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding:property:name" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding">
+      <DisplayName>Name</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameterBinding.Name</DisplayPath>
+      <NativeId>Name</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding:relationship:sqlconversionparameter-sqlconversionparameter" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding">
+      <DisplayName>SqlConversionParameter</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameterBinding.SqlConversionParameter</DisplayPath>
+      <NativeId>SqlConversionParameter:SqlConversionParameter</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding:relationship:sqlconversionsnippet-sqlconversionsnippet" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding" PreviousSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding:relationship:sqlconversionparameter-sqlconversionparameter">
+      <DisplayName>SqlConversionSnippet</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionParameterBinding.SqlConversionSnippet</DisplayPath>
+      <NativeId>SqlConversionSnippet:SqlConversionSnippet</NativeId>
+      <SourceTypeName>GenericRelationship</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionsnippet" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-data-type-conversion:model:metadatatypeconversion" PreviousSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionparameterbinding">
+      <DisplayName>SqlConversionSnippet</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionSnippet</DisplayPath>
+      <NativeId>SqlConversionSnippet</NativeId>
+      <SourceTypeName>GenericEntity</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:entity:sqlconversionsnippet:property:transformscript" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-data-type-conversion:entity:sqlconversionsnippet">
+      <DisplayName>TransformScript</DisplayName>
+      <DisplayPath>MetaDataTypeConversion.SqlConversionSnippet.TransformScript</DisplayPath>
+      <NativeId>TransformScript</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:workspace-model:meta-data-type-conversion:model:metadatatypeconversion" DocumentationSourceId="source:workspace-model:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:model" ParentSubjectId="public:meta-bi:models">
@@ -36737,39 +36889,7 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypeexact">
-      <DisplayName>ValidationTargetColumnTypeSanctionedConversion</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion</DisplayPath>
-      <NativeId>ValidationTargetColumnTypeSanctionedConversion</NativeId>
-      <SourceTypeName>GenericEntity</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:sourcemetadatatypeid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
-      <DisplayName>SourceMetaDataTypeId</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.SourceMetaDataTypeId</DisplayPath>
-      <NativeId>SourceMetaDataTypeId</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:targetmetadatatypeid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:sourcemetadatatypeid">
-      <DisplayName>TargetMetaDataTypeId</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.TargetMetaDataTypeId</DisplayPath>
-      <NativeId>TargetMetaDataTypeId</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:relationship:validationtargetcolumnlink-validationtargetcolumnlink" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
-      <DisplayName>ValidationTargetColumnLink</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.ValidationTargetColumnLink</DisplayPath>
-      <NativeId>ValidationTargetColumnLink:ValidationTargetColumnLink</NativeId>
-      <SourceTypeName>GenericRelationship</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetignoredcolumn" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetignoredcolumn" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypeexact">
       <DisplayName>ValidationTargetIgnoredColumn</DisplayName>
       <DisplayPath>MetaTransformBinding.ValidationTargetIgnoredColumn</DisplayPath>
       <NativeId>ValidationTargetIgnoredColumn</NativeId>

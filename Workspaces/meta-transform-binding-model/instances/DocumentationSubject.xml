@@ -728,39 +728,7 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypeexact">
-      <DisplayName>ValidationTargetColumnTypeSanctionedConversion</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion</DisplayPath>
-      <NativeId>ValidationTargetColumnTypeSanctionedConversion</NativeId>
-      <SourceTypeName>GenericEntity</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:sourcemetadatatypeid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
-      <DisplayName>SourceMetaDataTypeId</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.SourceMetaDataTypeId</DisplayPath>
-      <NativeId>SourceMetaDataTypeId</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:targetmetadatatypeid" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:property:sourcemetadatatypeid">
-      <DisplayName>TargetMetaDataTypeId</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.TargetMetaDataTypeId</DisplayPath>
-      <NativeId>TargetMetaDataTypeId</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion:relationship:validationtargetcolumnlink-validationtargetcolumnlink" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:relationship" ParentSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
-      <DisplayName>ValidationTargetColumnLink</DisplayName>
-      <DisplayPath>MetaTransformBinding.ValidationTargetColumnTypeSanctionedConversion.ValidationTargetColumnLink</DisplayPath>
-      <NativeId>ValidationTargetColumnLink:ValidationTargetColumnLink</NativeId>
-      <SourceTypeName>GenericRelationship</SourceTypeName>
-      <Status>Changed</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetignoredcolumn" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypesanctionedconversion">
+    <DocumentationSubject Id="source:workspace-model:meta-transform-binding:entity:validationtargetignoredcolumn" DocumentationSourceId="source:workspace-model:meta-transform-binding" DocumentationSubjectTypeId="subject-type:entity" ParentSubjectId="source:workspace-model:meta-transform-binding:model:metatransformbinding" PreviousSubjectId="source:workspace-model:meta-transform-binding:entity:validationtargetcolumntypeexact">
       <DisplayName>ValidationTargetIgnoredColumn</DisplayName>
       <DisplayPath>MetaTransformBinding.ValidationTargetIgnoredColumn</DisplayPath>
       <NativeId>ValidationTargetIgnoredColumn</NativeId>

@@ -16,7 +16,87 @@
       <Status>Changed</Status>
       <Summary>Import SQL transform scripts into a structured model, export equivalent SQL, and manage transform contracts.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:from-sql-code" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app">
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app">
+      <DisplayName>meta-transform-script apply-conversions</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions</DisplayPath>
+      <NativeId>exec-apply-conversions</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Apply authored type conversions to source-column reads in a new workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --data-type-workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace">
+      <DisplayName>--output-connection-env</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-connection-env</DisplayPath>
+      <NativeId>opt-apply-conversions-output-connection-env</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env">
+      <DisplayName>--output-csharp</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-csharp</DisplayPath>
+      <NativeId>opt-apply-conversions-output-csharp</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp">
+      <DisplayName>--output-sql</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-sql</DisplayPath>
+      <NativeId>opt-apply-conversions-output-sql</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql">
+      <DisplayName>--output-xml</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --output-xml</DisplayPath>
+      <NativeId>opt-apply-conversions-output-xml</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml">
+      <DisplayName>--source-schema</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --source-schema</DisplayPath>
+      <NativeId>opt-apply-conversions-source-schema</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Read schema evidence; repeat for each referenced system.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:option:workspace" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions --workspace</DisplayPath>
+      <NativeId>opt-apply-conversions-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:apply-conversions:parameter-group:output" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:cliparametergroup" ParentSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
+      <DisplayName>output</DisplayName>
+      <DisplayPath>meta-transform-script apply-conversions group output</DisplayPath>
+      <NativeId>group-apply-conversions-output</NativeId>
+      <SourceTypeName>MetaCli.ParameterGroup</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Choose output-csharp or output-sql or output-xml.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-transform-script:app:command:from-sql-code" DocumentationSourceId="source:cli:meta-transform-script" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta-transform-script:app" PreviousSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
       <DisplayName>meta-transform-script from sql-code</DisplayName>
       <DisplayPath>meta-transform-script from sql-code</DisplayPath>
       <NativeId>exec-from-sql-code</NativeId>

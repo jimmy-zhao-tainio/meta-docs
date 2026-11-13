@@ -3,10 +3,10 @@
   <DocumentationSourceList>
     <DocumentationSource Id="source:cli:meta-orchestration" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-orchestration</DisplayName>
-      <ImportedAt>2026-08-22T19:20:51.1364041+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:14.2018241+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-orchestration</Locator>
-      <SourceFingerprint>aade95867aab925eee8685db163fc5a8687d05be0945e61b123482528bd1c617</SourceFingerprint>
+      <SourceFingerprint>a28cd0b57af7275c9534a8dd2a0a52aa4069f43c3b4e3c3f759728d407bac134</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
   </DocumentationSourceList>

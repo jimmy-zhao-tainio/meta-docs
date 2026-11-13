@@ -264,15 +264,15 @@
       <Status>New</Status>
       <Summary>Execute the current run plan by coordinating meta-pipeline worker processes.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-orchestration execute --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-execute-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-orchestration execute --data-type-workspace</DisplayPath>
+      <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Conversion policy workspace passed to child workers.</Summary>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute" PreviousSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute" PreviousSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace">
       <DisplayName>--max-degree-of-parallelism</DisplayName>
       <DisplayPath>meta-orchestration execute --max-degree-of-parallelism</DisplayPath>
       <NativeId>opt-execute-max-degree-of-parallelism</NativeId>

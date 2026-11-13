@@ -6,14 +6,20 @@ This is the documentation-only repository for the combined Meta and Meta-BI
 public reference. The MetaDocs model, runtime, CLI, and tests are owned by the
 sibling `meta` repository.
 
-Before substantial work, read these canonical skills completely:
+Before substantial work, read `README.md` and inspect the current runtime help
+for `meta-docs` and `meta-mesh`. Trace the relevant operation in
+`Documentation.MetaMesh` to understand its inputs, import steps, suite merge,
+validation and rendering. The runtime and model sources are in `../meta/MetaDocs`
+and `../meta/MetaMesh` when implementation detail is needed.
 
-- `../meta/Skills/author-meta-docs/SKILL.md` for authoring and regeneration;
-- `../meta/Skills/use-meta-mesh/SKILL.md` when changing or running the mesh;
-- the relevant product skill under `../meta/Skills/` when documentation changes
-  depend on product behavior.
+Use `meta-docs update-description` for existing authored narrative, and
+`meta-docs author-page` when creating or updating page structure. Inspect each
+command's current help before authoring. For product behaviour, consult its
+owning repository and current CLI help rather than removed skill-file paths.
 
-Use current runtime help for exact command syntax.
+Regenerate through the documented `regenerate-public-docs` mesh operation. It
+imports product references, validates authored inputs, merges the suite,
+validates the result and renders `Site/docs.html`.
 
 ## Repository rules
 

@@ -115,18 +115,18 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-orchestration" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-orchestration</DisplayName>
-      <ImportedAt>2026-08-22T19:20:51.1364041+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:14.2018241+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-orchestration</Locator>
-      <SourceFingerprint>aade95867aab925eee8685db163fc5a8687d05be0945e61b123482528bd1c617</SourceFingerprint>
+      <SourceFingerprint>a28cd0b57af7275c9534a8dd2a0a52aa4069f43c3b4e3c3f759728d407bac134</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-pipeline" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-pipeline</DisplayName>
-      <ImportedAt>2026-08-05T09:57:27.6530078+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:13.0246146+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-pipeline</Locator>
-      <SourceFingerprint>f28063b4595e07ad1a5f5517d12741c01f31826cc4a869ba103184d4d6339c26</SourceFingerprint>
+      <SourceFingerprint>4fa85cbdbf12315770c2696a338ca89783efb292c3f1f018c9233c205b9e4817</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-schema" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -155,10 +155,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-transform-binding" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-transform-binding</DisplayName>
-      <ImportedAt>2026-08-05T09:57:19.8702973+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:04.0953961+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-transform-binding</Locator>
-      <SourceFingerprint>3c92c39fb1f2761c7075d4f9b4dc4ab7233f4662c5374a7dc7d2c840c10ae507</SourceFingerprint>
+      <SourceFingerprint>f008ccb3c9678a43fb0bb52002f87568003ee1c7d0ccfc92a4ebe87589428bdb</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-transform-pattern" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -171,10 +171,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-transform-script" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-transform-script</DisplayName>
-      <ImportedAt>2026-08-18T21:18:27.6894461+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:02.3903982+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-transform-script</Locator>
-      <SourceFingerprint>a1288cf73631355b6b1854c3830a7eab8e9442e6786cce7f05e81c02c4263c9c</SourceFingerprint>
+      <SourceFingerprint>9b01455e3d5c507302a1353545d104fc493584ae87335cdcabfda10165b25e59</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-weave" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -227,10 +227,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-data-type-conversion" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
       <DisplayName>MetaDataTypeConversion</DisplayName>
-      <ImportedAt>2026-07-28T20:46:54.0676104+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:28.0584153+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
       <Locator>source:workspace-model:meta-data-type-conversion</Locator>
-      <SourceFingerprint>baa2172b5aa94e2a0d9cadd5ed197656ffaa82dd88da91f248764863165762d3</SourceFingerprint>
+      <SourceFingerprint>7eb8ab736f15db0b5f75b87e5a1b35d1001af38fb6ad6473f59125baa9b4d9ac</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-data-vault-implementation" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
@@ -339,10 +339,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-transform-binding" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
       <DisplayName>MetaTransformBinding</DisplayName>
-      <ImportedAt>2026-08-22T08:32:57.2755798+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:58.6628216+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
       <Locator>source:workspace-model:meta-transform-binding</Locator>
-      <SourceFingerprint>331cdea361db8ac677b473c9b9c7fdf6e9427ed4c001b309f62de1b10a948a17</SourceFingerprint>
+      <SourceFingerprint>ec328b38eae59d1bc4a13d8bbc344f115ae1e4adc71395d79ae1143d9c52a9a7</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-transform-pattern" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">

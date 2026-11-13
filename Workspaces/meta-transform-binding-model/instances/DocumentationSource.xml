@@ -3,10 +3,10 @@
   <DocumentationSourceList>
     <DocumentationSource Id="source:workspace-model:meta-transform-binding" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
       <DisplayName>MetaTransformBinding</DisplayName>
-      <ImportedAt>2026-08-22T08:32:57.2755798+00:00</ImportedAt>
+      <ImportedAt>2026-11-13T21:43:58.6628216+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
       <Locator>source:workspace-model:meta-transform-binding</Locator>
-      <SourceFingerprint>331cdea361db8ac677b473c9b9c7fdf6e9427ed4c001b309f62de1b10a948a17</SourceFingerprint>
+      <SourceFingerprint>ec328b38eae59d1bc4a13d8bbc344f115ae1e4adc71395d79ae1143d9c52a9a7</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
   </DocumentationSourceList>

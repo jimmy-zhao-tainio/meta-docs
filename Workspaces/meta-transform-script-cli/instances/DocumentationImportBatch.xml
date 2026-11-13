@@ -29,5 +29,12 @@
       <SourceFingerprint>a1288cf73631355b6b1854c3830a7eab8e9442e6786cce7f05e81c02c4263c9c</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-transform-script:batch:20261113214302391" DocumentationSourceId="source:cli:meta-transform-script">
+      <ImportedAt>2026-11-13T21:43:02.3903982+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>9b01455e3d5c507302a1353545d104fc493584ae87335cdcabfda10165b25e59</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
   </DocumentationImportBatchList>
 </MetaDocs>

@@ -9,141 +9,217 @@
       <Title>Adapters</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta-bi:adventureworks:narrative:summary" DocumentationSubjectId="public:meta-bi:adventureworks">
-      <Body>## A complete BI stack built by an agent
-
-The AdventureWorks stack was fully designed and built by an agent using the
-public Meta and meta-bi command-line tools. Its starting inputs were a live
-`AdventureWorks2022` database and a short
-[business request](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/BUSINESS-REQUIREMENTS.md) for sales trends, channel and
-product analysis, geography, salesperson quotas, and visible data-quality
-risks.
-
-The agent made the architectural decisions that turn those inputs into a BI
-system. It selected sales order, sales line, and salesperson quota as separate
-fact grains; kept tax and freight at order grain; created shared date, product,
-geography, customer, channel, and salesperson dimensions; derived the
-Online/Store channel from source evidence; and declined to publish gross margin
-because AdventureWorks lacks complete historical cost coverage.
-
-The implementation is preserved as models rather than summarized after the
-fact. Every generated workspace was created through its owning CLI. The demo's
-MetaMesh workspace names 27 participating workspaces, 29 operations, and 614
-ordered executable steps covering discovery, model authoring, conversion,
-deployment, transformation import and binding, pipeline construction,
-execution, verification, and analytical deployment. The generated results are
-checked in alongside that construction record.
-
-## What the agent built
-
-Each product owns a concrete part of the resulting stack:
-
-| Engineering concern | AdventureWorks result | Modeled capability |
-| --- | --- | --- |
-| Discover the live source | 6 schemas, 71 tables, 20 views, 744 fields, and 90 relationships | `meta-schema` extracts a reviewable `MetaSchema` source contract. |
-| Preserve source history | 71 Raw hubs, 90 links, 71 satellites, and 341 satellite attributes | `meta-datavault-raw` and `meta-convert` turn the source contract into `MetaRawDataVault`, then into 232 deployable `MetaSql` tables through an explicit implementation model. |
-| Establish business meaning | 14 Business hubs, 19 links, 14 satellites, stable business names, and the Online/Store derivation | `meta-datavault-business` authors `MetaBusinessDataVault` concepts separately from the source-shaped Raw layer. |
-| Fix analytical grain | 3 facts, 8 conformed dimensions, 10 warehouse measures, 40 dimension attributes, and 19 fact-to-dimension relationships | `meta-data-warehouse` authors `MetaDataWarehouse`; `meta-convert` projects it through an implementation model into an 11-table physical warehouse. |
-| Make transformations provable | 53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, each strictly bound | `meta-transform-script` models the T-SQL program; `meta-transform-binding`, `MetaSchema`, `MetaDataType`, and `MetaDataTypeConversion` prove its reads, writes, target shape, and type compatibility. |
-| Turn evidence into quality checks | 167 promoted checks covering orphan joins, multiplicity expansion, duplicate risk, and outer-join null expansion | `meta-data-quality` derives reviewable `MetaDataQuality` candidates and `meta-convert` emits executable quality SQL. |
-| Operate the load | 3 pipelines containing 120 transformation tasks, plus one inferred orchestration plan over the same 120 tasks | `meta-pipeline` executes and records work; `meta-orchestration` derives and governs runtime dependencies. |
-| Publish portable analytics | 11 analytical tables, 72 attributes, 11 base measures, 3 hierarchies, and 19 relationships | `meta-analytics` carries engine-neutral `MetaAnalytics`; `meta-convert` and `meta-tabular` produce and operate the Analysis Services model. |
-| Model the conversion itself | One requirement and 24 executable Analytics-to-Tabular transformations | `meta-weave` executes a `MetaWeave` correspondence whose WeaveScript projection is readable and editable modeled transformation. |
-
-## Prerequisites
-
-- the `meta` and `meta-bi` CLIs on `PATH`;
-- a local SQL Server instance with `AdventureWorks2022` restored;
-- permission to create the four demo-owned databases;
-- Analysis Services Tabular only when running the optional Tabular deployment and processing operations.
-
-[`SOURCE-SETUP.md`](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/SOURCE-SETUP.md) covers the source database. [`prepare-adventureworks-db.ps1`](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/prepare-adventureworks-db.ps1) can download and restore the official backup on a local development machine.
-
-## Environment
-
-The examples below use the local default SQL Server instance:
-
-```powershell
-$env:AW_SOURCE_SQL = "Server=.;Database=AdventureWorks2022;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-$env:AW_ADMIN_SQL = "Server=.;Database=master;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-$env:AW_RDV_SQL = "Server=.;Database=AdventureWorksRawVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-$env:AW_BDV_SQL = "Server=.;Database=AdventureWorksBusinessVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-$env:AW_DW_SQL = "Server=.;Database=AdventureWorksAnalytics;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-$env:AW_PIPELINE_SQL = "Server=.;Database=AdventureWorksMetaPipeline;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
-```
-
-## Build the stack
-
-Run from the mesh workspace:
-
-```powershell
-cd AdventureWorksBiStackDemo.MetaMesh
-
-meta-mesh run --operation validate-source
-meta-mesh run --operation sync-source-schema
-
-meta-mesh run --operation create-raw-vault
-meta-mesh run --operation deploy-raw-vault
-meta-mesh run --operation create-source-raw-transforms
-meta-mesh run --operation create-source-raw-pipeline
-
-meta-mesh run --operation create-business-vault
-meta-mesh run --operation deploy-business-vault
-meta-mesh run --operation create-raw-business-transforms
-meta-mesh run --operation create-raw-business-pipeline
-
-meta-mesh run --operation create-dimensional-warehouse
-meta-mesh run --operation deploy-dimensional-warehouse
-meta-mesh run --operation create-business-warehouse-transforms
-meta-mesh run --operation create-business-warehouse-pipeline
-
-meta-mesh run --operation create-orchestration
-meta-mesh run --operation deploy-pipeline-runtime
-meta-mesh run --operation create-data-quality
-meta-mesh run --operation deploy-data-quality
-meta-mesh run --operation create-analytics
-meta-mesh run --operation create-tabular
-```
-
-The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.
-
-## Run and verify
-
-Execute the inferred graph across all three pipelines, then reconcile the result to the source:
-
-```powershell
-meta-mesh run --operation run-etl
-meta-mesh run --operation verify-stack
-```
-
-For an inspected layer-by-layer run, use `load-raw-vault`, `load-business-vault`, and `load-dimensional-warehouse` instead of `run-etl`.
-
-The verification operation checks Raw and Business Vault counts, warehouse fact grains, source-to-warehouse measures, deployed Data Quality results, and the latest task-level pipeline evidence. The expected static AdventureWorks result is 31,465 orders, 121,317 lines, 163 quota rows, and 167 promoted Data Quality checks with no findings.
-
-## Tabular runtime
-
-The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local `.\TABULAR` instance and deploy the model as `AdventureWorksSales`:
-
-```powershell
-meta-mesh run --operation deploy-tabular
-meta-mesh run --operation process-tabular
-```
-
-`deploy-tabular` replaces the target database and deploys metadata without processing. `process-tabular` performs the full refresh. `drop-tabular` removes the deployed database.
-
-The deployment operation also grants the local `NT Service\MSOLAP$TABULAR` service account read access to `AdventureWorksAnalytics`. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on `.\TABULAR`. A direct model query returns Sales Amount `109846381.425`, Total Due `123216786.1159`, and Quota Amount `95714000`, matching the relational verification.
-
-## Cleanup
-
-```powershell
-meta-mesh run --operation cleanup
-```
-
+      <Body># AdventureWorks full BI stack&#xD;
+&#xD;
+The load SQL uses explicit casts where SQL aliases or monetary types cross into&#xD;
+different destination contracts. Raw integer fields remain integers. All 120&#xD;
+scripts have regenerated schema-aware Binding against the extracted SQL Server&#xD;
+contracts; conversion-graph reachability cannot approve an unconverted expression.&#xD;
+&#xD;
+The [conversion alignment](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md) explains the corrected defaults,&#xD;
+load casts, catalog ownership and the remaining MetaMesh output-recovery limitation.&#xD;
+&#xD;
+## A complete BI stack built by an agent&#xD;
+&#xD;
+The AdventureWorks stack was fully designed and built by an agent using the&#xD;
+public Meta and meta-bi command-line tools. Its starting inputs were a live&#xD;
+`AdventureWorks2022` database and a short&#xD;
+[business request](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/BUSINESS-REQUIREMENTS.md) for sales trends, channel and&#xD;
+product analysis, geography, salesperson quotas, and visible data-quality&#xD;
+risks.&#xD;
+&#xD;
+The agent made the architectural decisions that turn those inputs into a BI&#xD;
+system. It selected sales order, sales line, and salesperson quota as separate&#xD;
+fact grains; kept tax and freight at order grain; created shared date, product,&#xD;
+geography, customer, channel, and salesperson dimensions; derived the&#xD;
+Online/Store channel from source evidence; and declined to publish gross margin&#xD;
+because AdventureWorks lacks complete historical cost coverage.&#xD;
+&#xD;
+The implementation is preserved as models rather than summarized after the&#xD;
+fact. Every generated workspace was created through its owning CLI. The demo's&#xD;
+MetaMesh workspace names 28 participating workspaces, 29 operations, and 614&#xD;
+ordered executable steps covering discovery, model authoring, conversion,&#xD;
+deployment, transformation import and binding, pipeline construction,&#xD;
+execution, verification, and analytical deployment. The generated results are&#xD;
+checked in alongside that construction record.&#xD;
+&#xD;
+## What the agent built&#xD;
+&#xD;
+Each product owns a concrete part of the resulting stack:&#xD;
+&#xD;
+| Engineering concern | AdventureWorks result | Modeled capability |&#xD;
+| --- | --- | --- |&#xD;
+| Discover the live source | 6 schemas, 71 tables, 20 views, 744 fields, and 90 relationships | `meta-schema` extracts a reviewable `MetaSchema` source contract. |&#xD;
+| Preserve source history | 71 Raw hubs, 90 links, 71 satellites, and 341 satellite attributes | `meta-datavault-raw` and `meta-convert` turn the source contract into `MetaRawDataVault`, then into 232 deployable `MetaSql` tables through an explicit implementation model. |&#xD;
+| Establish business meaning | 14 Business hubs, 19 links, 14 satellites, stable business names, and the Online/Store derivation | `meta-datavault-business` authors `MetaBusinessDataVault` concepts separately from the source-shaped Raw layer. |&#xD;
+| Fix analytical grain | 3 facts, 8 conformed dimensions, 10 warehouse measures, 40 dimension attributes, and 19 fact-to-dimension relationships | `meta-data-warehouse` authors `MetaDataWarehouse`; `meta-convert` projects it through an implementation model into an 11-table physical warehouse. |&#xD;
+| Make transformations provable | 53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, all validated against the current contracts | `meta-transform-script` models the T-SQL program; Binding validates its resulting contracts through `MetaSchema` and the selected `MetaDataType` catalog. Casts are authored before Binding. |&#xD;
+| Turn evidence into quality checks | 167 promoted checks, with 45 returning wanted review findings in the recorded sample run | `meta-data-quality` derives reviewable `MetaDataQuality` candidates and `meta-convert` emits executable quality SQL. |&#xD;
+| Operate the load | 3 pipelines containing 120 transformation tasks, plus one inferred orchestration plan over the same 120 tasks | `meta-pipeline` executes and records work; `meta-orchestration` derives and governs runtime dependencies. |&#xD;
+| Publish portable analytics | 11 analytical tables, 72 attributes, 11 base measures, 3 hierarchies, and 19 relationships | `meta-analytics` carries engine-neutral `MetaAnalytics`; `meta-convert` and `meta-tabular` produce and operate the Analysis Services model. |&#xD;
+| Model the conversion itself | One requirement and 24 executable Analytics-to-Tabular transformations | `meta-weave` executes a `MetaWeave` correspondence whose WeaveScript projection is readable and editable modeled transformation. |&#xD;
+&#xD;
+## Prerequisites&#xD;
+&#xD;
+- the `meta` and `meta-bi` CLIs on `PATH`;&#xD;
+- a local SQL Server instance with `AdventureWorks2022` restored;&#xD;
+- permission to create the four demo-owned databases;&#xD;
+- Analysis Services Tabular only when running the optional Tabular deployment and processing operations.&#xD;
+&#xD;
+`SOURCE-SETUP.md` covers the source database. `prepare-adventureworks-db.ps1` can download and restore the official backup on a local development machine.&#xD;
+&#xD;
+## Environment&#xD;
+&#xD;
+The examples below use the local default SQL Server instance:&#xD;
+&#xD;
+```powershell&#xD;
+$env:AW_SOURCE_SQL = "Server=.;Database=AdventureWorks2022;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+$env:AW_ADMIN_SQL = "Server=.;Database=master;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+$env:AW_RDV_SQL = "Server=.;Database=AdventureWorksRawVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+$env:AW_BDV_SQL = "Server=.;Database=AdventureWorksBusinessVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+$env:AW_DW_SQL = "Server=.;Database=AdventureWorksAnalytics;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+$env:AW_PIPELINE_SQL = "Server=.;Database=AdventureWorksMetaPipeline;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
+```&#xD;
+&#xD;
+## Build the stack&#xD;
+&#xD;
+Run from the mesh workspace:&#xD;
+&#xD;
+```powershell&#xD;
+cd AdventureWorksBiStackDemo.MetaMesh&#xD;
+&#xD;
+meta-mesh run --operation validate-source&#xD;
+meta-mesh run --operation sync-source-schema&#xD;
+&#xD;
+meta-mesh run --operation create-raw-vault&#xD;
+meta-mesh run --operation deploy-raw-vault&#xD;
+meta-mesh run --operation create-source-raw-transforms&#xD;
+meta-mesh run --operation create-source-raw-pipeline&#xD;
+&#xD;
+meta-mesh run --operation create-business-vault&#xD;
+meta-mesh run --operation deploy-business-vault&#xD;
+meta-mesh run --operation create-raw-business-transforms&#xD;
+meta-mesh run --operation create-raw-business-pipeline&#xD;
+&#xD;
+meta-mesh run --operation create-dimensional-warehouse&#xD;
+meta-mesh run --operation deploy-dimensional-warehouse&#xD;
+meta-mesh run --operation create-business-warehouse-transforms&#xD;
+meta-mesh run --operation create-business-warehouse-pipeline&#xD;
+&#xD;
+meta-mesh run --operation create-orchestration&#xD;
+meta-mesh run --operation deploy-pipeline-runtime&#xD;
+meta-mesh run --operation create-data-quality&#xD;
+meta-mesh run --operation deploy-data-quality&#xD;
+meta-mesh run --operation create-analytics&#xD;
+meta-mesh run --operation create-tabular&#xD;
+```&#xD;
+&#xD;
+The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.&#xD;
+&#xD;
+Binding and execution explicitly select the mesh's `data-type` workspace through&#xD;
+`--data-type-workspace`; their CLI default remains BuiltIn. The schema generator&#xD;
+currently uses BuiltIn catalogs independently. This demo authors its required&#xD;
+casts directly in load SQL, so it does not need an `apply-conversions` step.&#xD;
+&#xD;
+MetaMesh currently requires referenced output workspaces to exist during preflight.&#xD;
+The checked-in generated workspaces satisfy that requirement. A missing output&#xD;
+after failed generation can prevent a retry; see the recovery limitation in the&#xD;
+alignment note. Bootstrap from absent outputs is not verified by this demo.&#xD;
+&#xD;
+## Run and verify&#xD;
+&#xD;
+Execute the inferred graph across all three pipelines, then reconcile the result to the source:&#xD;
+&#xD;
+```powershell&#xD;
+meta-mesh run --operation run-etl&#xD;
+meta-mesh run --operation verify-stack&#xD;
+```&#xD;
+&#xD;
+For an inspected layer-by-layer run, use `load-raw-vault`, `load-business-vault`, and `load-dimensional-warehouse` instead of `run-etl`.&#xD;
+&#xD;
+The verification operation checks Raw and Business Vault counts, warehouse fact&#xD;
+grains, source-to-warehouse measures, native Raw product types and exact values,&#xD;
+deployed Data Quality results, and the latest task-level pipeline evidence.&#xD;
+The live alignment loaded 31,465 orders, 121,317 lines and 163 quota rows through&#xD;
+120 successful tasks. The recorded Data Quality result is **167 promoted checks,&#xD;
+45 with findings**. Those findings are wanted review evidence, as explained below.&#xD;
+`verify-stack` executes the deployed review once and reports the total checks,&#xD;
+checks with findings and per-family finding groups. Findings do not automatically&#xD;
+fail verification. Missing checks, SQL execution errors and failures in the&#xD;
+other reconciliations still fail the operation.&#xD;
+&#xD;
+## Data Quality findings&#xD;
+&#xD;
+The demo retains the full promoted review pack and its findings. Returned rows&#xD;
+identify situations to inspect; they do not automatically establish a faulty&#xD;
+transformation. The reviewed sample result is:&#xD;
+&#xD;
+| Check family | Checks with findings | Observed situation |&#xD;
+| --- | ---: | --- |&#xD;
+| JoinMultiplicityExplosion | 14 | Repeated use of lookup keys, including multiple lines per order |&#xD;
+| OutputDuplicateRisk | 14 | The same join-key groupings, reviewed alongside actual output grains |&#xD;
+| JoinOrphan | 12 | Related records unused by the consuming side, such as products never ordered |&#xD;
+| OuterJoinNullExpansion | 5 | Missing relationships corresponding to nullable source references |&#xD;
+&#xD;
+These are **45 nonempty checks**, not 45 bad records or 45 confirmed transform&#xD;
+defects. Independent source comparisons explain the returned groups; forward&#xD;
+reference probes found no missing lookups or duplicate applicable lookup keys,&#xD;
+and the fact grains were verified separately. The checks and findings remain&#xD;
+visible. The counts describe this recorded sample run, not general acceptance&#xD;
+thresholds or permission to ignore future differences.&#xD;
+&#xD;
+Inspect the findings on the local SQL Server instance:&#xD;
+&#xD;
+```sql&#xD;
+SELECT *&#xD;
+FROM [AdventureWorksAnalytics].[dq].[v_DataQualityReview]&#xD;
+WHERE COALESCE([ResultRowCount], [RowsReturned], 0) &lt;&gt; 0&#xD;
+ORDER BY [ResultRowCount] DESC, [CandidateId];&#xD;
+```&#xD;
+&#xD;
+`ReviewQuery` contains SQL for drilling into each check. See&#xD;
+[DQ-REVIEW.md](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/DQ-REVIEW.md) for the individual findings and supporting probes.&#xD;
+The former expectation of no findings is superseded by this interpretation;&#xD;
+the verifier does not hardcode 45 as an allowed-failure threshold.&#xD;
+MetaDataQuality changes and production-scale execution/dashboard work are&#xD;
+deferred; no checks are removed, suppressed or changed for this demo.&#xD;
+&#xD;
+The final SQL alignment verification passed through the modeled `verify-stack`&#xD;
+operation. Independent source comparisons found zero missing, extra or changed&#xD;
+selected business rows across the eight reviewed warehouse outputs, including&#xD;
+binary comparison of text. All 120 scripts were rebound against the selected&#xD;
+catalog, and the latest task evidence contains 53, 47 and 20 successful tasks&#xD;
+for the three pipelines. These are verification of the loaded SQL stack;&#xD;
+Analysis Services was not rerun.&#xD;
+&#xD;
+## Tabular runtime&#xD;
+&#xD;
+The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local `.\TABULAR` instance and deploy the model as `AdventureWorksSales`:&#xD;
+&#xD;
+```powershell&#xD;
+meta-mesh run --operation deploy-tabular&#xD;
+meta-mesh run --operation process-tabular&#xD;
+```&#xD;
+&#xD;
+`deploy-tabular` replaces the target database and deploys metadata without processing. `process-tabular` performs the full refresh. `drop-tabular` removes the deployed database.&#xD;
+&#xD;
+The deployment operation also grants the local `NT Service\MSOLAP$TABULAR` service account read access to `AdventureWorksAnalytics`. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on `.\TABULAR`. A direct model query returns Sales Amount `109846381.425`, Total Due `123216786.1159`, and Quota Amount `95714000`, matching the relational verification.&#xD;
+&#xD;
+These Tabular results are the recorded earlier deployment. Analysis Services&#xD;
+deployment and processing were not repeated during the current SQL alignment.&#xD;
+&#xD;
+## Cleanup&#xD;
+&#xD;
+```powershell&#xD;
+meta-mesh run --operation cleanup&#xD;
+```&#xD;
+&#xD;
 Cleanup drops `AdventureWorksRawVault`, `AdventureWorksBusinessVault`, `AdventureWorksAnalytics`, and `AdventureWorksMetaPipeline`, then removes transient pipeline execution evidence under `Runs\ops\RunArtifacts`. It keeps the checked-in modeled workspaces. It does not remove the source database or an external Tabular database.</Body>
       <LastReviewedImportBatchId></LastReviewedImportBatchId>
       <Origin>Authored</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
-      <Title>Demo</Title>
+      <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta-bi:cli:narrative:summary:cli" DocumentationSubjectId="public:meta-bi:cli">
       <Body>Command-line tools for BI modeling, conversion, validation, and execution.</Body>
@@ -11398,7 +11474,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency">
       <Body>Record an explicit success or failure dependency between tasks.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11406,7 +11482,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:condition:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:condition">
       <Body>Whether the successor follows predecessor success or failure.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11414,7 +11490,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:from-task:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:from-task">
       <Body>Predecessor task selector.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11422,7 +11498,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:object:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:object">
       <Body>Object selector for object-scoped dependency resolution.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11430,7 +11506,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:reason:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:reason">
       <Body>Reason recorded with the policy row.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11438,7 +11514,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:to-task:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:to-task">
       <Body>Successor task selector.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11446,7 +11522,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-dependency:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-dependency:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11454,7 +11530,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order">
       <Body>Record an explicit success dependency/order resolution in an orchestration workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11462,7 +11538,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:condition:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:condition">
       <Body>Dependency condition. Default: success.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11470,7 +11546,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:from-task:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:from-task">
       <Body>Predecessor task selector.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11478,7 +11554,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:object:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:object">
       <Body>Object selector for object-scoped dependency resolution.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11486,7 +11562,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:reason:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:reason">
       <Body>Reason recorded with the policy row.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11494,7 +11570,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:to-task:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:to-task">
       <Body>Successor task selector.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11502,7 +11578,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:add-order:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:add-order:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11510,7 +11586,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:allow-concurrent-append:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:allow-concurrent-append">
       <Body>Allow concurrent execution for multiple Append effects on one object.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11518,7 +11594,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:object:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:object">
       <Body>Data object whose append writers can overlap.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11526,7 +11602,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:reason:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:reason">
       <Body>Reason recorded with the policy row.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11534,7 +11610,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:allow-concurrent-append:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11542,7 +11618,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create">
       <Body>Create a MetaOrchestration workspace from a modeled MetaPipeline workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11550,7 +11626,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:description:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:description">
       <Body>Description recorded on the orchestration plan.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11558,7 +11634,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:output-connection-env:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11566,7 +11642,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:output-csharp:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11574,7 +11650,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:output-sql:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11582,7 +11658,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:output-xml:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11590,7 +11666,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:create:option:pipeline-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:create:option:pipeline-workspace">
       <Body>MetaPipeline workspace to analyze.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11598,15 +11674,15 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute">
       <Body>Execute the current run plan by coordinating meta-pipeline worker processes.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-conversion-workspace">
-      <Body>Conversion policy workspace passed to child workers.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace">
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11614,7 +11690,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism">
       <Body>Maximum concurrently granted pipeline tasks. Default: 1.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11622,7 +11698,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:pipeline-db-connection-env">
       <Body>Operational DB connection environment variable passed to child workers.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11630,7 +11706,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:pipeline-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:pipeline-workspace">
       <Body>MetaPipeline workspace used by child pipeline workers.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11638,7 +11714,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:run-artifacts-root:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:run-artifacts-root">
       <Body>Operational root for run journals, worker logs, and workspace execution leases.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11646,7 +11722,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:worker-activation-timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:worker-activation-timeout-seconds">
       <Body>Startup/activation timeout. Omitted follows --worker-event-timeout-seconds; 0 disables activation timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11654,7 +11730,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:worker-control-pipe-connect-timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:worker-control-pipe-connect-timeout-seconds">
       <Body>Timeout while waiting for child workers to connect to the named pipe. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11662,7 +11738,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:worker-event-timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:worker-event-timeout-seconds">
       <Body>Timeout for silent worker protocol periods. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11670,7 +11746,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11678,7 +11754,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:explain-issue:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:explain-issue">
       <Body>Explain one analyzer issue and its participating pipelines.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11686,7 +11762,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:explain-issue:option:issue:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:explain-issue:option:issue">
       <Body>Issue id or unique issue code.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11694,7 +11770,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:explain-issue:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:explain-issue:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11702,7 +11778,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:help:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:help">
       <Body>Show help.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11710,7 +11786,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:inspect-run-plan:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:inspect-run-plan">
       <Body>Inspect the planned task dependency graph.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11718,7 +11794,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:inspect-run-plan:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:inspect-run-plan:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11726,7 +11802,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:inspect:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:inspect">
       <Body>Inspect a MetaOrchestration workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11734,7 +11810,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:inspect:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:inspect:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11742,7 +11818,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:list-issues:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:list-issues">
       <Body>List analyzer issues recorded in an orchestration workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11750,7 +11826,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:list-issues:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:list-issues:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11758,7 +11834,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:refresh-run-plan:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:refresh-run-plan">
       <Body>Refresh lock-aware run-plan rows in an orchestration workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11766,7 +11842,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:refresh-run-plan:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:refresh-run-plan:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11774,7 +11850,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy">
       <Body>Record scoped lock compatibility for one object/effect interaction.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11782,7 +11858,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:behavior:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:behavior">
       <Body>Lock behavior for the object/effect pair.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11790,7 +11866,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:left-effect:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:left-effect">
       <Body>Left write effect, such as Append, Replace, Mutation, KeyedUpsert, or ConditionalKeyedUpsert.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11798,7 +11874,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:object:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:object">
       <Body>Data object whose effect interaction is being resolved.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11806,7 +11882,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:reason:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:reason">
       <Body>Reason recorded with the policy row.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11814,7 +11890,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:right-effect:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:right-effect">
       <Body>Right write effect, such as Append, Replace, Mutation, KeyedUpsert, or ConditionalKeyedUpsert.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11822,7 +11898,7 @@ A multidimensional workspace can be authored directly or created from portable `
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:set-lock-policy:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:set-lock-policy:option:workspace">
       <Body>MetaOrchestration workspace. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11857,7 +11933,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-orchestration:app">
       <Body>Create, inspect, plan, and execute orchestration plans with task ordering, concurrency policy, and run evidence.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20260822192051137</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11865,7 +11941,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step">
       <Body>Append one executable-backed task instance to the pipeline's serial task chain.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11873,7 +11949,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:arguments:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:arguments">
       <Body>Raw command-line arguments passed to the executable.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11881,7 +11957,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:executable:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:executable">
       <Body>Executable path or executable name resolvable by the operating system.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11889,7 +11965,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:pipeline">
       <Body>Pipeline that receives the new serial step.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11897,7 +11973,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:step-name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:step-name">
       <Body>Step name; omitted derives a deterministic name from the executable file name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11905,7 +11981,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:success-exit-code:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:success-exit-code">
       <Body>Expected process exit code. Default: 0.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11913,7 +11989,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:timeout-seconds">
       <Body>Process timeout seconds. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11921,7 +11997,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:working-directory:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:working-directory">
       <Body>Process working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11929,7 +12005,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-executable-step:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-executable-step:option:workspace">
       <Body>Existing MetaPipeline workspace to update. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11937,7 +12013,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-pipeline">
       <Body>Add one Pipeline instance to a MetaPipeline workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11945,7 +12021,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-pipeline:option:description:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-pipeline:option:description">
       <Body>Pipeline description.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11953,7 +12029,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-pipeline:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-pipeline:option:name">
       <Body>Pipeline name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11961,7 +12037,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-pipeline:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-pipeline:option:workspace">
       <Body>Existing MetaPipeline workspace to update. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11969,7 +12045,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step">
       <Body>Append one transform-backed task instance to the pipeline's serial task chain.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11977,7 +12053,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:batch-size:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:batch-size">
       <Body>Bounded in-memory row buffer size for InsertRows. Default: 1000.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11985,7 +12061,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:binding-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:binding-workspace">
       <Body>MetaTransformBinding workspace used for binding selection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -11993,7 +12069,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:binding:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:binding">
       <Body>Binding id when the selected script has multiple bindings.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12001,7 +12077,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:execution-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:execution-connection-env">
       <Body>Environment variable named by the modeled execution connection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12009,7 +12085,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:pipeline">
       <Body>Pipeline that receives the new serial step.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12017,7 +12093,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:script:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:script">
       <Body>TransformScript.Name or TransformScript.Id to model.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12025,7 +12101,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:step-name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:step-name">
       <Body>Step name; omitted derives a deterministic name from the script name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12033,7 +12109,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:target-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:target-connection-env">
       <Body>Environment variable named by the modeled target connection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12041,7 +12117,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:target-data-type-system:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:target-data-type-system">
       <Body>InsertRows target type family. Default: SqlServer.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12049,7 +12125,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:target-write:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:target-write">
       <Body>SELECT-kind target write model. The only supported value is insert-rows.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12057,7 +12133,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:target:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:target">
       <Body>Target table identifier when a SELECT binding has multiple targets.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12065,7 +12141,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:timeout-seconds">
       <Body>SQL command and bulk-copy timeout seconds. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12073,7 +12149,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:transform-workspace">
       <Body>MetaTransformScript workspace used for script selection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12081,7 +12157,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:add-step:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:add-step:option:workspace">
       <Body>Existing MetaPipeline workspace to update. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12089,7 +12165,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create-pipeline-db:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create-pipeline-db">
       <Body>Create or update the SQL Server MetaPipeline operational DB for diagnostic logs, audit logs, metrics, and failures; it does not store model truth.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12097,7 +12173,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create-pipeline-db:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create-pipeline-db:option:pipeline-db-connection-env">
       <Body>Environment variable with a SQL Server connection string that can create the database.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12105,7 +12181,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create-pipeline-db:option:pipeline-db-name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create-pipeline-db:option:pipeline-db-name">
       <Body>Operational database name. Default: MetaPipeline.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12113,7 +12189,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create">
       <Body>Create a meta-pipeline workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12121,7 +12197,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create:option:connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create:option:connection-env">
       <Body>Environment variable containing the SQL Server connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12129,7 +12205,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create:option:csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create:option:csharp">
       <Body>Create a C# workspace at this directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12137,7 +12213,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create:option:sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create:option:sql">
       <Body>Create a SQL workspace described by this directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12145,7 +12221,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:create:option:xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:create:option:xml">
       <Body>Create an XML workspace at this directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12153,7 +12229,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver">
       <Body>Execute one SQL Server transform script with script selection options and compact live progress including B/KB/MB/GB rate.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12161,7 +12237,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:batch-size:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:batch-size">
       <Body>Bounded in-memory row buffer size. Default: 1000.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12169,7 +12245,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding-workspace">
       <Body>MetaTransformBinding workspace containing script binding rows.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12177,15 +12253,15 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:binding">
       <Body>Binding id when the selected script has multiple bindings.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-conversion-workspace">
-      <Body>Conversion policy workspace; omitted uses built-in defaults.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12193,7 +12269,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env">
       <Body>Environment variable for the execution SQL Server connection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12201,7 +12277,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:pipeline-db-connection-env">
       <Body>Environment variable for an initialized MetaPipeline operational DB.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12209,7 +12285,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:script:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:script">
       <Body>TransformScript.Name or TransformScript.Id to execute.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12217,7 +12293,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target-connection-env">
       <Body>Environment variable for the target SQL Server connection.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12225,7 +12301,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target-data-type-system:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target-data-type-system">
       <Body>Runtime target type family for InsertRows. Default: SqlServer.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12233,7 +12309,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:target">
       <Body>Target table identifier when a SELECT binding has multiple targets.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12241,7 +12317,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:timeout-seconds">
       <Body>SQL command and bulk-copy timeout seconds. 0 or omitted means no command timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12249,7 +12325,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:transform-workspace">
       <Body>MetaTransformScript workspace containing the script.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12257,7 +12333,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step">
       <Body>Execute exactly one modeled pipeline task by task name or id; diagnostic surface, while orchestration uses execute-worker.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12265,15 +12341,15 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:binding-workspace">
       <Body>MetaTransformBinding workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-conversion-workspace">
-      <Body>Conversion policy workspace; omitted uses built-in defaults.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12281,7 +12357,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:pipeline-db-connection-env">
       <Body>Environment variable for an initialized MetaPipeline operational DB.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12289,7 +12365,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:pipeline">
       <Body>Pipeline name containing the step.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12297,7 +12373,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:step-name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:step-name">
       <Body>Pipeline task name or id to execute.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12305,7 +12381,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:transform-workspace">
       <Body>MetaTransformScript workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12313,7 +12389,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:workspace">
       <Body>MetaPipeline workspace. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12321,7 +12397,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker">
       <Body>Execute a modeled pipeline as an orchestration worker boundary over a named pipe; stdout and stderr are diagnostics only; preserves that pipeline context and handles GrantTask and StopPipeline.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12329,7 +12405,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:binding-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:binding-workspace">
       <Body>MetaTransformBinding workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12337,7 +12413,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe-connect-timeout-seconds">
       <Body>Timeout while connecting to the orchestration control pipe. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12345,15 +12421,15 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:control-pipe">
       <Body>Named pipe used for orchestration worker control messages.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-conversion-workspace">
-      <Body>Conversion policy workspace; omitted uses built-in defaults.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12361,7 +12437,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline-db-connection-env">
       <Body>Environment variable for an initialized MetaPipeline operational DB.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12369,7 +12445,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline">
       <Body>Pipeline name to execute as a worker.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12377,7 +12453,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:transform-workspace">
       <Body>MetaTransformScript workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12385,7 +12461,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:workspace">
       <Body>MetaPipeline workspace. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12393,7 +12469,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute">
       <Body>Execute a modeled pipeline's serial task chain with compact live progress including B/KB/MB/GB rate.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12401,15 +12477,15 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:binding-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:binding-workspace">
       <Body>MetaTransformBinding workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-conversion-workspace">
-      <Body>Conversion policy workspace; omitted uses built-in defaults.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12417,7 +12493,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:pipeline-db-connection-env">
       <Body>Environment variable for an initialized MetaPipeline operational DB.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12425,7 +12501,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:pipeline:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:pipeline">
       <Body>Pipeline name to execute.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12433,7 +12509,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:transform-workspace">
       <Body>MetaTransformScript workspace path used for operational run context.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12441,7 +12517,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:workspace">
       <Body>MetaPipeline workspace. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12449,7 +12525,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:help:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:help">
       <Body>Show help.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12457,7 +12533,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:inspect:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:inspect">
       <Body>Show a compact MetaPipeline workspace summary.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12465,7 +12541,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:inspect:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:inspect:option:workspace">
       <Body>MetaPipeline workspace to inspect. Defaults to the current working directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12473,7 +12549,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:prune-pipeline-db:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:prune-pipeline-db">
       <Body>Prune old completed RunDiagnosticsLog rows while preserving RunLog and audit lineage.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12481,7 +12557,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:dry-run:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:dry-run">
       <Body>Report eligible rows without deleting them.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12489,7 +12565,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:pipeline-db-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:pipeline-db-connection-env">
       <Body>Environment variable for the initialized MetaPipeline operational DB.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12497,7 +12573,7 @@ The orchestration workspace is both the plan and the evidence boundary: it can b
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:retention-days:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:prune-pipeline-db:option:retention-days">
       <Body>Delete eligible diagnostic rows older than this retention window.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12530,7 +12606,7 @@ The workspace is the execution plan. It states what should run and which contrac
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-pipeline:app">
       <Body>Author and execute modeled pipelines with task dependencies, workspace fingerprints, SQL execution, and operational run evidence.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20260805095727653</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15099,7 +15175,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind">
       <Body>Bind transform scripts and validate them against source and target schema contracts into a new workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15107,15 +15183,15 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:allow-partial:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:allow-partial">
       <Body>Save only objects that bind and validate successfully.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace">
-      <Body>Optional sanctioned conversion policy workspace. Omitted uses built-in defaults.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+    <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace">
+      <Body>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15123,7 +15199,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system-default-schema-name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:execute-system-default-schema-name">
       <Body>Required when any one-part source identifier exists.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15131,7 +15207,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:execute-system">
       <Body>Execution context for one/two-part source identifiers.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15139,7 +15215,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:ignore-target-columns-if-present:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:ignore-target-columns-if-present">
       <Body>Comma-separated target columns to exclude only on target tables where they exist.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15147,7 +15223,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:ignore-target-columns:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:ignore-target-columns">
       <Body>Comma-separated target columns to exclude from target conformance checks.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15155,7 +15231,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:output-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15163,7 +15239,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:output-csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15171,7 +15247,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:output-sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15179,7 +15255,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:output-xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15187,7 +15263,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:partial-report:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:partial-report">
       <Body>TSV report for objects skipped due to binding or validation failure. Requires --allow-partial.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15195,7 +15271,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:source-schema:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:source-schema">
       <Body>Repeatable source MetaSchema workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15203,7 +15279,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:target-schema:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:target-schema">
       <Body>Target MetaSchema workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15211,7 +15287,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:bind:option:transform-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:transform-workspace">
       <Body>MetaTransformScript workspace to bind.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15219,7 +15295,7 @@ A Tabular workspace can be authored directly or created from `MetaAnalytics`. De
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:command:help:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:help">
       <Body>Show help.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15251,7 +15327,7 @@ A successful binding is a concrete statement about what the transform reads and 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-binding:app:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-binding:app">
       <Body>Bind transform scripts to source and target schemas so references, data types, and writable contracts are verified before generation.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20260805095719871</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-binding:batch:20261113214304096</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15601,9 +15677,81 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
       <Slot>Summary</Slot>
       <Title>Summary</Title>
     </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions">
+      <Body>Apply authored type conversions to source-column reads in a new workspace.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>Current</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-conversion-workspace">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:data-type-workspace">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-connection-env">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-csharp">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-sql">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:output-xml">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:source-schema">
+      <Body>Read schema evidence; repeat for each referenced system.</Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>Current</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:apply-conversions:option:workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:apply-conversions:option:workspace">
+      <Body></Body>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
+      <Origin>Generated</Origin>
+      <ReviewStatus>NeedsAuthoring</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
+    </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code">
       <Body>Import SQL text.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15611,7 +15759,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:code:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:code">
       <Body>SQL text to import.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15619,7 +15767,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:name">
       <Body>Required when SQL code is bare SELECT or mutation text without a CREATE wrapper.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15627,7 +15775,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:output-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15635,7 +15783,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:output-csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15643,7 +15791,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:output-sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15651,7 +15799,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:output-xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15659,7 +15807,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:target:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:target">
       <Body>Optional for CREATE VIEW imports; required for bare SELECT; not allowed for inline CREATE FUNCTION or mutation imports.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15667,7 +15815,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-code:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-code:option:workspace">
       <Body>Add one script to an existing workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15675,7 +15823,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file">
       <Body>Import one .sql file.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15683,7 +15831,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:output-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15691,7 +15839,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:output-csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15699,7 +15847,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:output-sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15707,7 +15855,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:output-xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15715,7 +15863,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:path:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:path">
       <Body>SQL file to import.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15723,7 +15871,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:target:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:target">
       <Body>Optional for CREATE VIEW imports; required for bare SELECT; not allowed for inline CREATE FUNCTION or mutation imports.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15731,7 +15879,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-file:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-file:option:workspace">
       <Body>Add one script to an existing workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15739,7 +15887,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files">
       <Body>Import many .sql files from an explicit manifest.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15747,7 +15895,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:manifest:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:manifest">
       <Body>TSV manifest with a Path column and optional Target column.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15755,7 +15903,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:output-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15763,7 +15911,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:output-csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15771,7 +15919,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:output-sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15779,7 +15927,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:output-xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15787,7 +15935,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:report:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:report">
       <Body>Write per-file Success/Failure rows.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15795,7 +15943,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:verbose:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:verbose">
       <Body>Print one progress line per imported file.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15803,7 +15951,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-files:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-files:option:workspace">
       <Body>Add successful imports to an existing workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15811,7 +15959,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace">
       <Body>Import every script from a MetaSqlScript workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15819,7 +15967,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-connection-env:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15827,7 +15975,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-csharp:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-csharp">
       <Body>Create the output as a C# workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15835,7 +15983,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-sql:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-sql">
       <Body>Create the output as a SQL workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15843,7 +15991,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-xml:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:output-xml">
       <Body>Create the output as an XML workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15851,7 +15999,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:source-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:source-workspace">
       <Body>Source MetaSqlScript workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15859,7 +16007,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:from-sql-script-workspace:option:workspace">
       <Body>Existing MetaTransformScript workspace to update.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15867,7 +16015,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:help:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:help">
       <Body>Show help.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15875,7 +16023,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract">
       <Body>Add or replace stored procedure contract metadata.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15883,7 +16031,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:name">
       <Body>Stored procedure transform script name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15891,7 +16039,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:notes:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:notes">
       <Body>Human note stored on the contract.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15899,7 +16047,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:operation:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:operation">
       <Body>Declare an ordered operation: `&lt;ordinal&gt;:&lt;kind&gt;:&lt;sql-id&gt;[=&lt;role&gt;]`.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15907,7 +16055,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:result-column:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:result-column">
       <Body>Declare a result column for a named result rowset.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15915,7 +16063,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:result-rowset:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:result-rowset">
       <Body>Declare the optional result rowset.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15923,7 +16071,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-add-contract:option:workspace">
       <Body>MetaTransformScript workspace to update. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15931,7 +16079,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract">
       <Body>Remove a stored procedure contract and its declared rows.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15939,7 +16087,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract:option:name">
       <Body>Stored procedure transform script name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15947,7 +16095,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-remove-contract:option:workspace">
       <Body>MetaTransformScript workspace to update. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15955,7 +16103,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-view-contract:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-view-contract">
       <Body>View stored procedure contracts.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15963,7 +16111,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-view-contract:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-view-contract:option:name">
       <Body>Inspect one stored procedure transform script by name.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15971,7 +16119,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:stored-procedure-view-contract:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:stored-procedure-view-contract:option:workspace">
       <Body>MetaTransformScript workspace to inspect. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15979,7 +16127,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern">
       <Body>Derive view target identifiers from transform script names.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15987,7 +16135,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:allow-empty:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:allow-empty">
       <Body>Exit successfully even when the pattern updates no target identifiers.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -15995,7 +16143,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:dry-run:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:dry-run">
       <Body>Show what would change without saving the workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16003,7 +16151,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:only-missing:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:only-missing">
       <Body>Skip view scripts that already have a target identifier.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16011,7 +16159,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:source-pattern:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:source-pattern">
       <Body>Pattern matched against TransformScript.Name. Tokens use {name}.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16019,7 +16167,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:target-pattern:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:target-pattern">
       <Body>Pattern rendered into TargetSqlIdentifier from captured source tokens.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16027,7 +16175,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:verbose:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:verbose">
       <Body>Print each target identifier update.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16035,7 +16183,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:target-identifiers-from-pattern:option:workspace">
       <Body>MetaTransformScript workspace to update. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16043,7 +16191,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-code:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-code">
       <Body>Emit one transform script as SQL text.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16051,7 +16199,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-code:option:name:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-code:option:name">
       <Body>Required when the workspace contains multiple scripts.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16059,7 +16207,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-code:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-code:option:workspace">
       <Body>MetaTransformScript workspace to export. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16067,7 +16215,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-path:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-path">
       <Body>Emit SQL scripts to a file or folder.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16075,7 +16223,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-path:option:out:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-path:option:out">
       <Body>Output .sql file or target folder.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16083,7 +16231,7 @@ meta-convert transform-pattern-to-sql-script --pattern-workspace .\Patterns --in
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:command:to-sql-path:option:workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app:command:to-sql-path:option:workspace">
       <Body>MetaTransformScript workspace to export. Defaults to the current directory.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -16116,7 +16264,7 @@ That workspace gives binding and quality tools access to statements, sources, pr
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-transform-script:app:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-transform-script:app">
       <Body>Import SQL transform scripts into a structured model, export equivalent SQL, and manage transform contracts.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20260818211827690</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-transform-script:batch:20261113214302391</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>

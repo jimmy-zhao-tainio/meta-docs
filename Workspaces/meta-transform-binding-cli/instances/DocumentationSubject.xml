@@ -32,15 +32,15 @@
       <Status>New</Status>
       <Summary>Save only objects that bind and validate successfully.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:allow-partial">
-      <DisplayName>--data-type-conversion-workspace</DisplayName>
-      <DisplayPath>meta-transform-binding bind --data-type-conversion-workspace</DisplayPath>
-      <NativeId>opt-data-type-conversion-workspace</NativeId>
+    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:allow-partial">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-transform-binding bind --data-type-workspace</DisplayPath>
+      <NativeId>opt-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
       <Status>New</Status>
-      <Summary>Optional sanctioned conversion policy workspace. Omitted uses built-in defaults.</Summary>
+      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-conversion-workspace">
+    <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace">
       <DisplayName>--execute-system</DisplayName>
       <DisplayPath>meta-transform-binding bind --execute-system</DisplayPath>
       <NativeId>opt-execute-system</NativeId>
