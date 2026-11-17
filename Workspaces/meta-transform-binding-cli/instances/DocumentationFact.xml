@@ -190,8 +190,8 @@
     <DocumentationFact Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-transform-binding:batch:20261113214304096" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>f008ccb3c9678a43fb0bb52002f87568003ee1c7d0ccfc92a4ebe87589428bdb</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog for schema validation and SQL expression types. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-transform-binding:batch:20261113214304096" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>

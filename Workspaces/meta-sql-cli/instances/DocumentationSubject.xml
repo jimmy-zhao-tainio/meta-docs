@@ -72,7 +72,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql deploy-plan --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-plan-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace">
       <DisplayName>--output-connection-env</DisplayName>
       <DisplayPath>meta-sql deploy-plan --output-connection-env</DisplayPath>
       <NativeId>option-deploy-plan-output-connection-env</NativeId>
@@ -104,7 +112,15 @@
       <Status>New</Status>
       <Summary>Create the deploy manifest as an XML workspace at this path.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:schema" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
+      <DisplayName>--schema</DisplayName>
+      <DisplayPath>meta-sql deploy-plan --schema</DisplayPath>
+      <NativeId>opt-deploy-plan-schema</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:schema">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta-sql deploy-plan --source-workspace</DisplayPath>
       <NativeId>opt-deploy-plan-source-workspace</NativeId>
@@ -128,7 +144,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:manifest-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:manifest-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:data-type-workspace">
       <DisplayName>--manifest-workspace</DisplayName>
       <DisplayPath>meta-sql deploy --manifest-workspace</DisplayPath>
       <NativeId>opt-deploy-manifest-workspace</NativeId>
@@ -232,7 +256,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql extract sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-extract-sqlserver-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace">
       <DisplayName>--include-functions</DisplayName>
       <DisplayPath>meta-sql extract sqlserver --include-functions</DisplayPath>
       <NativeId>opt-extract-sqlserver-include-functions</NativeId>

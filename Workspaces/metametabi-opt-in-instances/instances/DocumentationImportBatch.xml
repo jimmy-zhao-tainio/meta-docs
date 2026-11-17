@@ -505,6 +505,20 @@
       <SourceFingerprint>d2c881375362e6aa5b490b3fa472d7cbc1c5c2d6ad5660cb2f884d3d0d4d641e</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20261117212522041" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-11-17T21:25:22.0406142+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>09021cc38d8711f8a45d6cf6e2ae593d7220d5b77fc1c5ec7c48e80875ea9388</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20261117221446727" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-11-17T22:14:46.7266110+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>b22b74e2ec22e835e3a8f684a444d55e0b8f656f5ddb2d321b6627836826d7c0</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:workspace-model:meta-docs:batch:20260704194347186" DocumentationSourceId="source:workspace-model:meta-docs">
       <ImportedAt>2026-07-04T19:43:47.1863128+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>

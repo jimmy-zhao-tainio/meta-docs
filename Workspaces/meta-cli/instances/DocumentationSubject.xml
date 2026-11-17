@@ -272,7 +272,39 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta:app:command:export-csv" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:deploy-sqlserver">
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:deploy-sqlserver">
+      <DisplayName>meta export csharp-bindings</DisplayName>
+      <DisplayPath>meta export csharp-bindings</DisplayPath>
+      <NativeId>exec-export-csharp-bindings</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Export compiler-checked typed workspace bindings without instance data.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:out" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings">
+      <DisplayName>--out</DisplayName>
+      <DisplayPath>meta export csharp-bindings --out</DisplayPath>
+      <NativeId>option-export-csharp-bindings-out</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>New directory outside the source workspace for generated binding code.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:strict" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings:option:out">
+      <DisplayName>--strict</DisplayName>
+      <DisplayPath>meta export csharp-bindings --strict</DisplayPath>
+      <NativeId>option-strict</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings:option:strict">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta export csharp-bindings --workspace</DisplayPath>
+      <NativeId>option-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csv" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings">
       <DisplayName>meta export csv</DisplayName>
       <DisplayPath>meta export csv</DisplayPath>
       <NativeId>exec-export-csv</NativeId>

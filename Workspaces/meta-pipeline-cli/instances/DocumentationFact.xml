@@ -4060,8 +4060,8 @@
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>4fa85cbdbf12315770c2696a338ca89783efb292c3f1f018c9233c205b9e4817</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>
@@ -5194,8 +5194,8 @@
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>4fa85cbdbf12315770c2696a338ca89783efb292c3f1f018c9233c205b9e4817</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>
@@ -6220,8 +6220,8 @@
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>4fa85cbdbf12315770c2696a338ca89783efb292c3f1f018c9233c205b9e4817</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>
@@ -6922,8 +6922,8 @@
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>4fa85cbdbf12315770c2696a338ca89783efb292c3f1f018c9233c205b9e4817</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-pipeline:batch:20261113214313025" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>

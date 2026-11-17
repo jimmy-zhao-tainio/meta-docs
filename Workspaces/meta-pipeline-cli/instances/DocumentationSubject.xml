@@ -357,8 +357,8 @@
       <DisplayPath>meta-pipeline execute-sqlserver --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-sqlserver-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
       <DisplayName>--execution-connection-env</DisplayName>
@@ -445,8 +445,8 @@
       <DisplayPath>meta-pipeline execute-step --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-step-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
@@ -525,8 +525,8 @@
       <DisplayPath>meta-pipeline execute-worker --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-worker-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
@@ -573,8 +573,8 @@
       <DisplayPath>meta-pipeline execute --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>

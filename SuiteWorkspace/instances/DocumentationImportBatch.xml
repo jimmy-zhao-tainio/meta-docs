@@ -106,6 +106,13 @@
       <SourceFingerprint>213d85c88732c2ecd3a9d03854206beacb94b879b217052733ea6c100e0028c3</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-convert:batch:20261117212359983" DocumentationSourceId="source:cli:meta-convert">
+      <ImportedAt>2026-11-17T21:23:59.9816497+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>f6e10a3e0c62f8f40179d1e7de354ee6ddf77798a0a829d08b55166192309c08</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-data-quality:batch:20260701172657936" DocumentationSourceId="source:cli:meta-data-quality">
       <ImportedAt>2026-07-01T17:26:57.9339502+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
@@ -153,6 +160,13 @@
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <ImporterVersion>1</ImporterVersion>
       <SourceFingerprint>e7cc9e85d1d3be81380b05c6a5578036121985245298f1b1cdacb0baab641aca</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-data-type-conversion:batch:20261117212351227" DocumentationSourceId="source:cli:meta-data-type-conversion">
+      <ImportedAt>2026-11-17T21:23:51.2262952+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>3bc0493783fbf14ff8035e9c7840323c46423222909d04108b89a529b8d240a2</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-data-type:batch:20260701172656135" DocumentationSourceId="source:cli:meta-data-type">
@@ -470,6 +484,13 @@
       <SourceFingerprint>ebccfa3d9c493f0824a8ad5e7405cdc3741e07e8eb78a8ea86bc3d8e48ce0f0b</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-multi-dimensional:batch:20261117212416924" DocumentationSourceId="source:cli:meta-multi-dimensional">
+      <ImportedAt>2026-11-17T21:24:16.9236384+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>900c8eba78a8ce48b4ef543eaf5bf94d1478a1f57617c0fe8efacc8fb7e47825</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-orchestration:batch:20260701172701171" DocumentationSourceId="source:cli:meta-orchestration">
       <ImportedAt>2026-07-01T17:27:01.1707620+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
@@ -547,6 +568,13 @@
       <SourceFingerprint>a2acb57a0197c35b1138e80c1f5342bb13628068f7f76074b37b6fa836b5ef5f</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-schema:batch:20261117212348846" DocumentationSourceId="source:cli:meta-schema">
+      <ImportedAt>2026-11-17T21:23:48.8445447+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>29e931de8f96082a202f6dc0e0d9e0df33b9af77747aaa5cb3f912dd91784179</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-sql:batch:20260701172656762" DocumentationSourceId="source:cli:meta-sql">
       <ImportedAt>2026-07-01T17:26:56.7616484+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
@@ -568,6 +596,13 @@
       <SourceFingerprint>a8b665c48849959013bf56cb9c4347248bb968441ad8b3a373c7701bfec38d2a</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-sql:batch:20261117212352804" DocumentationSourceId="source:cli:meta-sql">
+      <ImportedAt>2026-11-17T21:23:52.8036434+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>345796b14cfccdbe048ed8fe69ef0fc8fd5b34d1616657aae5122e8a0bd96088</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-tabular:batch:20260701172701594" DocumentationSourceId="source:cli:meta-tabular">
       <ImportedAt>2026-07-01T17:27:01.5934066+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
@@ -587,6 +622,13 @@
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <ImporterVersion>1</ImporterVersion>
       <SourceFingerprint>a0eb6e6697fd54fe06d5edde1535f02312e07c9e580c609812699b44363a0216</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-tabular:batch:20261117212412644" DocumentationSourceId="source:cli:meta-tabular">
+      <ImportedAt>2026-11-17T21:24:12.6433093+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>3491fd4b35770e476e94a5b4c4c398ba89e305fd3c976c17d4feab5e5054348a</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:cli:meta-transform-binding:batch:20260701172657442" DocumentationSourceId="source:cli:meta-transform-binding">
@@ -790,6 +832,13 @@
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <ImporterVersion>1</ImporterVersion>
       <SourceFingerprint>e98960c4ee2d99ffc9f18c9f27996db63e72f26bda1db7a529e9bf2fff7d211f</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta:batch:20261117212339935" DocumentationSourceId="source:cli:meta">
+      <ImportedAt>2026-11-17T21:23:39.9328169+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>98719a8f4dc60f89eaabf2c1dce1d4419ddb83c6e0a24b7033510ab5d2282395</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:workspace-model:meta-analytics:batch:20260701172703078" DocumentationSourceId="source:workspace-model:meta-analytics">
@@ -1119,6 +1168,13 @@
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
       <ImporterVersion>1</ImporterVersion>
       <SourceFingerprint>869882624bd362fc981db5d417da6eed66a4c671880b0753a7ee6ec0c529e8f4</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-model:meta-sql-deploy-manifest:batch:20261117212459678" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest">
+      <ImportedAt>2026-11-17T21:24:59.6778384+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>8ce121a481fd6fbb478f0266caaf44c7379bd9ab427a4e6a4ffa634eacc1ab38</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:workspace-model:meta-sql:batch:20260701172707985" DocumentationSourceId="source:workspace-model:meta-sql">

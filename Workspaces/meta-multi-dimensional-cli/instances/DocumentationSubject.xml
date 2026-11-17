@@ -2464,7 +2464,15 @@
       <Status>New</Status>
       <Summary>Create modeled multidimensional database objects, including data source views, and process unless --no-process is used; processing failures fail the command.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy">
+    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-multi-dimensional deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy" PreviousSubjectId="source:cli:meta-multi-dimensional:app:command:deploy:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-multi-dimensional deploy --database-name</DisplayPath>
       <NativeId>opt-deploy-database-name</NativeId>

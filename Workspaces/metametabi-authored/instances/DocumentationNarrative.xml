@@ -17,7 +17,7 @@ scripts have regenerated schema-aware Binding against the extracted SQL Server&#
 contracts; conversion-graph reachability cannot approve an unconverted expression.&#xD;
 &#xD;
 The [conversion alignment](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md) explains the corrected defaults,&#xD;
-load casts, catalog ownership and the remaining MetaMesh output-recovery limitation.&#xD;
+load casts, catalog ownership and the mesh's input/output path conventions.&#xD;
 &#xD;
 ## A complete BI stack built by an agent&#xD;
 &#xD;
@@ -117,14 +117,19 @@ meta-mesh run --operation create-tabular&#xD;
 The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.&#xD;
 &#xD;
 Binding and execution explicitly select the mesh's `data-type` workspace through&#xD;
-`--data-type-workspace`; their CLI default remains BuiltIn. The schema generator&#xD;
-currently uses BuiltIn catalogs independently. This demo authors its required&#xD;
+`--data-type-workspace`; omission loads the packaged authored workspace. Schema&#xD;
+generation accepts separate catalog and conversion workspace options; this demo&#xD;
+currently omits those options and uses the packaged workspaces. It authors its required&#xD;
 casts directly in load SQL, so it does not need an `apply-conversions` step.&#xD;
 &#xD;
-MetaMesh currently requires referenced output workspaces to exist during preflight.&#xD;
-The checked-in generated workspaces satisfy that requirement. A missing output&#xD;
-after failed generation can prevent a retry; see the recovery limitation in the&#xD;
-alignment note. Bootstrap from absent outputs is not verified by this demo.&#xD;
+Workspace references identify inputs that must exist when an operation starts.&#xD;
+Operations address their generated destinations through paths under the mesh root,&#xD;
+so checked-in generated outputs are not prerequisites for regeneration. Run the&#xD;
+operations in the documented order so each consuming operation has its inputs.&#xD;
+&#xD;
+Warehouse deployment selects `deploy-plan --schema dw`. The manifest records this&#xD;
+scope and deployment checks the same scoped live fingerprint. Separately deployed&#xD;
+`dq` views are preserved. Omitting `--schema` retains database-wide reconciliation.&#xD;
 &#xD;
 ## Run and verify&#xD;
 &#xD;
@@ -189,8 +194,8 @@ operation. Independent source comparisons found zero missing, extra or changed&#
 selected business rows across the eight reviewed warehouse outputs, including&#xD;
 binary comparison of text. All 120 scripts were rebound against the selected&#xD;
 catalog, and the latest task evidence contains 53, 47 and 20 successful tasks&#xD;
-for the three pipelines. These are verification of the loaded SQL stack;&#xD;
-Analysis Services was not rerun.&#xD;
+for the three pipelines. The demo mesh tour repeated the complete SQL load,&#xD;
+stack verification, Tabular deployment and full processing on local services.&#xD;
 &#xD;
 ## Tabular runtime&#xD;
 &#xD;
@@ -205,8 +210,8 @@ meta-mesh run --operation process-tabular&#xD;
 &#xD;
 The deployment operation also grants the local `NT Service\MSOLAP$TABULAR` service account read access to `AdventureWorksAnalytics`. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on `.\TABULAR`. A direct model query returns Sales Amount `109846381.425`, Total Due `123216786.1159`, and Quota Amount `95714000`, matching the relational verification.&#xD;
 &#xD;
-These Tabular results are the recorded earlier deployment. Analysis Services&#xD;
-deployment and processing were not repeated during the current SQL alignment.&#xD;
+The demo mesh tour repeated deployment and full processing. Independent queries&#xD;
+compare these three measures with their source SQL totals.&#xD;
 &#xD;
 ## Cleanup&#xD;
 &#xD;
@@ -227,6 +232,28 @@ Cleanup drops `AdventureWorksRawVault`, `AdventureWorksBusinessVault`, `Adventur
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
       <Title>CLI</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="public:meta-bi:demo-workflows:narrative:summary" DocumentationSubjectId="public:meta-bi:demo-workflows">
+      <Body>Demo meshes are authored workflows with different purposes. AdventureWorks exercises the integrated SQL/Tabular stack. Focused Pipeline, Orchestration, SQL corpus, Data Quality and Multidimensional examples cover additional statement types, failure branches and generation boundaries. Successful metadata deployment without processing is not an execution proof.
+
+MetaMesh preflight checks declared workspace references before an operation begins. A workspace reference therefore identifies an available input. Creation steps address their new destinations through output paths under the mesh root. Within an operation that produces and consumes an artifact, later steps can use that output path. The invoked owning CLI validates and creates the artifact. No empty placeholder workspace is needed solely to satisfy preflight.
+
+The Analytics authoring example separates cleanup, prepare-workspaces and author-analytics-model. Preparation creates the real empty model workspace; the authoring operation then populates it. The generation examples retain their own coherent operation boundaries and use output paths for artifacts produced inside an operation. Run operations in their documented order.
+
+Mesh environment tokens such as {env:DEMO_SQL} supply the variable name for CLI options such as --connection-env. They do not interpolate the value into literal --server or --database-name arguments. Use the authored local SSAS target or change its step arguments through meta-mesh.
+
+MetaTransformScriptConversionCliIntegration demonstrates integer-width normalization with a local catalog and authored conversion workspace. It applies a CAST snippet into a separate TransformScript workspace, independently binds it and executes through Pipeline on SQL Server. Changing only the authored snippet to CONVERT produces different SQL and repeats the same value checks. Unicode text, SQL NULL and empty strings are checked explicitly. The original script is preserved.
+
+The conversion operation owns conversion application. Binding checks the resulting SQL types and facets; it neither selects snippets nor approves an unconverted expression through a conversion graph. Pipeline executes the validated result. Existing expression-typing and conversion destination limits still apply.
+
+The AdventureWorks warehouse deploy-plan explicitly selects schema dw, preserving its separately deployed dq review pack. The demo retains all 167 promoted checks and their wanted findings; it does not change check eligibility to obtain a pass.
+
+The demo index in meta-bi/Demos lists each example's useful coverage. The historical TPC-DS-derived corpus retains a 99-module syntax round-trip and a separate Binding probe that currently fails. It is not an executable SQL Server workload; parser acceptance does not establish SQL Server semantics or target contracts. The Orchestration example uses nonempty source rows and exact output checks, including Unicode and an empty string. The focused Pipeline example verifies all five target tables and their audit defaults.</Body>
+      <LastReviewedImportBatchId></LastReviewedImportBatchId>
+      <Origin>Authored</Origin>
+      <ReviewStatus>Current</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta-bi:meta-schema-adapter:narrative:binding" DocumentationSubjectId="public:meta-bi:meta-schema-adapter" PreviousNarrativeId="public:meta-bi:meta-schema-adapter:narrative:summary">
       <Body>`IMetaSchemaDiscoveryAdapter` receives a provider-resolved connection reference and a system name, then returns a `MetaSchemaModel`. The provider describes the schemas, objects, fields, keys, and relationships available from that system using the normal MetaSchema contract. `MetaSchemaAdapterWorkspaceService` writes that model as an ordinary XML, C#, or SQL workspace through the normal workspace mapper.
@@ -349,6 +376,22 @@ Conversions connect the stages. `meta-convert` provides established conversion p
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Transformations</Slot>
       <Title>Transformations</Title>
+    </DocumentationNarrative>
+    <DocumentationNarrative Id="public:meta-bi:sql-deployment-scope:narrative:summary" DocumentationSubjectId="public:meta-bi:sql-deployment-scope">
+      <Body>`meta-sql deploy-plan --schema dw` declares one physical SQL Server schema as the deployment's desired-state boundary. All source tables, views, functions and stored procedures must belong to that schema. The empty implicit dbo schema in a SQL workspace is permitted.
+
+The manifest stores this selection in `DeployManifest.ManagedSchemaName`. Deployment reads the saved scope; it has no independent override. Live extraction and live fingerprint validation use the same schema. A warehouse deployment scoped to dw preserves separately deployed dq objects, including changes made to them after planning. Changes inside dw still invalidate a stale manifest.
+
+Without --schema, reconciliation remains database-wide. A database-wide manifest describes the complete desired database and may remove objects omitted from its source contract.
+
+The single-schema path rejects inbound and outbound cross-schema foreign keys during planning and again before execution. Filtered extraction cannot represent those dependencies completely; they require a database-wide contract. SQL Server continues to enforce SQL module dependencies. Deployment retains statement-by-statement execution and is not atomic across statements.
+
+Schema spelling must agree with the source contract. The selected MetaDataType catalog, source fingerprint and destructive table/column approvals retain their existing roles. Regenerate older manifests after updating the manifest model.</Body>
+      <LastReviewedImportBatchId></LastReviewedImportBatchId>
+      <Origin>Authored</Origin>
+      <ReviewStatus>Current</ReviewStatus>
+      <Slot>Summary</Slot>
+      <Title>SQL deployment ownership scope</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta:cli:narrative:summary:cli" DocumentationSubjectId="public:meta:cli">
       <Body>Command-line tools for the core metadata foundation.</Body>

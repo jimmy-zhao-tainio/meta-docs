@@ -48,7 +48,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:output-connection-env" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-schema extract sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-extract-sqlserver-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:output-connection-env" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:data-type-workspace">
       <DisplayName>--output-connection-env</DisplayName>
       <DisplayPath>meta-schema extract sqlserver --output-connection-env</DisplayPath>
       <NativeId>option-extract-sqlserver-output-connection-env</NativeId>

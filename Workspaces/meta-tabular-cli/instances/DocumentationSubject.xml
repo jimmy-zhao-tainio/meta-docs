@@ -2064,7 +2064,15 @@
       <Status>New</Status>
       <Summary>Create modeled tabular database objects, including calculation groups, and process unless --no-process is used; processing failures fail the command.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy">
+    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-tabular deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy" PreviousSubjectId="source:cli:meta-tabular:app:command:deploy:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-tabular deploy --database-name</DisplayPath>
       <NativeId>option-deploy-database-name</NativeId>

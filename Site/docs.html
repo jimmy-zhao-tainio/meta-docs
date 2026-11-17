@@ -97,6 +97,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#model-metaweave" data-panel-link="model-metaweave">MetaWeave</a></li>
         </ul>
         <div class="nav-product">Meta-BI</div>
+        <a class="nav-surface" href="#subject-public-meta-bi-demo-workflows" data-panel-link="subject-public-meta-bi-demo-workflows">Integration demo workflows</a>
         <a class="nav-surface" href="#subject-public-meta-bi-overview" data-panel-link="subject-public-meta-bi-overview">Overview</a>
         <a class="nav-surface" href="#subject-public-meta-bi-adventureworks" data-panel-link="subject-public-meta-bi-adventureworks">Demo</a>
         <a class="nav-surface" href="#group-public-meta-bi-adapters" data-panel-link="group-public-meta-bi-adapters">Adapters</a>
@@ -146,6 +147,7 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#model-metatransformpatterninstance" data-panel-link="model-metatransformpatterninstance">MetaTransformPatternInstance</a></li>
           <li><a class="nav-link" href="#model-metatransformscript" data-panel-link="model-metatransformscript">MetaTransformScript</a></li>
         </ul>
+        <a class="nav-surface" href="#subject-public-meta-bi-sql-deployment-scope" data-panel-link="subject-public-meta-bi-sql-deployment-scope">SQL deployment ownership scope</a>
       </aside>
       <main class="viewer" id="viewer" tabindex="0">
         <section class="panel is-active" id="home" data-panel="home">
@@ -169,6 +171,11 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
               <div class="label">Meta</div>
               <h2>Models</h2>
               <p>4 references</p>
+            </a>
+            <a class="entry-card" href="#subject-public-meta-bi-demo-workflows" data-panel-link="subject-public-meta-bi-demo-workflows">
+              <div class="label">Meta-BI</div>
+              <h2>Integration demo workflows</h2>
+              <p>Use coherent mesh operation boundaries and distinguish metadata, binding and live execution coverage.</p>
             </a>
             <a class="entry-card" href="#subject-public-meta-bi-overview" data-panel-link="subject-public-meta-bi-overview">
               <div class="label">Meta-BI</div>
@@ -194,6 +201,11 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
               <div class="label">Meta-BI</div>
               <h2>Models</h2>
               <p>20 references</p>
+            </a>
+            <a class="entry-card" href="#subject-public-meta-bi-sql-deployment-scope" data-panel-link="subject-public-meta-bi-sql-deployment-scope">
+              <div class="label">Meta-BI</div>
+              <h2>SQL deployment ownership scope</h2>
+              <p>Declare one owned SQL schema in the deploy manifest, or retain database-wide reconciliation.</p>
             </a>
           </section>
         </section>
@@ -573,6 +585,50 @@ dotnet run --project Meta\Cli\Meta.Cli.csproj -- help
                     <tr>
                       <td class="opt">--scripts &lt;dir&gt;</td>
                       <td></td>
+                      <td>&lt;dir&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--strict</td>
+                      <td></td>
+                      <td></td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--workspace &lt;workspace&gt;</td>
+                      <td></td>
+                      <td>&lt;workspace&gt;</td>
+                      <td>False</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+              </div>
+            </div>
+          </details>
+          <details class="card cli-command-card" id="subject-source-cli-meta-app-command-export-csharp-bindings">
+            <summary class="command-summary">
+              <span class="command-toggle" aria-hidden="true"></span>
+              <span class="command-main">
+                <span class="command-name">meta export csharp-bindings</span>
+                <span class="command-summary-text">Export compiler-checked typed workspace bindings without instance data.</span>
+              </span>
+              <span class="command-counts">3 options</span>
+            </summary>
+            <div class="command-body">
+              <div class="command-body-inner">
+              <section class="subsection">
+                <h4 class="subsection-title">Usage</h4>
+                <pre><code>meta export csharp-bindings --out &lt;dir&gt; [--strict] [--workspace &lt;workspace&gt;]</code></pre>
+              </section>
+              <section class="subsection">
+                <h4 class="subsection-title">Options</h4>
+                <table>
+                  <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
+                  <tbody>
+                    <tr>
+                      <td class="opt">--out &lt;dir&gt;</td>
+                      <td>New directory outside the source workspace for generated binding code.</td>
                       <td>&lt;dir&gt;</td>
                       <td>False</td>
                     </tr>
@@ -2427,13 +2483,14 @@ meta model refactor property-to-relationship --source Order.ProductId --target P
             <aside class="application-command-rail" aria-label="Command navigation">
               <div class="application-command-rail-header">
                 <h3>Commands</h3>
-                <p>41 commands</p>
+                <p>42 commands</p>
               </div>
               <nav class="application-command-list">
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-bulk-insert" aria-label="Open meta bulk-insert"><code>bulk-insert</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-create" aria-label="Open meta create"><code>create</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-delete" aria-label="Open meta delete"><code>delete</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-deploy-sqlserver" aria-label="Open meta deploy sqlserver"><code>deploy sqlserver</code></a>
+                <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-export-csharp-bindings" aria-label="Open meta export csharp-bindings"><code>export csharp-bindings</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-export-csv" aria-label="Open meta export csv"><code>export csv</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-graph-inbound" aria-label="Open meta graph inbound"><code>graph inbound</code></a>
                 <a class="application-command-link" href="#cli-meta" data-local-anchor="subject-source-cli-meta-app-command-graph-stats" aria-label="Open meta graph stats"><code>graph stats</code></a>
@@ -17241,6 +17298,21 @@ meta-mesh run --operation regenerate-public-docs
             <p class="note">Source: MetaWeave. Status: Changed.</p>
           </details>
         </section>
+        <section class="panel" id="subject-public-meta-bi-demo-workflows" data-panel="subject-public-meta-bi-demo-workflows">
+          <header class="panel-header">
+            <h2>Integration demo workflows</h2>
+            <div class="panel-lead markdown-content">
+<p>Demo meshes are authored workflows with different purposes. AdventureWorks exercises the integrated SQL/Tabular stack. Focused Pipeline, Orchestration, SQL corpus, Data Quality and Multidimensional examples cover additional statement types, failure branches and generation boundaries. Successful metadata deployment without processing is not an execution proof.</p>
+<p>MetaMesh preflight checks declared workspace references before an operation begins. A workspace reference therefore identifies an available input. Creation steps address their new destinations through output paths under the mesh root. Within an operation that produces and consumes an artifact, later steps can use that output path. The invoked owning CLI validates and creates the artifact. No empty placeholder workspace is needed solely to satisfy preflight.</p>
+<p>The Analytics authoring example separates cleanup, prepare-workspaces and author-analytics-model. Preparation creates the real empty model workspace; the authoring operation then populates it. The generation examples retain their own coherent operation boundaries and use output paths for artifacts produced inside an operation. Run operations in their documented order.</p>
+<p env:DEMO_SQL="">Mesh environment tokens such as  supply the variable name for CLI options such as --connection-env. They do not interpolate the value into literal --server or --database-name arguments. Use the authored local SSAS target or change its step arguments through meta-mesh.</p>
+<p>MetaTransformScriptConversionCliIntegration demonstrates integer-width normalization with a local catalog and authored conversion workspace. It applies a CAST snippet into a separate TransformScript workspace, independently binds it and executes through Pipeline on SQL Server. Changing only the authored snippet to CONVERT produces different SQL and repeats the same value checks. Unicode text, SQL NULL and empty strings are checked explicitly. The original script is preserved.</p>
+<p>The conversion operation owns conversion application. Binding checks the resulting SQL types and facets; it neither selects snippets nor approves an unconverted expression through a conversion graph. Pipeline executes the validated result. Existing expression-typing and conversion destination limits still apply.</p>
+<p>The AdventureWorks warehouse deploy-plan explicitly selects schema dw, preserving its separately deployed dq review pack. The demo retains all 167 promoted checks and their wanted findings; it does not change check eligibility to obtain a pass.</p>
+<p>The demo index in meta-bi/Demos lists each example's useful coverage. The historical TPC-DS-derived corpus retains a 99-module syntax round-trip and a separate Binding probe that currently fails. It is not an executable SQL Server workload; parser acceptance does not establish SQL Server semantics or target contracts. The Orchestration example uses nonempty source rows and exact output checks, including Unicode and an empty string. The focused Pipeline example verifies all five target tables and their audit defaults.</p>
+            </div>
+          </header>
+        </section>
         <section class="panel" id="subject-public-meta-bi-overview" data-panel="subject-public-meta-bi-overview">
           <header class="panel-header">
             <h2>Meta-BI</h2>
@@ -17325,7 +17397,7 @@ different destination contracts. Raw integer fields remain integers. All 120
 scripts have regenerated schema-aware Binding against the extracted SQL Server
 contracts; conversion-graph reachability cannot approve an unconverted expression.</p>
 <p>The <a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md">conversion alignment</a> explains the corrected defaults,
-load casts, catalog ownership and the remaining MetaMesh output-recovery limitation.</p>
+load casts, catalog ownership and the mesh's input/output path conventions.</p>
 <h2 id="a-complete-bi-stack-built-by-an-agent">A complete BI stack built by an agent</h2>
 <p>The AdventureWorks stack was fully designed and built by an agent using the
 public Meta and meta-bi command-line tools. Its starting inputs were a live
@@ -17452,13 +17524,17 @@ meta-mesh run --operation create-tabular
 </code></pre>
 <p>The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.</p>
 <p>Binding and execution explicitly select the mesh's <code>data-type</code> workspace through
-<code>--data-type-workspace</code>; their CLI default remains BuiltIn. The schema generator
-currently uses BuiltIn catalogs independently. This demo authors its required
+<code>--data-type-workspace</code>; omission loads the packaged authored workspace. Schema
+generation accepts separate catalog and conversion workspace options; this demo
+currently omits those options and uses the packaged workspaces. It authors its required
 casts directly in load SQL, so it does not need an <code>apply-conversions</code> step.</p>
-<p>MetaMesh currently requires referenced output workspaces to exist during preflight.
-The checked-in generated workspaces satisfy that requirement. A missing output
-after failed generation can prevent a retry; see the recovery limitation in the
-alignment note. Bootstrap from absent outputs is not verified by this demo.</p>
+<p>Workspace references identify inputs that must exist when an operation starts.
+Operations address their generated destinations through paths under the mesh root,
+so checked-in generated outputs are not prerequisites for regeneration. Run the
+operations in the documented order so each consuming operation has its inputs.</p>
+<p>Warehouse deployment selects <code>deploy-plan --schema dw</code>. The manifest records this
+scope and deployment checks the same scoped live fingerprint. Separately deployed
+<code>dq</code> views are preserved. Omitting <code>--schema</code> retains database-wide reconciliation.</p>
 <h2 id="run-and-verify">Run and verify</h2>
 <p>Execute the inferred graph across all three pipelines, then reconcile the result to the source:</p>
 <pre><code class="language-powershell">meta-mesh run --operation run-etl
@@ -17533,8 +17609,8 @@ operation. Independent source comparisons found zero missing, extra or changed
 selected business rows across the eight reviewed warehouse outputs, including
 binary comparison of text. All 120 scripts were rebound against the selected
 catalog, and the latest task evidence contains 53, 47 and 20 successful tasks
-for the three pipelines. These are verification of the loaded SQL stack;
-Analysis Services was not rerun.</p>
+for the three pipelines. The demo mesh tour repeated the complete SQL load,
+stack verification, Tabular deployment and full processing on local services.</p>
 <h2 id="tabular-runtime">Tabular runtime</h2>
 <p>The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local <code>.\TABULAR</code> instance and deploy the model as <code>AdventureWorksSales</code>:</p>
 <pre><code class="language-powershell">meta-mesh run --operation deploy-tabular
@@ -17542,8 +17618,8 @@ meta-mesh run --operation process-tabular
 </code></pre>
 <p><code>deploy-tabular</code> replaces the target database and deploys metadata without processing. <code>process-tabular</code> performs the full refresh. <code>drop-tabular</code> removes the deployed database.</p>
 <p>The deployment operation also grants the local <code>NT Service\MSOLAP$TABULAR</code> service account read access to <code>AdventureWorksAnalytics</code>. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on <code>.\TABULAR</code>. A direct model query returns Sales Amount <code>109846381.425</code>, Total Due <code>123216786.1159</code>, and Quota Amount <code>95714000</code>, matching the relational verification.</p>
-<p>These Tabular results are the recorded earlier deployment. Analysis Services
-deployment and processing were not repeated during the current SQL alignment.</p>
+<p>The demo mesh tour repeated deployment and full processing. Independent queries
+compare these three measures with their source SQL totals.</p>
 <h2 id="cleanup">Cleanup</h2>
 <pre><code class="language-powershell">meta-mesh run --operation cleanup
 </code></pre>
@@ -19623,19 +19699,31 @@ deployment and processing were not repeated during the current SQL alignment.</p
                 <span class="command-name">meta-convert business-datavault-to-sql</span>
                 <span class="command-summary-text">Convert MetaBusinessDataVault workspace to MetaSql workspace.</span>
               </span>
-              <span class="command-counts">7 options</span>
+              <span class="command-counts">9 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-convert business-datavault-to-sql --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-convert business-datavault-to-sql [--data-type-conversion-workspace &lt;path&gt;] [--data-type-workspace &lt;path&gt;] --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataType workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--database-name &lt;value&gt;</td>
                       <td>Target MetaSql database name.</td>
@@ -19729,19 +19817,31 @@ deployment and processing were not repeated during the current SQL alignment.</p
                 <span class="command-name">meta-convert data-warehouse-to-sql</span>
                 <span class="command-summary-text">Convert MetaDataWarehouse workspace to MetaSql workspace.</span>
               </span>
-              <span class="command-counts">7 options</span>
+              <span class="command-counts">9 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-convert data-warehouse-to-sql --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-convert data-warehouse-to-sql [--data-type-conversion-workspace &lt;path&gt;] [--data-type-workspace &lt;path&gt;] --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataType workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--database-name &lt;value&gt;</td>
                       <td>Target MetaSql database name.</td>
@@ -19815,19 +19915,31 @@ deployment and processing were not repeated during the current SQL alignment.</p
                 <span class="command-name">meta-convert raw-datavault-to-sql</span>
                 <span class="command-summary-text">Convert MetaRawDataVault workspace to MetaSql workspace.</span>
               </span>
-              <span class="command-counts">7 options</span>
+              <span class="command-counts">9 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-convert raw-datavault-to-sql --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-convert raw-datavault-to-sql [--data-type-conversion-workspace &lt;path&gt;] [--data-type-workspace &lt;path&gt;] --database-name &lt;value&gt; --implementation-workspace &lt;path&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;location&gt;] [--output-sql &lt;location&gt;] [--output-xml &lt;location&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-conversion-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>Selected MetaDataType workspace. Defaults to the packaged workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--database-name &lt;value&gt;</td>
                       <td>Target MetaSql database name.</td>
@@ -20528,19 +20640,25 @@ meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\Dat
                 <span class="command-name">meta-data-type-conversion check</span>
                 <span class="command-summary-text">Validate sanctioned type mappings.</span>
               </span>
-              <span class="command-counts">1 option</span>
+              <span class="command-counts">2 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-data-type-conversion check [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-data-type-conversion check [--data-type-workspace &lt;path&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace; defaults to the packaged authored catalog.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--workspace &lt;path&gt;</td>
                       <td>MetaDataTypeConversion workspace. Defaults to the current directory.</td>
@@ -20628,19 +20746,25 @@ meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\Dat
                 <span class="command-name">meta-data-type-conversion resolve</span>
                 <span class="command-summary-text">Resolve one source data type id through the sanctioned mappings.</span>
               </span>
-              <span class="command-counts">3 options</span>
+              <span class="command-counts">4 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-data-type-conversion resolve --source-data-type &lt;value&gt; [--target-data-type-system &lt;value&gt;] [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-data-type-conversion resolve [--data-type-workspace &lt;path&gt;] --source-data-type &lt;value&gt; [--target-data-type-system &lt;value&gt;] [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace; defaults to the packaged authored catalog.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--source-data-type &lt;value&gt;</td>
                       <td>Source data type id to resolve.</td>
@@ -27176,19 +27300,25 @@ meta-convert data-quality-to-sql --workspace .\DataQuality.Workspace --out .\Dat
                 <span class="command-name">meta-multi-dimensional deploy</span>
                 <span class="command-summary-text">Create modeled multidimensional database objects, including data source views, and process unless --no-process is used; processing failures fail the command.</span>
               </span>
-              <span class="command-counts">5 options</span>
+              <span class="command-counts">6 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-multi-dimensional deploy [--database-name &lt;value&gt;] [--drop-existing] [--no-process] --server &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-multi-dimensional deploy [--data-type-workspace &lt;path&gt;] [--database-name &lt;value&gt;] [--drop-existing] [--no-process] --server &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--database-name &lt;value&gt;</td>
                       <td>Target database name. Defaults to the modeled database name.</td>
@@ -27682,7 +27812,7 @@ meta-orchestration inspect-run-plan --workspace .\Orchestration.Workspace
                   <tbody>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28378,7 +28508,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                     </tr>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28452,7 +28582,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                     </tr>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28538,7 +28668,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                     </tr>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28618,7 +28748,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                     </tr>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -28800,13 +28930,13 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-schema extract sqlserver</span>
                 <span class="command-summary-text">Extract SQL Server schema into a MetaSchema workspace.</span>
               </span>
-              <span class="command-counts">10 options</span>
+              <span class="command-counts">11 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-schema extract sqlserver [--all-schemas] [--all-tables] --connection-env &lt;value&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] --system &lt;value&gt; [--table &lt;value&gt;]</code></pre>
+                <pre><code>meta-schema extract sqlserver [--all-schemas] [--all-tables] --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] --system &lt;value&gt; [--table &lt;value&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28829,6 +28959,12 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td class="opt">--connection-env &lt;value&gt;</td>
                       <td>Environment variable containing the SQL Server connection string.</td>
                       <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -28941,13 +29077,13 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-sql deploy</span>
                 <span class="command-summary-text">Apply a deploy manifest after source and live fingerprint validation.</span>
               </span>
-              <span class="command-counts">3 options</span>
+              <span class="command-counts">4 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-sql deploy --connection-env &lt;value&gt; --manifest-workspace &lt;path&gt; --source-workspace &lt;path&gt;</code></pre>
+                <pre><code>meta-sql deploy --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] --manifest-workspace &lt;path&gt; --source-workspace &lt;path&gt;</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -28958,6 +29094,12 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td class="opt">--connection-env &lt;value&gt;</td>
                       <td>Environment variable containing the SQL Server connection string.</td>
                       <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -28985,13 +29127,13 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-sql deploy-plan</span>
                 <span class="command-summary-text">Create a deploy manifest from a source MetaSql workspace and a live SQL Server database.</span>
               </span>
-              <span class="command-counts">10 options</span>
+              <span class="command-counts">12 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-sql deploy-plan [--approval-file &lt;path&gt;] [--approve-drop-column &lt;value&gt;] [--approve-drop-table &lt;value&gt;] [--approve-truncate-column &lt;value&gt;] --connection-env &lt;value&gt; [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --source-workspace &lt;path&gt;</code></pre>
+                <pre><code>meta-sql deploy-plan [--approval-file &lt;path&gt;] [--approve-drop-column &lt;value&gt;] [--approve-drop-table &lt;value&gt;] [--approve-truncate-column &lt;value&gt;] --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] --source-workspace &lt;path&gt;</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -29029,6 +29171,12 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td>False</td>
                     </tr>
                     <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
                       <td class="opt">--output-connection-env &lt;value&gt;</td>
                       <td>Environment variable containing the output SQL workspace connection string.</td>
                       <td>&lt;value&gt;</td>
@@ -29050,6 +29198,12 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td class="opt">--output-xml &lt;path&gt;</td>
                       <td>Create the deploy manifest as an XML workspace at this path.</td>
                       <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--schema &lt;value&gt;</td>
+                      <td>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</td>
+                      <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -29133,13 +29287,13 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-sql extract sqlserver</span>
                 <span class="command-summary-text">Extract SQL Server database objects into a MetaSql workspace.</span>
               </span>
-              <span class="command-counts">12 options</span>
+              <span class="command-counts">13 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-sql extract sqlserver [--allow-empty] --connection-env &lt;value&gt; [--include-functions] [--include-stored-procedures] [--include-tables] [--include-views] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] [--table &lt;value&gt;]</code></pre>
+                <pre><code>meta-sql extract sqlserver [--allow-empty] --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] [--include-functions] [--include-stored-procedures] [--include-tables] [--include-views] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] [--table &lt;value&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -29156,6 +29310,12 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td class="opt">--connection-env &lt;value&gt;</td>
                       <td>Environment variable containing the SQL Server connection string.</td>
                       <td>&lt;value&gt;</td>
+                      <td>False</td>
+                    </tr>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -31368,19 +31528,25 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-tabular deploy</span>
                 <span class="command-summary-text">Create modeled tabular database objects, including calculation groups, and process unless --no-process is used; processing failures fail the command.</span>
               </span>
-              <span class="command-counts">5 options</span>
+              <span class="command-counts">6 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-tabular deploy [--database-name &lt;value&gt;] [--drop-existing] [--no-process] --server &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
+                <pre><code>meta-tabular deploy [--data-type-workspace &lt;path&gt;] [--database-name &lt;value&gt;] [--drop-existing] [--no-process] --server &lt;value&gt; [--workspace &lt;path&gt;]</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
                 <table>
                   <thead><tr><th>Option</th><th>Description</th><th>Value</th><th>Required</th></tr></thead>
                   <tbody>
+                    <tr>
+                      <td class="opt">--data-type-workspace &lt;path&gt;</td>
+                      <td>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</td>
+                      <td>&lt;path&gt;</td>
+                      <td>False</td>
+                    </tr>
                     <tr>
                       <td class="opt">--database-name &lt;value&gt;</td>
                       <td>Target database name. Defaults to the modeled database name.</td>
@@ -31698,7 +31864,7 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                     </tr>
                     <tr>
                       <td class="opt">--data-type-workspace &lt;path&gt;</td>
-                      <td>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</td>
+                      <td>MetaDataType catalog for schema validation and SQL expression types. Defaults to the packaged authored workspace.</td>
                       <td>&lt;path&gt;</td>
                       <td>False</td>
                     </tr>
@@ -33084,7 +33250,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tr>
                     <td><a href="#model-metasqldeploymanifest" data-panel-link="model-metasqldeploymanifest">MetaSqlDeployManifest</a></td>
                     <td>34</td>
-                    <td>63</td>
+                    <td>64</td>
                     <td>33</td>
                   </tr>
                   <tr>
@@ -52630,7 +52796,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
           </header>
           <div class="summary-row">
             <span class="pill">34 entities</span>
-            <span class="pill">63 properties</span>
+            <span class="pill">64 properties</span>
             <span class="pill">33 relationships</span>
           </div>
           <div class="card">
@@ -52734,7 +52900,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-sql-deploy-manifest-entity-deploymanifest" data-local-anchor="subject-source-workspace-model-meta-sql-deploy-manifest-entity-deploymanifest">DeployManifest</a></td>
-                    <td>6</td>
+                    <td>7</td>
                     <td>0</td>
                   </tr>
                   <tr>
@@ -53680,7 +53846,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">DeployManifest</span>
               </span>
-              <span class="entity-counts">6 properties / 0 relationships / 33 references</span>
+              <span class="entity-counts">7 properties / 0 relationships / 33 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -53705,6 +53871,12 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td>LiveInstanceFingerprint</td>
                       <td>True</td>
                       <td>False</td>
+                      <td></td>
+                    </tr>
+                    <tr>
+                      <td>ManagedSchemaName</td>
+                      <td>False</td>
+                      <td>True</td>
                       <td></td>
                     </tr>
                     <tr>
@@ -77673,6 +77845,18 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <summary>Technical metadata</summary>
             <p class="note">Source: MetaTransformScript. Status: Changed.</p>
           </details>
+        </section>
+        <section class="panel" id="subject-public-meta-bi-sql-deployment-scope" data-panel="subject-public-meta-bi-sql-deployment-scope">
+          <header class="panel-header">
+            <h2>SQL deployment ownership scope</h2>
+            <div class="panel-lead markdown-content">
+<p><code>meta-sql deploy-plan --schema dw</code> declares one physical SQL Server schema as the deployment's desired-state boundary. All source tables, views, functions and stored procedures must belong to that schema. The empty implicit dbo schema in a SQL workspace is permitted.</p>
+<p>The manifest stores this selection in <code>DeployManifest.ManagedSchemaName</code>. Deployment reads the saved scope; it has no independent override. Live extraction and live fingerprint validation use the same schema. A warehouse deployment scoped to dw preserves separately deployed dq objects, including changes made to them after planning. Changes inside dw still invalidate a stale manifest.</p>
+<p>Without --schema, reconciliation remains database-wide. A database-wide manifest describes the complete desired database and may remove objects omitted from its source contract.</p>
+<p>The single-schema path rejects inbound and outbound cross-schema foreign keys during planning and again before execution. Filtered extraction cannot represent those dependencies completely; they require a database-wide contract. SQL Server continues to enforce SQL module dependencies. Deployment retains statement-by-statement execution and is not atomic across statements.</p>
+<p>Schema spelling must agree with the source contract. The selected MetaDataType catalog, source fingerprint and destructive table/column approvals retain their existing roles. Regenerate older manifests after updating the manifest model.</p>
+            </div>
+          </header>
         </section>
       </main>
     </div>

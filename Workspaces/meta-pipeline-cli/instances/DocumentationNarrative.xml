@@ -322,7 +322,7 @@
       <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
-      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Body>
       <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
@@ -410,7 +410,7 @@
       <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
-      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Body>
       <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
@@ -490,7 +490,7 @@
       <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
-      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Body>
       <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
@@ -546,7 +546,7 @@
       <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
-      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Body>
       <LastReviewedImportBatchId>source:cli:meta-pipeline:batch:20261113214313025</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>

@@ -41,6 +41,14 @@
       <Status>Current</Status>
       <Summary>Command-line tools for BI modeling, conversion, validation, and execution.</Summary>
     </DocumentationSubject>
+    <DocumentationSubject Id="public:meta-bi:demo-workflows" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi">
+      <DisplayName>Integration demo workflows</DisplayName>
+      <DisplayPath>Integration demo workflows</DisplayPath>
+      <NativeId>public:meta-bi:demo-workflows</NativeId>
+      <SourceTypeName>AuthoredPage</SourceTypeName>
+      <Status>Current</Status>
+      <Summary>Use coherent mesh operation boundaries and distinguish metadata, binding and live execution coverage.</Summary>
+    </DocumentationSubject>
     <DocumentationSubject Id="public:meta-bi:meta-schema-adapter" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi:adapters">
       <DisplayName>MetaSchemaAdapter</DisplayName>
       <DisplayPath>Reference.Meta-BI.Adapters.MetaSchemaAdapter</DisplayPath>
@@ -64,6 +72,14 @@
       <SourceTypeName>AuthoredPage</SourceTypeName>
       <Status>Current</Status>
       <Summary>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="public:meta-bi:sql-deployment-scope" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi">
+      <DisplayName>SQL deployment ownership scope</DisplayName>
+      <DisplayPath>SQL deployment ownership scope</DisplayPath>
+      <NativeId>public:meta-bi:sql-deployment-scope</NativeId>
+      <SourceTypeName>AuthoredPage</SourceTypeName>
+      <Status>Current</Status>
+      <Summary>Declare one owned SQL schema in the deploy manifest, or retain database-wide reconciliation.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="public:meta:cli" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:meta" PreviousSubjectId="public:meta:overview">
       <DisplayName>CLI</DisplayName>
@@ -3217,7 +3233,23 @@
       <Status>New</Status>
       <Summary>Convert MetaBusinessDataVault workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert business-datavault-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-business-datavault-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert business-datavault-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-business-datavault-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert business-datavault-to-sql --database-name</DisplayPath>
       <NativeId>opt-business-datavault-to-sql-database-name</NativeId>
@@ -3313,7 +3345,23 @@
       <Status>New</Status>
       <Summary>Convert MetaDataWarehouse workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert data-warehouse-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-data-warehouse-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert data-warehouse-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-data-warehouse-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert data-warehouse-to-sql --database-name</DisplayPath>
       <NativeId>opt-data-warehouse-to-sql-database-name</NativeId>
@@ -3393,7 +3441,23 @@
       <Status>New</Status>
       <Summary>Convert MetaRawDataVault workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert raw-datavault-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-raw-datavault-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert raw-datavault-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-raw-datavault-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert raw-datavault-to-sql --database-name</DisplayPath>
       <NativeId>opt-raw-datavault-to-sql-database-name</NativeId>
@@ -3953,7 +4017,15 @@
       <Status>Changed</Status>
       <Summary>Validate sanctioned type mappings.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check">
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:data-type-workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-data-type-conversion check --data-type-workspace</DisplayPath>
+      <NativeId>option-check-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace; defaults to the packaged authored catalog.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check" PreviousSubjectId="source:cli:meta-data-type-conversion:app:command:check:option:data-type-workspace">
       <DisplayName>--workspace</DisplayName>
       <DisplayPath>meta-data-type-conversion check --workspace</DisplayPath>
       <NativeId>opt-check-workspace</NativeId>
@@ -4025,7 +4097,15 @@
       <Status>New</Status>
       <Summary>Resolve one source data type id through the sanctioned mappings.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:source-data-type" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve">
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:data-type-workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-data-type-conversion resolve --data-type-workspace</DisplayPath>
+      <NativeId>option-resolve-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace; defaults to the packaged authored catalog.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:source-data-type" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve" PreviousSubjectId="source:cli:meta-data-type-conversion:app:command:resolve:option:data-type-workspace">
       <DisplayName>--source-data-type</DisplayName>
       <DisplayPath>meta-data-type-conversion resolve --source-data-type</DisplayPath>
       <NativeId>opt-resolve-source-data-type</NativeId>
@@ -11393,7 +11473,15 @@
       <Status>New</Status>
       <Summary>Create modeled multidimensional database objects, including data source views, and process unless --no-process is used; processing failures fail the command.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy">
+    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-multi-dimensional deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-multi-dimensional:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-multi-dimensional" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-multi-dimensional:app:command:deploy" PreviousSubjectId="source:cli:meta-multi-dimensional:app:command:deploy:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-multi-dimensional deploy --database-name</DisplayPath>
       <NativeId>opt-deploy-database-name</NativeId>
@@ -11790,8 +11878,8 @@
       <DisplayPath>meta-orchestration execute --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-orchestration:app:command:execute:option:max-degree-of-parallelism" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-orchestration:app:command:execute" PreviousSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace">
       <DisplayName>--max-degree-of-parallelism</DisplayName>
@@ -12374,8 +12462,8 @@
       <DisplayPath>meta-pipeline execute-sqlserver --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-sqlserver-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-sqlserver:option:execution-connection-env" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-sqlserver:option:data-type-workspace">
       <DisplayName>--execution-connection-env</DisplayName>
@@ -12462,8 +12550,8 @@
       <DisplayPath>meta-pipeline execute-step --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-step-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-step:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-step" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-step:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
@@ -12542,8 +12630,8 @@
       <DisplayPath>meta-pipeline execute-worker --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-worker-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute-worker:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute-worker" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute-worker:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
@@ -12590,8 +12678,8 @@
       <DisplayPath>meta-pipeline execute --data-type-workspace</DisplayPath>
       <NativeId>opt-execute-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-pipeline:app:command:execute:option:pipeline" DocumentationSourceId="source:cli:meta-pipeline" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-pipeline:app:command:execute" PreviousSubjectId="source:cli:meta-pipeline:app:command:execute:option:data-type-workspace">
       <DisplayName>--pipeline</DisplayName>
@@ -12721,7 +12809,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:output-connection-env" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-schema extract sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-extract-sqlserver-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-schema:app:command:extract-sqlserver:option:output-connection-env" DocumentationSourceId="source:cli:meta-schema" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-schema:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-schema:app:command:extract-sqlserver:option:data-type-workspace">
       <DisplayName>--output-connection-env</DisplayName>
       <DisplayPath>meta-schema extract sqlserver --output-connection-env</DisplayPath>
       <NativeId>option-extract-sqlserver-output-connection-env</NativeId>
@@ -12873,7 +12969,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql deploy-plan --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-plan-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace">
       <DisplayName>--output-connection-env</DisplayName>
       <DisplayPath>meta-sql deploy-plan --output-connection-env</DisplayPath>
       <NativeId>option-deploy-plan-output-connection-env</NativeId>
@@ -12905,7 +13009,15 @@
       <Status>New</Status>
       <Summary>Create the deploy manifest as an XML workspace at this path.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:schema" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
+      <DisplayName>--schema</DisplayName>
+      <DisplayPath>meta-sql deploy-plan --schema</DisplayPath>
+      <NativeId>opt-deploy-plan-schema</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:schema">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta-sql deploy-plan --source-workspace</DisplayPath>
       <NativeId>opt-deploy-plan-source-workspace</NativeId>
@@ -12929,7 +13041,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:manifest-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy:option:manifest-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy" PreviousSubjectId="source:cli:meta-sql:app:command:deploy:option:data-type-workspace">
       <DisplayName>--manifest-workspace</DisplayName>
       <DisplayPath>meta-sql deploy --manifest-workspace</DisplayPath>
       <NativeId>opt-deploy-manifest-workspace</NativeId>
@@ -13033,7 +13153,15 @@
       <Status>New</Status>
       <Summary>Environment variable containing the SQL Server connection string.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-sql extract sqlserver --data-type-workspace</DisplayPath>
+      <NativeId>opt-extract-sqlserver-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:extract-sqlserver" PreviousSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace">
       <DisplayName>--include-functions</DisplayName>
       <DisplayPath>meta-sql extract sqlserver --include-functions</DisplayPath>
       <NativeId>opt-extract-sqlserver-include-functions</NativeId>
@@ -15185,7 +15313,15 @@
       <Status>New</Status>
       <Summary>Create modeled tabular database objects, including calculation groups, and process unless --no-process is used; processing failures fail the command.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy">
+    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:data-type-workspace" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-tabular deploy --data-type-workspace</DisplayPath>
+      <NativeId>opt-deploy-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-tabular:app:command:deploy:option:database-name" DocumentationSourceId="source:cli:meta-tabular" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-tabular:app:command:deploy" PreviousSubjectId="source:cli:meta-tabular:app:command:deploy:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-tabular deploy --database-name</DisplayPath>
       <NativeId>option-deploy-database-name</NativeId>
@@ -15398,8 +15534,8 @@
       <DisplayPath>meta-transform-binding bind --data-type-workspace</DisplayPath>
       <NativeId>opt-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace">
       <DisplayName>--execute-system</DisplayName>
@@ -17273,7 +17409,39 @@
       <Status>New</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta:app:command:export-csv" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:deploy-sqlserver">
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:deploy-sqlserver">
+      <DisplayName>meta export csharp-bindings</DisplayName>
+      <DisplayPath>meta export csharp-bindings</DisplayPath>
+      <NativeId>exec-export-csharp-bindings</NativeId>
+      <SourceTypeName>MetaCli.ExecutableCommand</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Export compiler-checked typed workspace bindings without instance data.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:out" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings">
+      <DisplayName>--out</DisplayName>
+      <DisplayPath>meta export csharp-bindings --out</DisplayPath>
+      <NativeId>option-export-csharp-bindings-out</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>New directory outside the source workspace for generated binding code.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:strict" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings:option:out">
+      <DisplayName>--strict</DisplayName>
+      <DisplayPath>meta export csharp-bindings --strict</DisplayPath>
+      <NativeId>option-strict</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csharp-bindings:option:workspace" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta:app:command:export-csharp-bindings" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings:option:strict">
+      <DisplayName>--workspace</DisplayName>
+      <DisplayPath>meta export csharp-bindings --workspace</DisplayPath>
+      <NativeId>option-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta:app:command:export-csv" DocumentationSourceId="source:cli:meta" DocumentationSubjectTypeId="subject-type:clicommand" ParentSubjectId="source:cli:meta:app" PreviousSubjectId="source:cli:meta:app:command:export-csharp-bindings">
       <DisplayName>meta export csv</DisplayName>
       <DisplayPath>meta export csv</DisplayPath>
       <NativeId>exec-export-csv</NativeId>
@@ -33769,7 +33937,15 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
+    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
+      <DisplayName>ManagedSchemaName</DisplayName>
+      <DisplayPath>MetaSqlDeployManifest.DeployManifest.ManagedSchemaName</DisplayPath>
+      <NativeId>ManagedSchemaName</NativeId>
+      <SourceTypeName>GenericProperty</SourceTypeName>
+      <Status>New</Status>
+      <Summary></Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname">
       <DisplayName>Name</DisplayName>
       <DisplayPath>MetaSqlDeployManifest.DeployManifest.Name</DisplayPath>
       <NativeId>Name</NativeId>

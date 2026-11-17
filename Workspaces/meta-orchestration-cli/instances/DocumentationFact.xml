@@ -2722,8 +2722,8 @@
     <DocumentationFact Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace:fact:cli:description" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-orchestration:batch:20261113214314202" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>Description</Name>
       <SourceFingerprint>a28cd0b57af7275c9534a8dd2a0a52aa4069f43c3b4e3c3f759728d407bac134</SourceFingerprint>
-      <Status>New</Status>
-      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Value>
+      <Status>Changed</Status>
+      <Value>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Value>
     </DocumentationFact>
     <DocumentationFact Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace:fact:cli:examplevalue" DocumentationFactTypeId="fact-type:cli" DocumentationImportBatchId="source:cli:meta-orchestration:batch:20261113214314202" DocumentationSourceId="source:cli:meta-orchestration" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace" DocumentationValueTypeId="value-type:string">
       <Name>ExampleValue</Name>

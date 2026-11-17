@@ -15,5 +15,12 @@
       <SourceFingerprint>869882624bd362fc981db5d417da6eed66a4c671880b0753a7ee6ec0c529e8f4</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-model:meta-sql-deploy-manifest:batch:20261117212459678" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest">
+      <ImportedAt>2026-11-17T21:24:59.6778384+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>8ce121a481fd6fbb478f0266caaf44c7379bd9ab427a4e6a4ffa634eacc1ab38</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
   </DocumentationImportBatchList>
 </MetaDocs>

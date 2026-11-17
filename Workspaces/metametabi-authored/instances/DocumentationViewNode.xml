@@ -22,6 +22,11 @@
       <ParentNodeId>view:default:node:public-meta-bi</ParentNodeId>
       <Title>CLI</Title>
     </DocumentationViewNode>
+    <DocumentationViewNode Id="view:default:node:public-meta-bi-demo-workflows" DocumentationSubjectId="public:meta-bi:demo-workflows" DocumentationViewId="view:default">
+      <ParentNodeId>view:default:node:public-meta-bi</ParentNodeId>
+      <Selection></Selection>
+      <Title>Integration demo workflows</Title>
+    </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-meta-bi-meta-schema-adapter" DocumentationSubjectId="public:meta-bi:meta-schema-adapter" DocumentationViewId="view:default">
       <ParentNodeId>view:default:node:public-meta-bi-adapters</ParentNodeId>
       <Title>MetaSchemaAdapter</Title>
@@ -34,6 +39,11 @@
       <ParentNodeId>view:default:node:public-meta-bi</ParentNodeId>
       <Selection></Selection>
       <Title>Overview</Title>
+    </DocumentationViewNode>
+    <DocumentationViewNode Id="view:default:node:public-meta-bi-sql-deployment-scope" DocumentationSubjectId="public:meta-bi:sql-deployment-scope" DocumentationViewId="view:default">
+      <ParentNodeId>view:default:node:public-meta-bi</ParentNodeId>
+      <Selection></Selection>
+      <Title>SQL deployment ownership scope</Title>
     </DocumentationViewNode>
     <DocumentationViewNode Id="view:default:node:public-meta-cli" DocumentationSubjectId="public:meta:cli" DocumentationViewId="view:default" PreviousNodeId="view:default:node:public-meta-overview">
       <ParentNodeId>view:default:node:public-meta</ParentNodeId>

@@ -37,8 +37,8 @@
       <DisplayPath>meta-transform-binding bind --data-type-workspace</DisplayPath>
       <NativeId>opt-data-type-workspace</NativeId>
       <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to BuiltIn.</Summary>
+      <Status>Changed</Status>
+      <Summary>MetaDataType catalog for schema validation and SQL expression types. Defaults to the packaged authored workspace.</Summary>
     </DocumentationSubject>
     <DocumentationSubject Id="source:cli:meta-transform-binding:app:command:bind:option:execute-system" DocumentationSourceId="source:cli:meta-transform-binding" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-transform-binding:app:command:bind" PreviousSubjectId="source:cli:meta-transform-binding:app:command:bind:option:data-type-workspace">
       <DisplayName>--execute-system</DisplayName>

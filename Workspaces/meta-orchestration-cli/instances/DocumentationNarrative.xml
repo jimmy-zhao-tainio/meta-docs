@@ -210,7 +210,7 @@
       <Title>Summary</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-orchestration:app:command:execute:option:data-type-workspace">
-      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to BuiltIn.</Body>
+      <Body>MetaDataType catalog used for SQL Server execution contracts. Defaults to the packaged authored workspace.</Body>
       <LastReviewedImportBatchId>source:cli:meta-orchestration:batch:20261113214314202</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>

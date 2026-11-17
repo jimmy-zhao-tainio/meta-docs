@@ -22,5 +22,12 @@
       <SourceFingerprint>a8b665c48849959013bf56cb9c4347248bb968441ad8b3a373c7701bfec38d2a</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:cli:meta-sql:batch:20261117212352804" DocumentationSourceId="source:cli:meta-sql">
+      <ImportedAt>2026-11-17T21:23:52.8036434+00:00</ImportedAt>
+      <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>345796b14cfccdbe048ed8fe69ef0fc8fd5b34d1616657aae5122e8a0bd96088</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
   </DocumentationImportBatchList>
 </MetaDocs>

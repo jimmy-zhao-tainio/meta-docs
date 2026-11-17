@@ -136,7 +136,23 @@
       <Status>New</Status>
       <Summary>Convert MetaBusinessDataVault workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert business-datavault-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-business-datavault-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert business-datavault-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-business-datavault-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:business-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:business-datavault-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert business-datavault-to-sql --database-name</DisplayPath>
       <NativeId>opt-business-datavault-to-sql-database-name</NativeId>
@@ -232,7 +248,23 @@
       <Status>New</Status>
       <Summary>Convert MetaDataWarehouse workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert data-warehouse-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-data-warehouse-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert data-warehouse-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-data-warehouse-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:data-warehouse-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert data-warehouse-to-sql --database-name</DisplayPath>
       <NativeId>opt-data-warehouse-to-sql-database-name</NativeId>
@@ -312,7 +344,23 @@
       <Status>New</Status>
       <Summary>Convert MetaRawDataVault workspace to MetaSql workspace.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-conversion-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql">
+      <DisplayName>--data-type-conversion-workspace</DisplayName>
+      <DisplayPath>meta-convert raw-datavault-to-sql --data-type-conversion-workspace</DisplayPath>
+      <NativeId>opt-raw-datavault-to-sql-data-type-conversion-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataTypeConversion workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-workspace" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-conversion-workspace">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-convert raw-datavault-to-sql --data-type-workspace</DisplayPath>
+      <NativeId>opt-raw-datavault-to-sql-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>Selected MetaDataType workspace. Defaults to the packaged workspace.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:database-name" DocumentationSourceId="source:cli:meta-convert" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql" PreviousSubjectId="source:cli:meta-convert:app:command:raw-datavault-to-sql:option:data-type-workspace">
       <DisplayName>--database-name</DisplayName>
       <DisplayPath>meta-convert raw-datavault-to-sql --database-name</DisplayPath>
       <NativeId>opt-raw-datavault-to-sql-database-name</NativeId>

@@ -2,8 +2,8 @@
 <MetaDocs>
   <DocumentationSourceList>
     <DocumentationSource Id="source:authored:public-reference" DocumentationSourceTypeId="source-type:authoreddocumentation" DocumentationWorkspaceId="workspace:default">
-      <DisplayName>Public reference</DisplayName>
-      <ImportedAt>2026-09-08T10:34:10.2291405+00:00</ImportedAt>
+      <DisplayName>Authored MetaDocs pages</DisplayName>
+      <ImportedAt>2026-11-17T21:19:32.6270187+00:00</ImportedAt>
       <ImporterId>MetaDocs.Authoring</ImporterId>
       <Locator>modeled</Locator>
       <SourceFingerprint></SourceFingerprint>
@@ -11,10 +11,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta</DisplayName>
-      <ImportedAt>2026-08-23T17:34:50.8243205+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:23:39.9328169+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta</Locator>
-      <SourceFingerprint>e98960c4ee2d99ffc9f18c9f27996db63e72f26bda1db7a529e9bf2fff7d211f</SourceFingerprint>
+      <SourceFingerprint>98719a8f4dc60f89eaabf2c1dce1d4419ddb83c6e0a24b7033510ab5d2282395</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-analytics" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -35,10 +35,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-convert" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-convert</DisplayName>
-      <ImportedAt>2026-08-18T22:09:42.1956688+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:23:59.9816497+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-convert</Locator>
-      <SourceFingerprint>213d85c88732c2ecd3a9d03854206beacb94b879b217052733ea6c100e0028c3</SourceFingerprint>
+      <SourceFingerprint>f6e10a3e0c62f8f40179d1e7de354ee6ddf77798a0a829d08b55166192309c08</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-data-quality" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -59,10 +59,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-data-type-conversion" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-data-type-conversion</DisplayName>
-      <ImportedAt>2026-08-05T09:57:18.1132892+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:23:51.2262952+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-data-type-conversion</Locator>
-      <SourceFingerprint>e7cc9e85d1d3be81380b05c6a5578036121985245298f1b1cdacb0baab641aca</SourceFingerprint>
+      <SourceFingerprint>3bc0493783fbf14ff8035e9c7840323c46423222909d04108b89a529b8d240a2</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-data-warehouse" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -107,10 +107,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-multi-dimensional" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-multi-dimensional</DisplayName>
-      <ImportedAt>2026-08-05T09:57:32.2036721+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:24:16.9236384+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-multi-dimensional</Locator>
-      <SourceFingerprint>ebccfa3d9c493f0824a8ad5e7405cdc3741e07e8eb78a8ea86bc3d8e48ce0f0b</SourceFingerprint>
+      <SourceFingerprint>900c8eba78a8ce48b4ef543eaf5bf94d1478a1f57617c0fe8efacc8fb7e47825</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-orchestration" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -131,26 +131,26 @@
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-schema" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-schema</DisplayName>
-      <ImportedAt>2026-08-05T09:57:17.0656101+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:23:48.8445447+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-schema</Locator>
-      <SourceFingerprint>a2acb57a0197c35b1138e80c1f5342bb13628068f7f76074b37b6fa836b5ef5f</SourceFingerprint>
+      <SourceFingerprint>29e931de8f96082a202f6dc0e0d9e0df33b9af77747aaa5cb3f912dd91784179</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-sql" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-sql</DisplayName>
-      <ImportedAt>2026-08-11T13:22:11.5128500+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:23:52.8036434+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-sql</Locator>
-      <SourceFingerprint>a8b665c48849959013bf56cb9c4347248bb968441ad8b3a373c7701bfec38d2a</SourceFingerprint>
+      <SourceFingerprint>345796b14cfccdbe048ed8fe69ef0fc8fd5b34d1616657aae5122e8a0bd96088</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-tabular" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-tabular</DisplayName>
-      <ImportedAt>2026-08-05T09:57:29.8027429+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:24:12.6433093+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-tabular</Locator>
-      <SourceFingerprint>a0eb6e6697fd54fe06d5edde1535f02312e07c9e580c609812699b44363a0216</SourceFingerprint>
+      <SourceFingerprint>3491fd4b35770e476e94a5b4c4c398ba89e305fd3c976c17d4feab5e5054348a</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:cli:meta-transform-binding" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
@@ -323,10 +323,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-sql-deploy-manifest" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
       <DisplayName>MetaSqlDeployManifest</DisplayName>
-      <ImportedAt>2026-07-28T20:46:58.6691769+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T21:24:59.6778384+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>
       <Locator>source:workspace-model:meta-sql-deploy-manifest</Locator>
-      <SourceFingerprint>869882624bd362fc981db5d417da6eed66a4c671880b0753a7ee6ec0c529e8f4</SourceFingerprint>
+      <SourceFingerprint>8ce121a481fd6fbb478f0266caaf44c7379bd9ab427a4e6a4ffa634eacc1ab38</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-tabular" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">

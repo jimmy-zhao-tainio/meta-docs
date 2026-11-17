@@ -24,7 +24,15 @@
       <Status>Changed</Status>
       <Summary>Validate sanctioned type mappings.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check">
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:data-type-workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-data-type-conversion check --data-type-workspace</DisplayPath>
+      <NativeId>option-check-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace; defaults to the packaged authored catalog.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:check:option:workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:check" PreviousSubjectId="source:cli:meta-data-type-conversion:app:command:check:option:data-type-workspace">
       <DisplayName>--workspace</DisplayName>
       <DisplayPath>meta-data-type-conversion check --workspace</DisplayPath>
       <NativeId>opt-check-workspace</NativeId>
@@ -96,7 +104,15 @@
       <Status>New</Status>
       <Summary>Resolve one source data type id through the sanctioned mappings.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:source-data-type" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve">
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:data-type-workspace" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve">
+      <DisplayName>--data-type-workspace</DisplayName>
+      <DisplayPath>meta-data-type-conversion resolve --data-type-workspace</DisplayPath>
+      <NativeId>option-resolve-data-type-workspace</NativeId>
+      <SourceTypeName>MetaCli.Option</SourceTypeName>
+      <Status>New</Status>
+      <Summary>MetaDataType catalog workspace; defaults to the packaged authored catalog.</Summary>
+    </DocumentationSubject>
+    <DocumentationSubject Id="source:cli:meta-data-type-conversion:app:command:resolve:option:source-data-type" DocumentationSourceId="source:cli:meta-data-type-conversion" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-data-type-conversion:app:command:resolve" PreviousSubjectId="source:cli:meta-data-type-conversion:app:command:resolve:option:data-type-workspace">
       <DisplayName>--source-data-type</DisplayName>
       <DisplayPath>meta-data-type-conversion resolve --source-data-type</DisplayPath>
       <NativeId>opt-resolve-source-data-type</NativeId>
