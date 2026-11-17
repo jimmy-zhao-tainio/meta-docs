@@ -10,10 +10,10 @@
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-instances:metametabi-authored" DocumentationSourceTypeId="source-type:workspaceinstances" DocumentationWorkspaceId="workspace:default">
       <DisplayName>Authored docs page instances instances</DisplayName>
-      <ImportedAt>2026-11-17T22:14:46.7266110+00:00</ImportedAt>
+      <ImportedAt>2026-11-17T22:29:30.8734169+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
       <Locator>source:workspace-instances:metametabi-authored</Locator>
-      <SourceFingerprint>b22b74e2ec22e835e3a8f684a444d55e0b8f656f5ddb2d321b6627836826d7c0</SourceFingerprint>
+      <SourceFingerprint>612944050fd44d98be06b5ba61391e4105d95aa94312495a4686f5af5f5540b1</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
     <DocumentationSource Id="source:workspace-model:meta-docs" DocumentationSourceTypeId="source-type:workspacemodel" DocumentationWorkspaceId="workspace:default">
