@@ -608,15 +608,7 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
-      <DisplayName>ManagedSchemaName</DisplayName>
-      <DisplayPath>MetaSqlDeployManifest.DeployManifest.ManagedSchemaName</DisplayPath>
-      <NativeId>ManagedSchemaName</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>New</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname">
+    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
       <DisplayName>Name</DisplayName>
       <DisplayPath>MetaSqlDeployManifest.DeployManifest.Name</DisplayPath>
       <NativeId>Name</NativeId>

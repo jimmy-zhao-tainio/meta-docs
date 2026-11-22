@@ -3,10 +3,10 @@
   <DocumentationSourceList>
     <DocumentationSource Id="source:cli:meta-sql" DocumentationSourceTypeId="source-type:metacliworkspace" DocumentationWorkspaceId="workspace:default">
       <DisplayName>meta-sql</DisplayName>
-      <ImportedAt>2026-11-17T21:23:52.8036434+00:00</ImportedAt>
+      <ImportedAt>2026-11-22T07:03:42.6494032+00:00</ImportedAt>
       <ImporterId>MetaDocs.MetaCliWorkspace</ImporterId>
       <Locator>meta-sql</Locator>
-      <SourceFingerprint>345796b14cfccdbe048ed8fe69ef0fc8fd5b34d1616657aae5122e8a0bd96088</SourceFingerprint>
+      <SourceFingerprint>c5a009e03e51f095a24e63df374fdb18c3073d182626c3ecf8b8a146cf44cab1</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationSource>
   </DocumentationSourceList>

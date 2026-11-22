@@ -147,7 +147,6 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
           <li><a class="nav-link" href="#model-metatransformpatterninstance" data-panel-link="model-metatransformpatterninstance">MetaTransformPatternInstance</a></li>
           <li><a class="nav-link" href="#model-metatransformscript" data-panel-link="model-metatransformscript">MetaTransformScript</a></li>
         </ul>
-        <a class="nav-surface" href="#subject-public-meta-bi-sql-deployment-scope" data-panel-link="subject-public-meta-bi-sql-deployment-scope">SQL deployment ownership scope</a>
       </aside>
       <main class="viewer" id="viewer" tabindex="0">
         <section class="panel is-active" id="home" data-panel="home">
@@ -201,11 +200,6 @@ details.inline-details{border-top:1px solid var(--line-soft);padding-top:14px;ma
               <div class="label">Meta-BI</div>
               <h2>Models</h2>
               <p>20 references</p>
-            </a>
-            <a class="entry-card" href="#subject-public-meta-bi-sql-deployment-scope" data-panel-link="subject-public-meta-bi-sql-deployment-scope">
-              <div class="label">Meta-BI</div>
-              <h2>SQL deployment ownership scope</h2>
-              <p>Declare one owned SQL schema in the deploy manifest, or retain database-wide reconciliation.</p>
             </a>
           </section>
         </section>
@@ -17533,9 +17527,6 @@ casts directly in load SQL, so it does not need an <code>apply-conversions</code
 Operations address their generated destinations through paths under the mesh root,
 so checked-in generated outputs are not prerequisites for regeneration. Run the
 operations in the documented order so each consuming operation has its inputs.</p>
-<p>Warehouse deployment selects <code>deploy-plan --schema dw</code>. The manifest records this
-scope and deployment checks the same scoped live fingerprint. Separately deployed
-<code>dq</code> views are preserved. Omitting <code>--schema</code> retains database-wide reconciliation.</p>
 <h2 id="run-and-verify">Run and verify</h2>
 <p>Execute the inferred graph across all three pipelines, then reconcile the result to the source:</p>
 <pre><code class="language-powershell">meta-mesh run --operation run-etl
@@ -17594,12 +17585,9 @@ and the fact grains were verified separately. The checks and findings remain
 visible. The counts describe this recorded sample run, not general acceptance
 thresholds or permission to ignore future differences.</p>
 <p>Inspect the findings on the local SQL Server instance:</p>
-<pre><code class="language-sql">SELECT *
-FROM [AdventureWorksAnalytics].[dq].[v_DataQualityReview]
-WHERE COALESCE([ResultRowCount], [RowsReturned], 0) &lt;&gt; 0
-ORDER BY [ResultRowCount] DESC, [CandidateId];
+<pre><code class="language-sql">EXEC [AdventureWorksAnalytics].dq.Run;
 </code></pre>
-<p><code>ReviewQuery</code> contains SQL for drilling into each check. See
+<p>Run the SQL in <strong>Next step</strong> to see the evidence for a check. See
 <a href="https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/DQ-REVIEW.md">DQ-REVIEW.md</a> for the individual findings and supporting probes.
 The former expectation of no findings is superseded by this interpretation;
 the verifier does not hardcode 45 as an allowed-failure threshold.
@@ -29128,13 +29116,13 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                 <span class="command-name">meta-sql deploy-plan</span>
                 <span class="command-summary-text">Create a deploy manifest from a source MetaSql workspace and a live SQL Server database.</span>
               </span>
-              <span class="command-counts">12 options</span>
+              <span class="command-counts">11 options</span>
             </summary>
             <div class="command-body">
               <div class="command-body-inner">
               <section class="subsection">
                 <h4 class="subsection-title">Usage</h4>
-                <pre><code>meta-sql deploy-plan [--approval-file &lt;path&gt;] [--approve-drop-column &lt;value&gt;] [--approve-drop-table &lt;value&gt;] [--approve-truncate-column &lt;value&gt;] --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] [--schema &lt;value&gt;] --source-workspace &lt;path&gt;</code></pre>
+                <pre><code>meta-sql deploy-plan [--approval-file &lt;path&gt;] [--approve-drop-column &lt;value&gt;] [--approve-drop-table &lt;value&gt;] [--approve-truncate-column &lt;value&gt;] --connection-env &lt;value&gt; [--data-type-workspace &lt;path&gt;] [--output-connection-env &lt;value&gt;] [--output-csharp &lt;path&gt;] [--output-sql &lt;path&gt;] [--output-xml &lt;path&gt;] --source-workspace &lt;path&gt;</code></pre>
               </section>
               <section class="subsection">
                 <h4 class="subsection-title">Options</h4>
@@ -29199,12 +29187,6 @@ meta-pipeline add-pipeline --workspace .\Pipeline.Workspace --name CustomerLoad
                       <td class="opt">--output-xml &lt;path&gt;</td>
                       <td>Create the deploy manifest as an XML workspace at this path.</td>
                       <td>&lt;path&gt;</td>
-                      <td>False</td>
-                    </tr>
-                    <tr>
-                      <td class="opt">--schema &lt;value&gt;</td>
-                      <td>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</td>
-                      <td>&lt;value&gt;</td>
                       <td>False</td>
                     </tr>
                     <tr>
@@ -33251,7 +33233,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   <tr>
                     <td><a href="#model-metasqldeploymanifest" data-panel-link="model-metasqldeploymanifest">MetaSqlDeployManifest</a></td>
                     <td>34</td>
-                    <td>64</td>
+                    <td>63</td>
                     <td>33</td>
                   </tr>
                   <tr>
@@ -52797,7 +52779,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
           </header>
           <div class="summary-row">
             <span class="pill">34 entities</span>
-            <span class="pill">64 properties</span>
+            <span class="pill">63 properties</span>
             <span class="pill">33 relationships</span>
           </div>
           <div class="card">
@@ -52901,7 +52883,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                   </tr>
                   <tr>
                     <td><a class="entity-ref-link" href="#subject-source-workspace-model-meta-sql-deploy-manifest-entity-deploymanifest" data-local-anchor="subject-source-workspace-model-meta-sql-deploy-manifest-entity-deploymanifest">DeployManifest</a></td>
-                    <td>7</td>
+                    <td>6</td>
                     <td>0</td>
                   </tr>
                   <tr>
@@ -53847,7 +53829,7 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
               <span class="entity-main">
                 <span class="entity-name">DeployManifest</span>
               </span>
-              <span class="entity-counts">7 properties / 0 relationships / 33 references</span>
+              <span class="entity-counts">6 properties / 0 relationships / 33 references</span>
             </summary>
             <div class="entity-body">
               <div class="entity-body-inner">
@@ -53872,12 +53854,6 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
                       <td>LiveInstanceFingerprint</td>
                       <td>True</td>
                       <td>False</td>
-                      <td></td>
-                    </tr>
-                    <tr>
-                      <td>ManagedSchemaName</td>
-                      <td>False</td>
-                      <td>True</td>
                       <td></td>
                     </tr>
                     <tr>
@@ -77846,18 +77822,6 @@ meta-transform-script to sql-path --workspace .\Transforms.Workspace --out .\Rou
             <summary>Technical metadata</summary>
             <p class="note">Source: MetaTransformScript. Status: Changed.</p>
           </details>
-        </section>
-        <section class="panel" id="subject-public-meta-bi-sql-deployment-scope" data-panel="subject-public-meta-bi-sql-deployment-scope">
-          <header class="panel-header">
-            <h2>SQL deployment ownership scope</h2>
-            <div class="panel-lead markdown-content">
-<p><code>meta-sql deploy-plan --schema dw</code> declares one physical SQL Server schema as the deployment's desired-state boundary. All source tables, views, functions and stored procedures must belong to that schema. The empty implicit dbo schema in a SQL workspace is permitted.</p>
-<p>The manifest stores this selection in <code>DeployManifest.ManagedSchemaName</code>. Deployment reads the saved scope; it has no independent override. Live extraction and live fingerprint validation use the same schema. A warehouse deployment scoped to dw preserves separately deployed dq objects, including changes made to them after planning. Changes inside dw still invalidate a stale manifest.</p>
-<p>Without --schema, reconciliation remains database-wide. A database-wide manifest describes the complete desired database and may remove objects omitted from its source contract.</p>
-<p>The single-schema path rejects inbound and outbound cross-schema foreign keys during planning and again before execution. Filtered extraction cannot represent those dependencies completely; they require a database-wide contract. SQL Server continues to enforce SQL module dependencies. Deployment retains statement-by-statement execution and is not atomic across statements.</p>
-<p>Schema spelling must agree with the source contract. The selected MetaDataType catalog, source fingerprint and destructive table/column approvals retain their existing roles. Regenerate older manifests after updating the manifest model.</p>
-            </div>
-          </header>
         </section>
       </main>
     </div>

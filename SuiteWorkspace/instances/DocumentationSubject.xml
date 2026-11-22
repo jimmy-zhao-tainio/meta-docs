@@ -73,14 +73,6 @@
       <Status>Current</Status>
       <Summary>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="public:meta-bi:sql-deployment-scope" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi">
-      <DisplayName>SQL deployment ownership scope</DisplayName>
-      <DisplayPath>SQL deployment ownership scope</DisplayPath>
-      <NativeId>public:meta-bi:sql-deployment-scope</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Declare one owned SQL schema in the deploy manifest, or retain database-wide reconciliation.</Summary>
-    </DocumentationSubject>
     <DocumentationSubject Id="public:meta:cli" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:meta" PreviousSubjectId="public:meta:overview">
       <DisplayName>CLI</DisplayName>
       <DisplayPath>Reference.Meta.CLI</DisplayPath>
@@ -13009,15 +13001,7 @@
       <Status>New</Status>
       <Summary>Create the deploy manifest as an XML workspace at this path.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:schema" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
-      <DisplayName>--schema</DisplayName>
-      <DisplayPath>meta-sql deploy-plan --schema</DisplayPath>
-      <NativeId>opt-deploy-plan-schema</NativeId>
-      <SourceTypeName>MetaCli.Option</SourceTypeName>
-      <Status>New</Status>
-      <Summary>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:schema">
+    <DocumentationSubject Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace" DocumentationSourceId="source:cli:meta-sql" DocumentationSubjectTypeId="subject-type:clioption" ParentSubjectId="source:cli:meta-sql:app:command:deploy-plan" PreviousSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
       <DisplayName>--source-workspace</DisplayName>
       <DisplayPath>meta-sql deploy-plan --source-workspace</DisplayPath>
       <NativeId>opt-deploy-plan-source-workspace</NativeId>
@@ -33937,15 +33921,7 @@
       <Status>Changed</Status>
       <Summary></Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
-      <DisplayName>ManagedSchemaName</DisplayName>
-      <DisplayPath>MetaSqlDeployManifest.DeployManifest.ManagedSchemaName</DisplayPath>
-      <NativeId>ManagedSchemaName</NativeId>
-      <SourceTypeName>GenericProperty</SourceTypeName>
-      <Status>New</Status>
-      <Summary></Summary>
-    </DocumentationSubject>
-    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:managedschemaname">
+    <DocumentationSubject Id="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:name" DocumentationSourceId="source:workspace-model:meta-sql-deploy-manifest" DocumentationSubjectTypeId="subject-type:property" ParentSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest" PreviousSubjectId="source:workspace-model:meta-sql-deploy-manifest:entity:deploymanifest:property:liveinstancefingerprint">
       <DisplayName>Name</DisplayName>
       <DisplayPath>MetaSqlDeployManifest.DeployManifest.Name</DisplayPath>
       <NativeId>Name</NativeId>

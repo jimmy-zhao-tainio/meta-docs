@@ -73,14 +73,6 @@
       <Status>Current</Status>
       <Summary>Meta-BI provides models and tools for designing, building and running BI systems using a model-first principle. Source structures, data-store designs, transformations and analytical definitions supply the information used to generate, validate and operate the system.</Summary>
     </DocumentationSubject>
-    <DocumentationSubject Id="public:meta-bi:sql-deployment-scope" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:guide" ParentSubjectId="public:meta-bi">
-      <DisplayName>SQL deployment ownership scope</DisplayName>
-      <DisplayPath>SQL deployment ownership scope</DisplayPath>
-      <NativeId>public:meta-bi:sql-deployment-scope</NativeId>
-      <SourceTypeName>AuthoredPage</SourceTypeName>
-      <Status>Current</Status>
-      <Summary>Declare one owned SQL schema in the deploy manifest, or retain database-wide reconciliation.</Summary>
-    </DocumentationSubject>
     <DocumentationSubject Id="public:meta:cli" DocumentationSourceId="source:authored:public-reference" DocumentationSubjectTypeId="subject-type:referencesection" ParentSubjectId="public:meta" PreviousSubjectId="public:meta:overview">
       <DisplayName>CLI</DisplayName>
       <DisplayPath>Reference.Meta.CLI</DisplayPath>

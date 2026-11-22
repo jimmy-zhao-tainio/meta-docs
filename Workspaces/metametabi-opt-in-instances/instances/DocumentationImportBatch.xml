@@ -547,6 +547,13 @@
       <SourceFingerprint>68e5c493e3e2ba6d5c05f56443808baae2fb22c27b4c8d8d9786e682c150662d</SourceFingerprint>
       <Status>Current</Status>
     </DocumentationImportBatch>
+    <DocumentationImportBatch Id="source:workspace-instances:metametabi-authored:batch:20261122070441466" DocumentationSourceId="source:workspace-instances:metametabi-authored">
+      <ImportedAt>2026-11-22T07:04:41.4656062+00:00</ImportedAt>
+      <ImporterId>MetaDocs.WorkspaceInstances</ImporterId>
+      <ImporterVersion>1</ImporterVersion>
+      <SourceFingerprint>278749ec70c51430983e1058033db2ee1a28af56a00f04cbbd6cf215e1753566</SourceFingerprint>
+      <Status>Current</Status>
+    </DocumentationImportBatch>
     <DocumentationImportBatch Id="source:workspace-model:meta-docs:batch:20260704194347186" DocumentationSourceId="source:workspace-model:meta-docs">
       <ImportedAt>2026-07-04T19:43:47.1863128+00:00</ImportedAt>
       <ImporterId>MetaDocs.WorkspaceModel</ImporterId>

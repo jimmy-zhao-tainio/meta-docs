@@ -9,216 +9,209 @@
       <Title>Adapters</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta-bi:adventureworks:narrative:summary" DocumentationSubjectId="public:meta-bi:adventureworks">
-      <Body># AdventureWorks full BI stack&#xD;
-&#xD;
-The load SQL uses explicit casts where SQL aliases or monetary types cross into&#xD;
-different destination contracts. Raw integer fields remain integers. All 120&#xD;
-scripts have regenerated schema-aware Binding against the extracted SQL Server&#xD;
-contracts; conversion-graph reachability cannot approve an unconverted expression.&#xD;
-&#xD;
-The [conversion alignment](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md) explains the corrected defaults,&#xD;
-load casts, catalog ownership and the mesh's input/output path conventions.&#xD;
-&#xD;
-## A complete BI stack built by an agent&#xD;
-&#xD;
-The AdventureWorks stack was fully designed and built by an agent using the&#xD;
-public Meta and meta-bi command-line tools. Its starting inputs were a live&#xD;
-`AdventureWorks2022` database and a short&#xD;
-[business request](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/BUSINESS-REQUIREMENTS.md) for sales trends, channel and&#xD;
-product analysis, geography, salesperson quotas, and visible data-quality&#xD;
-risks.&#xD;
-&#xD;
-The agent made the architectural decisions that turn those inputs into a BI&#xD;
-system. It selected sales order, sales line, and salesperson quota as separate&#xD;
-fact grains; kept tax and freight at order grain; created shared date, product,&#xD;
-geography, customer, channel, and salesperson dimensions; derived the&#xD;
-Online/Store channel from source evidence; and declined to publish gross margin&#xD;
-because AdventureWorks lacks complete historical cost coverage.&#xD;
-&#xD;
-The implementation is preserved as models rather than summarized after the&#xD;
-fact. Every generated workspace was created through its owning CLI. The demo's&#xD;
-MetaMesh workspace names 28 participating workspaces, 29 operations, and 614&#xD;
-ordered executable steps covering discovery, model authoring, conversion,&#xD;
-deployment, transformation import and binding, pipeline construction,&#xD;
-execution, verification, and analytical deployment. The generated results are&#xD;
-checked in alongside that construction record.&#xD;
-&#xD;
-## What the agent built&#xD;
-&#xD;
-Each product owns a concrete part of the resulting stack:&#xD;
-&#xD;
-| Engineering concern | AdventureWorks result | Modeled capability |&#xD;
-| --- | --- | --- |&#xD;
-| Discover the live source | 6 schemas, 71 tables, 20 views, 744 fields, and 90 relationships | `meta-schema` extracts a reviewable `MetaSchema` source contract. |&#xD;
-| Preserve source history | 71 Raw hubs, 90 links, 71 satellites, and 341 satellite attributes | `meta-datavault-raw` and `meta-convert` turn the source contract into `MetaRawDataVault`, then into 232 deployable `MetaSql` tables through an explicit implementation model. |&#xD;
-| Establish business meaning | 14 Business hubs, 19 links, 14 satellites, stable business names, and the Online/Store derivation | `meta-datavault-business` authors `MetaBusinessDataVault` concepts separately from the source-shaped Raw layer. |&#xD;
-| Fix analytical grain | 3 facts, 8 conformed dimensions, 10 warehouse measures, 40 dimension attributes, and 19 fact-to-dimension relationships | `meta-data-warehouse` authors `MetaDataWarehouse`; `meta-convert` projects it through an implementation model into an 11-table physical warehouse. |&#xD;
-| Make transformations provable | 53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, all validated against the current contracts | `meta-transform-script` models the T-SQL program; Binding validates its resulting contracts through `MetaSchema` and the selected `MetaDataType` catalog. Casts are authored before Binding. |&#xD;
-| Turn evidence into quality checks | 167 promoted checks, with 45 returning wanted review findings in the recorded sample run | `meta-data-quality` derives reviewable `MetaDataQuality` candidates and `meta-convert` emits executable quality SQL. |&#xD;
-| Operate the load | 3 pipelines containing 120 transformation tasks, plus one inferred orchestration plan over the same 120 tasks | `meta-pipeline` executes and records work; `meta-orchestration` derives and governs runtime dependencies. |&#xD;
-| Publish portable analytics | 11 analytical tables, 72 attributes, 11 base measures, 3 hierarchies, and 19 relationships | `meta-analytics` carries engine-neutral `MetaAnalytics`; `meta-convert` and `meta-tabular` produce and operate the Analysis Services model. |&#xD;
-| Model the conversion itself | One requirement and 24 executable Analytics-to-Tabular transformations | `meta-weave` executes a `MetaWeave` correspondence whose WeaveScript projection is readable and editable modeled transformation. |&#xD;
-&#xD;
-## Prerequisites&#xD;
-&#xD;
-- the `meta` and `meta-bi` CLIs on `PATH`;&#xD;
-- a local SQL Server instance with `AdventureWorks2022` restored;&#xD;
-- permission to create the four demo-owned databases;&#xD;
-- Analysis Services Tabular only when running the optional Tabular deployment and processing operations.&#xD;
-&#xD;
-`SOURCE-SETUP.md` covers the source database. `prepare-adventureworks-db.ps1` can download and restore the official backup on a local development machine.&#xD;
-&#xD;
-## Environment&#xD;
-&#xD;
-The examples below use the local default SQL Server instance:&#xD;
-&#xD;
-```powershell&#xD;
-$env:AW_SOURCE_SQL = "Server=.;Database=AdventureWorks2022;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-$env:AW_ADMIN_SQL = "Server=.;Database=master;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-$env:AW_RDV_SQL = "Server=.;Database=AdventureWorksRawVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-$env:AW_BDV_SQL = "Server=.;Database=AdventureWorksBusinessVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-$env:AW_DW_SQL = "Server=.;Database=AdventureWorksAnalytics;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-$env:AW_PIPELINE_SQL = "Server=.;Database=AdventureWorksMetaPipeline;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"&#xD;
-```&#xD;
-&#xD;
-## Build the stack&#xD;
-&#xD;
-Run from the mesh workspace:&#xD;
-&#xD;
-```powershell&#xD;
-cd AdventureWorksBiStackDemo.MetaMesh&#xD;
-&#xD;
-meta-mesh run --operation validate-source&#xD;
-meta-mesh run --operation sync-source-schema&#xD;
-&#xD;
-meta-mesh run --operation create-raw-vault&#xD;
-meta-mesh run --operation deploy-raw-vault&#xD;
-meta-mesh run --operation create-source-raw-transforms&#xD;
-meta-mesh run --operation create-source-raw-pipeline&#xD;
-&#xD;
-meta-mesh run --operation create-business-vault&#xD;
-meta-mesh run --operation deploy-business-vault&#xD;
-meta-mesh run --operation create-raw-business-transforms&#xD;
-meta-mesh run --operation create-raw-business-pipeline&#xD;
-&#xD;
-meta-mesh run --operation create-dimensional-warehouse&#xD;
-meta-mesh run --operation deploy-dimensional-warehouse&#xD;
-meta-mesh run --operation create-business-warehouse-transforms&#xD;
-meta-mesh run --operation create-business-warehouse-pipeline&#xD;
-&#xD;
-meta-mesh run --operation create-orchestration&#xD;
-meta-mesh run --operation deploy-pipeline-runtime&#xD;
-meta-mesh run --operation create-data-quality&#xD;
-meta-mesh run --operation deploy-data-quality&#xD;
-meta-mesh run --operation create-analytics&#xD;
-meta-mesh run --operation create-tabular&#xD;
-```&#xD;
-&#xD;
-The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.&#xD;
-&#xD;
-Binding and execution explicitly select the mesh's `data-type` workspace through&#xD;
-`--data-type-workspace`; omission loads the packaged authored workspace. Schema&#xD;
-generation accepts separate catalog and conversion workspace options; this demo&#xD;
-currently omits those options and uses the packaged workspaces. It authors its required&#xD;
-casts directly in load SQL, so it does not need an `apply-conversions` step.&#xD;
-&#xD;
-Workspace references identify inputs that must exist when an operation starts.&#xD;
-Operations address their generated destinations through paths under the mesh root,&#xD;
-so checked-in generated outputs are not prerequisites for regeneration. Run the&#xD;
-operations in the documented order so each consuming operation has its inputs.&#xD;
-&#xD;
-Warehouse deployment selects `deploy-plan --schema dw`. The manifest records this&#xD;
-scope and deployment checks the same scoped live fingerprint. Separately deployed&#xD;
-`dq` views are preserved. Omitting `--schema` retains database-wide reconciliation.&#xD;
-&#xD;
-## Run and verify&#xD;
-&#xD;
-Execute the inferred graph across all three pipelines, then reconcile the result to the source:&#xD;
-&#xD;
-```powershell&#xD;
-meta-mesh run --operation run-etl&#xD;
-meta-mesh run --operation verify-stack&#xD;
-```&#xD;
-&#xD;
-For an inspected layer-by-layer run, use `load-raw-vault`, `load-business-vault`, and `load-dimensional-warehouse` instead of `run-etl`.&#xD;
-&#xD;
-The verification operation checks Raw and Business Vault counts, warehouse fact&#xD;
-grains, source-to-warehouse measures, native Raw product types and exact values,&#xD;
-deployed Data Quality results, and the latest task-level pipeline evidence.&#xD;
-The live alignment loaded 31,465 orders, 121,317 lines and 163 quota rows through&#xD;
-120 successful tasks. The recorded Data Quality result is **167 promoted checks,&#xD;
-45 with findings**. Those findings are wanted review evidence, as explained below.&#xD;
-`verify-stack` executes the deployed review once and reports the total checks,&#xD;
-checks with findings and per-family finding groups. Findings do not automatically&#xD;
-fail verification. Missing checks, SQL execution errors and failures in the&#xD;
-other reconciliations still fail the operation.&#xD;
-&#xD;
-## Data Quality findings&#xD;
-&#xD;
-The demo retains the full promoted review pack and its findings. Returned rows&#xD;
-identify situations to inspect; they do not automatically establish a faulty&#xD;
-transformation. The reviewed sample result is:&#xD;
-&#xD;
-| Check family | Checks with findings | Observed situation |&#xD;
-| --- | ---: | --- |&#xD;
-| JoinMultiplicityExplosion | 14 | Repeated use of lookup keys, including multiple lines per order |&#xD;
-| OutputDuplicateRisk | 14 | The same join-key groupings, reviewed alongside actual output grains |&#xD;
-| JoinOrphan | 12 | Related records unused by the consuming side, such as products never ordered |&#xD;
-| OuterJoinNullExpansion | 5 | Missing relationships corresponding to nullable source references |&#xD;
-&#xD;
-These are **45 nonempty checks**, not 45 bad records or 45 confirmed transform&#xD;
-defects. Independent source comparisons explain the returned groups; forward&#xD;
-reference probes found no missing lookups or duplicate applicable lookup keys,&#xD;
-and the fact grains were verified separately. The checks and findings remain&#xD;
-visible. The counts describe this recorded sample run, not general acceptance&#xD;
-thresholds or permission to ignore future differences.&#xD;
-&#xD;
-Inspect the findings on the local SQL Server instance:&#xD;
-&#xD;
-```sql&#xD;
-SELECT *&#xD;
-FROM [AdventureWorksAnalytics].[dq].[v_DataQualityReview]&#xD;
-WHERE COALESCE([ResultRowCount], [RowsReturned], 0) &lt;&gt; 0&#xD;
-ORDER BY [ResultRowCount] DESC, [CandidateId];&#xD;
-```&#xD;
-&#xD;
-`ReviewQuery` contains SQL for drilling into each check. See&#xD;
-[DQ-REVIEW.md](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/DQ-REVIEW.md) for the individual findings and supporting probes.&#xD;
-The former expectation of no findings is superseded by this interpretation;&#xD;
-the verifier does not hardcode 45 as an allowed-failure threshold.&#xD;
-MetaDataQuality changes and production-scale execution/dashboard work are&#xD;
-deferred; no checks are removed, suppressed or changed for this demo.&#xD;
-&#xD;
-The final SQL alignment verification passed through the modeled `verify-stack`&#xD;
-operation. Independent source comparisons found zero missing, extra or changed&#xD;
-selected business rows across the eight reviewed warehouse outputs, including&#xD;
-binary comparison of text. All 120 scripts were rebound against the selected&#xD;
-catalog, and the latest task evidence contains 53, 47 and 20 successful tasks&#xD;
-for the three pipelines. The demo mesh tour repeated the complete SQL load,&#xD;
-stack verification, Tabular deployment and full processing on local services.&#xD;
-&#xD;
-## Tabular runtime&#xD;
-&#xD;
-The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local `.\TABULAR` instance and deploy the model as `AdventureWorksSales`:&#xD;
-&#xD;
-```powershell&#xD;
-meta-mesh run --operation deploy-tabular&#xD;
-meta-mesh run --operation process-tabular&#xD;
-```&#xD;
-&#xD;
-`deploy-tabular` replaces the target database and deploys metadata without processing. `process-tabular` performs the full refresh. `drop-tabular` removes the deployed database.&#xD;
-&#xD;
-The deployment operation also grants the local `NT Service\MSOLAP$TABULAR` service account read access to `AdventureWorksAnalytics`. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on `.\TABULAR`. A direct model query returns Sales Amount `109846381.425`, Total Due `123216786.1159`, and Quota Amount `95714000`, matching the relational verification.&#xD;
-&#xD;
-The demo mesh tour repeated deployment and full processing. Independent queries&#xD;
-compare these three measures with their source SQL totals.&#xD;
-&#xD;
-## Cleanup&#xD;
-&#xD;
-```powershell&#xD;
-meta-mesh run --operation cleanup&#xD;
-```&#xD;
-&#xD;
+      <Body># AdventureWorks full BI stack
+
+The load SQL uses explicit casts where SQL aliases or monetary types cross into
+different destination contracts. Raw integer fields remain integers. All 120
+scripts have regenerated schema-aware Binding against the extracted SQL Server
+contracts; conversion-graph reachability cannot approve an unconverted expression.
+
+The [conversion alignment](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/CONVERSION-REVIEW.md) explains the corrected defaults,
+load casts, catalog ownership and the mesh's input/output path conventions.
+
+## A complete BI stack built by an agent
+
+The AdventureWorks stack was fully designed and built by an agent using the
+public Meta and meta-bi command-line tools. Its starting inputs were a live
+`AdventureWorks2022` database and a short
+[business request](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/BUSINESS-REQUIREMENTS.md) for sales trends, channel and
+product analysis, geography, salesperson quotas, and visible data-quality
+risks.
+
+The agent made the architectural decisions that turn those inputs into a BI
+system. It selected sales order, sales line, and salesperson quota as separate
+fact grains; kept tax and freight at order grain; created shared date, product,
+geography, customer, channel, and salesperson dimensions; derived the
+Online/Store channel from source evidence; and declined to publish gross margin
+because AdventureWorks lacks complete historical cost coverage.
+
+The implementation is preserved as models rather than summarized after the
+fact. Every generated workspace was created through its owning CLI. The demo's
+MetaMesh workspace names 28 participating workspaces, 29 operations, and 614
+ordered executable steps covering discovery, model authoring, conversion,
+deployment, transformation import and binding, pipeline construction,
+execution, verification, and analytical deployment. The generated results are
+checked in alongside that construction record.
+
+## What the agent built
+
+Each product owns a concrete part of the resulting stack:
+
+| Engineering concern | AdventureWorks result | Modeled capability |
+| --- | --- | --- |
+| Discover the live source | 6 schemas, 71 tables, 20 views, 744 fields, and 90 relationships | `meta-schema` extracts a reviewable `MetaSchema` source contract. |
+| Preserve source history | 71 Raw hubs, 90 links, 71 satellites, and 341 satellite attributes | `meta-datavault-raw` and `meta-convert` turn the source contract into `MetaRawDataVault`, then into 232 deployable `MetaSql` tables through an explicit implementation model. |
+| Establish business meaning | 14 Business hubs, 19 links, 14 satellites, stable business names, and the Online/Store derivation | `meta-datavault-business` authors `MetaBusinessDataVault` concepts separately from the source-shaped Raw layer. |
+| Fix analytical grain | 3 facts, 8 conformed dimensions, 10 warehouse measures, 40 dimension attributes, and 19 fact-to-dimension relationships | `meta-data-warehouse` authors `MetaDataWarehouse`; `meta-convert` projects it through an implementation model into an 11-table physical warehouse. |
+| Make transformations provable | 53 source-to-Raw, 47 Raw-to-Business, and 20 Business-to-warehouse transformations, all validated against the current contracts | `meta-transform-script` models the T-SQL program; Binding validates its resulting contracts through `MetaSchema` and the selected `MetaDataType` catalog. Casts are authored before Binding. |
+| Turn evidence into quality checks | 167 promoted checks, with 45 returning wanted review findings in the recorded sample run | `meta-data-quality` derives reviewable `MetaDataQuality` candidates and `meta-convert` emits executable quality SQL. |
+| Operate the load | 3 pipelines containing 120 transformation tasks, plus one inferred orchestration plan over the same 120 tasks | `meta-pipeline` executes and records work; `meta-orchestration` derives and governs runtime dependencies. |
+| Publish portable analytics | 11 analytical tables, 72 attributes, 11 base measures, 3 hierarchies, and 19 relationships | `meta-analytics` carries engine-neutral `MetaAnalytics`; `meta-convert` and `meta-tabular` produce and operate the Analysis Services model. |
+| Model the conversion itself | One requirement and 24 executable Analytics-to-Tabular transformations | `meta-weave` executes a `MetaWeave` correspondence whose WeaveScript projection is readable and editable modeled transformation. |
+
+## Prerequisites
+
+- the `meta` and `meta-bi` CLIs on `PATH`;
+- a local SQL Server instance with `AdventureWorks2022` restored;
+- permission to create the four demo-owned databases;
+- Analysis Services Tabular only when running the optional Tabular deployment and processing operations.
+
+`SOURCE-SETUP.md` covers the source database. `prepare-adventureworks-db.ps1` can download and restore the official backup on a local development machine.
+
+## Environment
+
+The examples below use the local default SQL Server instance:
+
+```powershell
+$env:AW_SOURCE_SQL = "Server=.;Database=AdventureWorks2022;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+$env:AW_ADMIN_SQL = "Server=.;Database=master;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+$env:AW_RDV_SQL = "Server=.;Database=AdventureWorksRawVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+$env:AW_BDV_SQL = "Server=.;Database=AdventureWorksBusinessVault;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+$env:AW_DW_SQL = "Server=.;Database=AdventureWorksAnalytics;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+$env:AW_PIPELINE_SQL = "Server=.;Database=AdventureWorksMetaPipeline;Integrated Security=true;TrustServerCertificate=true;Encrypt=false"
+```
+
+## Build the stack
+
+Run from the mesh workspace:
+
+```powershell
+cd AdventureWorksBiStackDemo.MetaMesh
+
+meta-mesh run --operation validate-source
+meta-mesh run --operation sync-source-schema
+
+meta-mesh run --operation create-raw-vault
+meta-mesh run --operation deploy-raw-vault
+meta-mesh run --operation create-source-raw-transforms
+meta-mesh run --operation create-source-raw-pipeline
+
+meta-mesh run --operation create-business-vault
+meta-mesh run --operation deploy-business-vault
+meta-mesh run --operation create-raw-business-transforms
+meta-mesh run --operation create-raw-business-pipeline
+
+meta-mesh run --operation create-dimensional-warehouse
+meta-mesh run --operation deploy-dimensional-warehouse
+meta-mesh run --operation create-business-warehouse-transforms
+meta-mesh run --operation create-business-warehouse-pipeline
+
+meta-mesh run --operation create-orchestration
+meta-mesh run --operation deploy-pipeline-runtime
+meta-mesh run --operation create-data-quality
+meta-mesh run --operation deploy-data-quality
+meta-mesh run --operation create-analytics
+meta-mesh run --operation create-tabular
+```
+
+The three transform boundaries are strictly bound to modeled source and target schemas before their pipelines are authored. Orchestration is inferred from those pipeline tasks and binding effects.
+
+Binding and execution explicitly select the mesh's `data-type` workspace through
+`--data-type-workspace`; omission loads the packaged authored workspace. Schema
+generation accepts separate catalog and conversion workspace options; this demo
+currently omits those options and uses the packaged workspaces. It authors its required
+casts directly in load SQL, so it does not need an `apply-conversions` step.
+
+Workspace references identify inputs that must exist when an operation starts.
+Operations address their generated destinations through paths under the mesh root,
+so checked-in generated outputs are not prerequisites for regeneration. Run the
+operations in the documented order so each consuming operation has its inputs.
+
+## Run and verify
+
+Execute the inferred graph across all three pipelines, then reconcile the result to the source:
+
+```powershell
+meta-mesh run --operation run-etl
+meta-mesh run --operation verify-stack
+```
+
+For an inspected layer-by-layer run, use `load-raw-vault`, `load-business-vault`, and `load-dimensional-warehouse` instead of `run-etl`.
+
+The verification operation checks Raw and Business Vault counts, warehouse fact
+grains, source-to-warehouse measures, native Raw product types and exact values,
+deployed Data Quality results, and the latest task-level pipeline evidence.
+The live alignment loaded 31,465 orders, 121,317 lines and 163 quota rows through
+120 successful tasks. The recorded Data Quality result is **167 promoted checks,
+45 with findings**. Those findings are wanted review evidence, as explained below.
+`verify-stack` executes the deployed review once and reports the total checks,
+checks with findings and per-family finding groups. Findings do not automatically
+fail verification. Missing checks, SQL execution errors and failures in the
+other reconciliations still fail the operation.
+
+## Data Quality findings
+
+The demo retains the full promoted review pack and its findings. Returned rows
+identify situations to inspect; they do not automatically establish a faulty
+transformation. The reviewed sample result is:
+
+| Check family | Checks with findings | Observed situation |
+| --- | ---: | --- |
+| JoinMultiplicityExplosion | 14 | Repeated use of lookup keys, including multiple lines per order |
+| OutputDuplicateRisk | 14 | The same join-key groupings, reviewed alongside actual output grains |
+| JoinOrphan | 12 | Related records unused by the consuming side, such as products never ordered |
+| OuterJoinNullExpansion | 5 | Missing relationships corresponding to nullable source references |
+
+These are **45 nonempty checks**, not 45 bad records or 45 confirmed transform
+defects. Independent source comparisons explain the returned groups; forward
+reference probes found no missing lookups or duplicate applicable lookup keys,
+and the fact grains were verified separately. The checks and findings remain
+visible. The counts describe this recorded sample run, not general acceptance
+thresholds or permission to ignore future differences.
+
+Inspect the findings on the local SQL Server instance:
+
+```sql
+EXEC [AdventureWorksAnalytics].dq.Run;
+```
+
+Run the SQL in **Next step** to see the evidence for a check. See
+[DQ-REVIEW.md](https://github.com/jimmy-zhao-tainio/meta-bi/blob/main/Demos/AdventureWorksBiStackDemo/DQ-REVIEW.md) for the individual findings and supporting probes.
+The former expectation of no findings is superseded by this interpretation;
+the verifier does not hardcode 45 as an allowed-failure threshold.
+MetaDataQuality changes and production-scale execution/dashboard work are
+deferred; no checks are removed, suppressed or changed for this demo.
+
+The final SQL alignment verification passed through the modeled `verify-stack`
+operation. Independent source comparisons found zero missing, extra or changed
+selected business rows across the eight reviewed warehouse outputs, including
+binary comparison of text. All 120 scripts were rebound against the selected
+catalog, and the latest task evidence contains 53, 47 and 20 successful tasks
+for the three pipelines. The demo mesh tour repeated the complete SQL load,
+stack verification, Tabular deployment and full processing on local services.
+
+## Tabular runtime
+
+The MetaAnalytics and MetaTabular workspaces are complete without Analysis Services. The runtime operations target the local `.\TABULAR` instance and deploy the model as `AdventureWorksSales`:
+
+```powershell
+meta-mesh run --operation deploy-tabular
+meta-mesh run --operation process-tabular
+```
+
+`deploy-tabular` replaces the target database and deploys metadata without processing. `process-tabular` performs the full refresh. `drop-tabular` removes the deployed database.
+
+The deployment operation also grants the local `NT Service\MSOLAP$TABULAR` service account read access to `AdventureWorksAnalytics`. The verified deployment contains 11 tables, 72 columns, 11 measures, and 19 relationships and completes a full refresh on `.\TABULAR`. A direct model query returns Sales Amount `109846381.425`, Total Due `123216786.1159`, and Quota Amount `95714000`, matching the relational verification.
+
+The demo mesh tour repeated deployment and full processing. Independent queries
+compare these three measures with their source SQL totals.
+
+## Cleanup
+
+```powershell
+meta-mesh run --operation cleanup
+```
+
 Cleanup drops `AdventureWorksRawVault`, `AdventureWorksBusinessVault`, `AdventureWorksAnalytics`, and `AdventureWorksMetaPipeline`, then removes transient pipeline execution evidence under `Runs\ops\RunArtifacts`. It keeps the checked-in modeled workspaces. It does not remove the source database or an external Tabular database.</Body>
       <LastReviewedImportBatchId></LastReviewedImportBatchId>
       <Origin>Authored</Origin>
@@ -378,22 +371,6 @@ Conversions connect the stages. `meta-convert` provides established conversion p
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Transformations</Slot>
       <Title>Transformations</Title>
-    </DocumentationNarrative>
-    <DocumentationNarrative Id="public:meta-bi:sql-deployment-scope:narrative:summary" DocumentationSubjectId="public:meta-bi:sql-deployment-scope">
-      <Body>`meta-sql deploy-plan --schema dw` declares one physical SQL Server schema as the deployment's desired-state boundary. All source tables, views, functions and stored procedures must belong to that schema. The empty implicit dbo schema in a SQL workspace is permitted.
-
-The manifest stores this selection in `DeployManifest.ManagedSchemaName`. Deployment reads the saved scope; it has no independent override. Live extraction and live fingerprint validation use the same schema. A warehouse deployment scoped to dw preserves separately deployed dq objects, including changes made to them after planning. Changes inside dw still invalidate a stale manifest.
-
-Without --schema, reconciliation remains database-wide. A database-wide manifest describes the complete desired database and may remove objects omitted from its source contract.
-
-The single-schema path rejects inbound and outbound cross-schema foreign keys during planning and again before execution. Filtered extraction cannot represent those dependencies completely; they require a database-wide contract. SQL Server continues to enforce SQL module dependencies. Deployment retains statement-by-statement execution and is not atomic across statements.
-
-Schema spelling must agree with the source contract. The selected MetaDataType catalog, source fingerprint and destructive table/column approvals retain their existing roles. Regenerate older manifests after updating the manifest model.</Body>
-      <LastReviewedImportBatchId></LastReviewedImportBatchId>
-      <Origin>Authored</Origin>
-      <ReviewStatus>Current</ReviewStatus>
-      <Slot>Summary</Slot>
-      <Title>SQL deployment ownership scope</Title>
     </DocumentationNarrative>
     <DocumentationNarrative Id="public:meta:cli:narrative:summary:cli" DocumentationSubjectId="public:meta:cli">
       <Body>Command-line tools for the core metadata foundation.</Body>
@@ -12867,7 +12844,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan">
       <Body>Create a deploy manifest from a source MetaSql workspace and a live SQL Server database.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12875,7 +12852,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:approval-file:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:approval-file">
       <Body>JSON file containing destructive approvals.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12883,7 +12860,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:approve-drop-column:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:approve-drop-column">
       <Body>Approve one exact destructive column drop in the form schema.table.column.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12891,7 +12868,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:approve-drop-table:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:approve-drop-table">
       <Body>Approve one exact destructive table drop in the form schema.table.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12899,7 +12876,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:approve-truncate-column:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:approve-truncate-column">
       <Body>Approve one exact destructive column truncation in the form schema.table.column.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12907,7 +12884,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:connection-env">
       <Body>Environment variable containing the SQL Server connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12915,7 +12892,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:data-type-workspace">
       <Body>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12923,7 +12900,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12931,7 +12908,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:output-csharp:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-csharp">
       <Body>Create the deploy manifest as a C# workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12939,7 +12916,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:output-sql:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-sql">
       <Body>Create the deploy manifest as a SQL workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12947,15 +12924,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:output-xml:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:output-xml">
       <Body>Create the deploy manifest as an XML workspace at this path.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
-      <Origin>Generated</Origin>
-      <ReviewStatus>Current</ReviewStatus>
-      <Slot>Summary</Slot>
-      <Title>Summary</Title>
-    </DocumentationNarrative>
-    <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:schema:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:schema">
-      <Body>Manage only this SQL Server schema; persisted in the manifest. Omission manages the whole database.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12963,7 +12932,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy-plan:option:source-workspace">
       <Body>Source MetaSql workspace to compare with the live database.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12971,7 +12940,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy">
       <Body>Apply a deploy manifest after source and live fingerprint validation.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12979,7 +12948,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy:option:connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy:option:connection-env">
       <Body>Environment variable containing the SQL Server connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12987,7 +12956,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy:option:data-type-workspace">
       <Body>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -12995,7 +12964,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy:option:manifest-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy:option:manifest-workspace">
       <Body>Deploy manifest workspace created by deploy-plan.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13003,7 +12972,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:deploy:option:source-workspace:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:deploy:option:source-workspace">
       <Body>Source MetaSql workspace used to create the manifest.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13011,7 +12980,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute">
       <Body>Execute a SQL Server file or query for demo, bootstrap, and verification scripts.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13019,7 +12988,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:connection-env">
       <Body>Environment variable containing the SQL Server connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13027,7 +12996,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:file:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:file">
       <Body>Execute SQL from a file. Mutually exclusive with --query.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13035,7 +13004,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:query:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:query">
       <Body>Execute inline SQL. Mutually exclusive with --file.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13043,7 +13012,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:quiet:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:quiet">
       <Body>Suppress result-set and success output.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13051,7 +13020,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:timeout-seconds:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:timeout-seconds">
       <Body>Command timeout for each SQL batch. 0 or omitted means no timeout.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13059,7 +13028,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:execute:option:var:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:execute:option:var">
       <Body>Replace one SQLCMD-style $(NAME) token before execution.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13067,7 +13036,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver">
       <Body>Extract SQL Server database objects into a MetaSql workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13075,7 +13044,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:allow-empty:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:allow-empty">
       <Body>Create an empty database/schema workspace when no tables or modules match.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13083,7 +13052,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:connection-env">
       <Body>Environment variable containing the SQL Server connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13091,7 +13060,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace:narrative:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:data-type-workspace">
       <Body>MetaDataType catalog workspace. Defaults to the packaged MetaDataType workspace.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13099,7 +13068,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:include-functions">
       <Body>Extract function modules. If any include switch is provided, only selected object kinds are extracted.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13107,7 +13076,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-stored-procedures:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:include-stored-procedures">
       <Body>Extract stored procedure modules. If any include switch is provided, only selected object kinds are extracted.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13115,7 +13084,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-tables:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:include-tables">
       <Body>Extract tables, columns, keys, and indexes. If no include switch is provided, all object kinds are extracted.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13123,7 +13092,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:include-views:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:include-views">
       <Body>Extract view modules. If any include switch is provided, only selected object kinds are extracted.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13131,7 +13100,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:output-connection-env:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:output-connection-env">
       <Body>Environment variable containing the output SQL workspace connection string.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13139,7 +13108,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:output-csharp:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:output-csharp">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13147,7 +13116,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:output-sql:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:output-sql">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13155,7 +13124,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:output-xml:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:output-xml">
       <Body>Create the output on the selected workspace surface.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13163,7 +13132,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:schema:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:schema">
       <Body>Extract only one SQL Server schema.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13171,7 +13140,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:extract-sqlserver:option:table:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:extract-sqlserver:option:table">
       <Body>Extract only one table. SQL module extraction is skipped when a table filter is used.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13179,7 +13148,7 @@ Extraction starts from the database surface. Select the schemas and tables that 
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:command:help:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app:command:help">
       <Body>Show help.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
@@ -13210,7 +13179,7 @@ Authoring and deployment are separate concerns. A deploy manifest records the so
     </DocumentationNarrative>
     <DocumentationNarrative Id="source:cli:meta-sql:app:narrative:summary:summary" DocumentationSubjectId="source:cli:meta-sql:app">
       <Body>Extract SQL Server metadata, build deploy plans, apply manifests, and execute SQL against modeled database workspaces.</Body>
-      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261117212352804</LastReviewedImportBatchId>
+      <LastReviewedImportBatchId>source:cli:meta-sql:batch:20261122070342650</LastReviewedImportBatchId>
       <Origin>Generated</Origin>
       <ReviewStatus>Current</ReviewStatus>
       <Slot>Summary</Slot>
